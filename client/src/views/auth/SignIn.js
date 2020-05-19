@@ -17,7 +17,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="">
+            <Link to="/" color="inherit">
                 Your Website
         </Link>{' '}
             {new Date().getFullYear()}
@@ -57,8 +57,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignInSide() {
+function SignIn() {
     const classes = useStyles();
+
+    const handleSubmit = e => {
+        console.log("submit")
+    }
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -71,8 +75,11 @@ export default function SignInSide() {
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
-            </Typography>
-                    <form className={classes.form} noValidate>
+                    </Typography>
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSubmit();
+                    }} className={classes.form} noValidate >
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -107,16 +114,16 @@ export default function SignInSide() {
                             className={classes.submit}
                         >
                             Sign In
-            </Button>
+                        </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
+                                <Link to="/Sign_up" variant="body2">
                                     Forgot password?
-                </Link>
+                                </Link>
                             </Grid>
                             <Grid item>
                                 <Link to="/Sign_up" variant="body2">
-                                    {"Don't have an account abcxyz? Sign Up"}
+                                    {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
                         </Grid>
@@ -129,3 +136,5 @@ export default function SignInSide() {
         </Grid>
     );
 }
+
+export default SignIn;
