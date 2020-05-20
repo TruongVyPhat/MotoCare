@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { string as yupstring, object as yupobject } from "yup";
 import { useForm } from "react-hook-form";
+import Axios from 'axios';
 
 function Copyright() {
     return (
@@ -78,7 +79,16 @@ function SignIn() {
     });
 
     const onSubmit = (data) => {
-        console.log("data", data);
+        //console.log(data);
+         Axios.post('http://localhost:9000/api/auth/login',{data})
+            .then (res => {
+                console.log(res)
+                if (res.status === 200)
+                    console.log(res.data)
+            })
+            .catch (error => {
+                console.log(error)
+            })
     };
 
 
@@ -120,8 +130,8 @@ function SignIn() {
                             id="password"
                             autoComplete="current-password"
                             inputRef={register}
-                            error={errors.password ? true : false}
-                            helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
+                            //error={errors.password ? true : false}
+                            //helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
