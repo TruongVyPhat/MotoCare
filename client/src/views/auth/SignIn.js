@@ -67,8 +67,8 @@ const LoginSchema = yupobject().shape({
         .email(),
     password: yupstring()
         .required()
-        .min(8)
-        .matches(/[a-zA-Z]/),   
+        .min(1)
+        //.matches(/[a-zA-Z]/),   
 });
 
 function SignIn() {
@@ -79,16 +79,19 @@ function SignIn() {
     });
 
     const onSubmit = (data) => {
-        //console.log(data);
-         Axios.post('http://localhost:9000/api/auth/login',{data})
-            .then (res => {
-                console.log(res)
-                if (res.status === 200)
-                    console.log(res.data)
-            })
-            .catch (error => {
-                console.log(error)
-            })
+        console.log(data);
+        Axios.post('http://localhost:9000/api/auth/login',{data})
+        .then (res => {
+            if (res.status === 200){
+                const jwtToken = res.data.data.access_token;
+                localStorage.setItem('authentication', jwtToken);
+                window.location.href = '/main';
+            }
+            
+        })
+        .catch (error => {
+            console.log(error)
+        })
     };
 
 
