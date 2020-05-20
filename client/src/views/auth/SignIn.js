@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { string as yupstring, object as yupobject } from "yup";
-import * as Yup from 'yup'
 import { useForm } from "react-hook-form";
 
 function Copyright() {
@@ -21,7 +20,7 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link to="/" color="inherit">
-                Your Website
+                Moto Care
         </Link>{' '}
             {new Date().getFullYear()}
             {'.'}

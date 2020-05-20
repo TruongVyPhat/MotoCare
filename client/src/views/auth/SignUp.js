@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { string as yupstring, object as yupobject } from "yup";
 import * as Yup from 'yup'
 import { useForm } from "react-hook-form";
+import Axios from 'axios';
 
 function Copyright() {
     return (
@@ -48,10 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginSchema = yupobject().shape({
-    firstName: yupstring()
-        .required()
-        .matches(/[a-zA-Z]/),
-    lastName: yupstring()
+    name: yupstring()
         .required()
         .matches(/[a-zA-Z]/),
     email: yupstring()
@@ -74,6 +72,15 @@ function SignUp() {
     });
 
     const onSubmit = (data) => {
+        delete data.passwordconfirm;
+        Axios.post('http://localhost:8080/api/users/create',{data})
+            .then (res => {
+                if (res.status === 201)
+                    console.log(res.data)
+            })
+            .catch (error => {
+                console.log(error)
+            })
         console.log("data", data);
     };
 
@@ -90,32 +97,18 @@ function SignUp() {
                 <br/>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
                                 autoComplete="fname"
-                                name="firstName"
+                                name="name"
                                 variant="outlined"
                                 fullWidth
-                                id="firstName"
-                                label="First Name"
+                                id="name"
+                                label="User Name"
                                 autoFocus
                                 inputRef={register}
-                                error={errors.firstName ? true : false}
-                                helperText={errors.firstName ? "First Name required." : ""}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
-                                inputRef={register}
-                                error={errors.lastName ? true : false}
-                                helperText={errors.lastName ? "Last Name required." : ""}
+                                error={errors.name ? true : false}
+                                helperText={errors.name ? "User Name required." : ""}
                             />
                         </Grid>
                         <Grid item xs={12}>

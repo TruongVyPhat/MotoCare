@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, NavDropdown, Modal, Button } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { Link } from 'react-router-dom';
 
 function MyVerticallyCenteredModal(props) {
     return (
@@ -30,10 +30,7 @@ function MyVerticallyCenteredModal(props) {
 
 function Header() {
 
-    const [show, setShow] = useState(false);
-    const [modalShow, setModalShow] = React.useState(false);
-    const handleCloseProfile = () => setShow(false);
-    const handleShowProfile = () => setShow(true);
+    const [modalShow, setModalShow] = useState(false);
 
     return (
         <>
@@ -47,27 +44,12 @@ function Header() {
                     </Nav>
                     <Nav>
                         <NavDropdown title="Account" drop="left" id="collasible-nav-dropdown">
-                            <NavDropdown.Item onClick={handleShowProfile}>Profile</NavDropdown.Item>
+                            <NavDropdown.Item><Link to="/Profile">Profile</Link></NavDropdown.Item>
                             <NavDropdown.Item  onClick={() => setModalShow(true)}>Log Out</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-
-            <Modal show={show} onHide={handleCloseProfile}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseProfile}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleCloseProfile}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
-            </Modal>
 
             <MyVerticallyCenteredModal
                 show={modalShow}
