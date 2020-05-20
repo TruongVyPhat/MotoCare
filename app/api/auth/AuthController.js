@@ -53,36 +53,26 @@ exports.login = (req, res) => {
     }); 
 }
 
-// Logout
-// exports.logout = function(req, res){
-//     const sql = 'UPDATE public.User SET refresh_token=?, created_time_token=? ' 
-//         + 'WHERE id = ?::integer'
-//     if (req.user){
-//         req.user.refresh_token =  undefined;
-//         req.user.created_time_token =  undefined;
+exports.logout = function(req, res){   
+    if (req.user){
+        req.user.refresh_token =  undefined;
+        req.user.created_time_token =  undefined;
 
-//         sequelize.query(sql, {
-//             replacements: [null, null, req.user.id],
-//             type: QueryTypes.UPDATE
-//         }).then(function(log){
-//             status = HttpStatus.OK;
-//             responseJS.message = HttpStatus.getStatusText(status);
-//             res.status(status).json(responseJS);
-//         }).catch(function(error) {
-//             res.status(status).json(error);
-//         });
-//     }else{
-//         status = HttpStatus.METHOD_FAILURE
-//         responseJS.message = HttpStatus.getStatusText(status);
-//         res.status(status).json(responseJS);
-//     }
-// }; 
+        status = HttpStatus.OK;
+        responseJS.message = HttpStatus.getStatusText(status);
+        res.status(status).json(responseJS);
+    }else{
+        status = HttpStatus.METHOD_FAILURE
+        responseJS.message = HttpStatus.getStatusText(status);
+        res.status(status).json(responseJS);
+    }
+}; 
 
 exports.isAuthenticated = function(req, res, next){
     status = HttpStatus.UNAUTHORIZED
     responseJS.message = HttpStatus.getStatusText(status);
-    if (req.headers && req.headers.authentication) {
-        const jwt_token =  req.headers.authentication;
+    if (req.headers && req.headers.authorization) {
+        const jwt_token =  req.headers.authorization;
         jwt.verify(jwt_token, TOKEN_KEY.jwt_Secret, function(err, payload){
             if (err){
                 res.status(status).json(responseJS);
