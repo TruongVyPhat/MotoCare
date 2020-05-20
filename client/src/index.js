@@ -20,10 +20,10 @@ ReactDOM.render(
       <Route exact path="/">
         <SignIn />
       </Route>
-      <Route exact path="/Sign_in">
+      <Route exact path="/signin">
         <SignIn />
       </Route>
-      <Route path="/Sign_up">
+      <Route path="/signup">
         <SignUp />
       </Route>
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
