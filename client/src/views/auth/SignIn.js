@@ -12,12 +12,15 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { string as yupstring, object as yupobject } from "yup";
+import * as Yup from 'yup'
+import { useForm } from "react-hook-form";
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="">
+            <Link to="/" color="inherit">
                 Your Website
         </Link>{' '}
             {new Date().getFullYear()}
@@ -57,12 +60,28 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const handleSignIn = (a) => {
-    
-}
 
-export default function SignInSide() {
+const LoginSchema = yupobject().shape({
+    email: yupstring()
+        .required()
+        .email(),
+    password: yupstring()
+        .required()
+        .min(8)
+        .matches(/[a-zA-Z]/),   
+});
+
+function SignIn() {
     const classes = useStyles();
+
+    const {register,handleSubmit, errors } = useForm({
+        validationSchema: LoginSchema
+    });
+
+    const onSubmit = (data) => {
+        console.log("data", data);
+    };
+
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -75,8 +94,8 @@ export default function SignInSide() {
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
-            </Typography>
-                    <form className={classes.form} noValidate>
+                    </Typography>
+                    <form onSubmit={handleSubmit(onSubmit)} noValidate >
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -86,6 +105,9 @@ export default function SignInSide() {
                             label="Email Address"
                             name="email"
                             autoComplete="email"
+                            inputRef={register}
+                            error={errors.email ? true : false}
+                            helperText={errors.email ? "Email incorrect." : ""}
                             autoFocus
                         />
                         <TextField
@@ -98,6 +120,9 @@ export default function SignInSide() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            inputRef={register}
+                            error={errors.password ? true : false}
+                            helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
@@ -111,12 +136,12 @@ export default function SignInSide() {
                             className={classes.submit}
                         >
                             Sign In
-            </Button>
+                        </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
+                                <Link to="/Sign_up" variant="body2">
                                     Forgot password?
-                </Link>
+                                </Link>
                             </Grid>
                             <Grid item>
                                 <Link to="/Sign_up" variant="body2">
@@ -133,3 +158,5 @@ export default function SignInSide() {
         </Grid>
     );
 }
+
+export default SignIn;
