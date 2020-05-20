@@ -18,4 +18,7 @@ router.get('/me', auth_controller.isAuthenticated, users_Controller.get_me);
 // // GET user
 router.get('/:id', users_Controller.get_user);
 
+// CREATE user
+router.post('/create', users_Controller.create_user);
+
 module.exports = router;

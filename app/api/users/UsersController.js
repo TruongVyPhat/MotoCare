@@ -35,7 +35,7 @@ exports.get_me = (req, res) => {
     });
 }
 
-exports.create_user = function(req, res) {
+exports.create_user = (req, res) => {
     let name = req.body.data.name;   
     let email = req.body.data.email;
     let password = service.hash_password(req.body.data.password);
