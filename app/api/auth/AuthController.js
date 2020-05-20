@@ -81,8 +81,8 @@ exports.login = (req, res) => {
 exports.isAuthenticated = function(req, res, next){
     status = HttpStatus.UNAUTHORIZED
     responseJS.message = HttpStatus.getStatusText(status);
-    if (req.headers && req.headers.authentication) {
-        const jwt_token =  req.headers.authentication;
+    if (req.headers && req.headers.authorization) {
+        const jwt_token =  req.headers.authorization;
         jwt.verify(jwt_token, TOKEN_KEY.jwt_Secret, function(err, payload){
             if (err){
                 res.status(status).json(responseJS);

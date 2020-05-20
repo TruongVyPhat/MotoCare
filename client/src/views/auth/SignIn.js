@@ -84,8 +84,8 @@ function SignIn() {
         .then (res => {
             if (res.status === 200){
                 const jwtToken = res.data.data.access_token;
-                localStorage.setItem('authentication', jwtToken);
-                window.location.href = '/main';
+                localStorage.setItem('access_token', jwtToken);
+                window.location.href = '/admin/user-page';
             }
             
         })
