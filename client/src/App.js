@@ -2,13 +2,13 @@ import React from 'react';
 import './App.css';
 import SignIn from './views/auth/SignIn'
 import SignUp from './views/auth/SignUp'
-import Header from './views/menu/header'
+import Main from './views/mainpage/main'
 import {Switch, Route} from "react-router-dom";
 
 function App() {
   return (
     <Switch>
-    <Route exact path="/">
+      <Route exact path="/">
         <SignIn />
       </Route>
       <Route exact path="/Sign_in">
@@ -17,8 +17,11 @@ function App() {
       <Route path="/Sign_up">
         <SignUp />
       </Route>
-      <Route path="/Header">
-        <Header />
+      <Route path="/main">
+        <Main />
+      </Route>
+      <Route path="/*">
+        <Main />
       </Route>
     </Switch>
   );
