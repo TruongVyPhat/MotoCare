@@ -73,7 +73,7 @@ function SignUp() {
 
     const onSubmit = (data) => {
         delete data.passwordconfirm;
-        Axios.post('http://localhost:8080/api/users/create',{data})
+        Axios.post('http://localhost:9000/api/users/create',{data})
             .then (res => {
                 if (res.status === 201)
                     console.log(res.data)
