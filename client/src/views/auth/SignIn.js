@@ -57,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const handleSignIn = (a) => {
+    
+}
+
 export default function SignInSide() {
     const classes = useStyles();
 
@@ -116,7 +120,7 @@ export default function SignInSide() {
                             </Grid>
                             <Grid item>
                                 <Link to="/Sign_up" variant="body2">
-                                    {"Don't have an account abcxyz? Sign Up"}
+                                    {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
                         </Grid>
