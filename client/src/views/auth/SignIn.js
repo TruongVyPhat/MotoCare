@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { string as yupstring, object as yupobject } from "yup";
 import { useForm } from "react-hook-form";
 import Axios from 'axios';
+import Modal from 'react-bootstrap/Modal'
 
 function Copyright() {
     return (
@@ -68,30 +69,37 @@ const LoginSchema = yupobject().shape({
     password: yupstring()
         .required()
         .min(1)
-        //.matches(/[a-zA-Z]/),   
+    //.matches(/[a-zA-Z]/),   
 });
 
 function SignIn() {
     const classes = useStyles();
-
-    const {register,handleSubmit, errors } = useForm({
+    const [show, setShow] = useState(false);
+    const { register, handleSubmit, errors } = useForm({
         validationSchema: LoginSchema
     });
 
+    const closeModal = () => {
+        setShow(false)
+    }
+
     const onSubmit = (data) => {
         console.log(data);
-        Axios.post('http://localhost:9000/api/auth/login',{data})
-        .then (res => {
-            if (res.status === 200){
-                const jwtToken = res.data.data.access_token;
-                localStorage.setItem('access_token', jwtToken);
-                window.location.href = '/admin/user-page';
-            }
-            
-        })
-        .catch (error => {
-            console.log(error)
-        })
+        Axios.post('http://localhost:9000/api/auth/login', { data })
+            .then(res => {
+                if (res.status === 200) {
+                    const jwtToken = res.data.data.access_token;
+                    localStorage.setItem('access_token', jwtToken);
+                    window.location.href = '/admin/user-page';
+                }
+                
+            })
+            .catch(error => {
+                if (error.message === "Request failed with status code 404") {
+                    setShow(true)
+                }
+                console.log(error)
+            })
     };
 
 
@@ -133,8 +141,8 @@ function SignIn() {
                             id="password"
                             autoComplete="current-password"
                             inputRef={register}
-                            //error={errors.password ? true : false}
-                            //helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
+                        //error={errors.password ? true : false}
+                        //helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
@@ -167,6 +175,15 @@ function SignIn() {
                     </form>
                 </div>
             </Grid>
+
+            <Modal show={show} onHide={closeModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Password or email wrong</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button onClick={closeModal}>Close</Button>
+                </Modal.Footer>
+            </Modal>
         </Grid>
     );
 }

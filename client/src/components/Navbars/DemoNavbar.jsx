@@ -19,6 +19,7 @@ import {
 } from "reactstrap";
 
 import routes from "routes.js";
+import axios from "axios"
 
 class Header extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class Header extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.dropdownToggle = this.dropdownToggle.bind(this);
     this.sidebarToggle = React.createRef();
+    this.handleLogout = this.handleLogout.bind(this)
   }
   toggle() {
     if (this.state.isOpen) {
@@ -90,6 +92,18 @@ class Header extends React.Component {
       this.sidebarToggle.current.classList.toggle("toggled");
     }
   }
+
+  handleLogout(){
+    const url = 'http://localhost:9000/api/auth/logout';
+    axios.delete(url, { headers: { authorization: localStorage.getItem('access_token') }})
+    .then(res => {
+      localStorage.setItem('access_token', undefined)
+      window.location.href = "/signin"
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
   render() {
     return (
       // add or remove classes depending if we are on full-screen-maps page or not
@@ -178,12 +192,12 @@ class Header extends React.Component {
                 </Link>
               </NavItem>
               <NavItem>
-                <Link to="/signin" className="nav-link btn-rotate">
+                <button onClick={this.handleLogout} className="nav-link btn-rotate">
                   <i className="nc-icon nc-button-power" />
                   <p>
                     <span className="d-lg-none d-md-block">Account</span>
                   </p>
-                </Link>
+                </button>
               </NavItem>
             </Nav>
           </Collapse>
