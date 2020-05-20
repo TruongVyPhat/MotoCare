@@ -7,6 +7,7 @@ import {Switch, Route} from "react-router-dom";
 
 function App() {
   return (
+    <>
     <Switch>
       <Route exact path="/">
         <SignIn />
@@ -24,6 +25,7 @@ function App() {
         <Main />
       </Route>
     </Switch>
+    </>
   );
 }
 

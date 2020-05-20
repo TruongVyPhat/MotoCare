@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { string as yupstring, object as yupobject } from "yup";
+import * as Yup from 'yup'
+import { useForm } from "react-hook-form";
 
 function Copyright() {
     return (
@@ -57,12 +60,28 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+const LoginSchema = yupobject().shape({
+    email: yupstring()
+        .required()
+        .email(),
+    password: yupstring()
+        .required()
+        .min(8)
+        .matches(/[a-zA-Z]/),   
+});
+
 function SignIn() {
     const classes = useStyles();
 
-    const handleSubmit = e => {
-        console.log("submit")
-    }
+    const {register,handleSubmit, errors } = useForm({
+        validationSchema: LoginSchema
+    });
+
+    const onSubmit = (data) => {
+        console.log("data", data);
+    };
+
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -76,10 +95,7 @@ function SignIn() {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <form onSubmit={(e) => {
-                        e.preventDefault();
-                        handleSubmit();
-                    }} className={classes.form} noValidate >
+                    <form onSubmit={handleSubmit(onSubmit)} noValidate >
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -89,6 +105,9 @@ function SignIn() {
                             label="Email Address"
                             name="email"
                             autoComplete="email"
+                            inputRef={register}
+                            error={errors.email ? true : false}
+                            helperText={errors.email ? "Email incorrect." : ""}
                             autoFocus
                         />
                         <TextField
@@ -101,6 +120,9 @@ function SignIn() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            inputRef={register}
+                            error={errors.password ? true : false}
+                            helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
