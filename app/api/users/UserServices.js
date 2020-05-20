@@ -1,5 +1,6 @@
 const Users = require('./User');
 const db = require('../../models/index');
+const bcrypt = require('bcrypt');
 const sequelize = db.sequelize;
 const { QueryTypes } = require('sequelize');
 
