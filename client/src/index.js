@@ -27,7 +27,7 @@ ReactDOM.render(
         <SignUp />
       </Route>
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Redirect to="/admin/dashboard" />
+      <Redirect to="/dashboard" />
     </Switch>
   </Router>,
   document.getElementById("root")

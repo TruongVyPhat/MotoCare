@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Collapse,
@@ -21,39 +21,28 @@ import {
 import routes from "routes.js";
 import axios from "axios"
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-      dropdownOpen: false,
-      color: "transparent"
-    };
-    this.toggle = this.toggle.bind(this);
-    this.dropdownToggle = this.dropdownToggle.bind(this);
-    this.sidebarToggle = React.createRef();
-    this.handleLogout = this.handleLogout.bind(this)
-  }
-  toggle() {
-    if (this.state.isOpen) {
-      this.setState({
-        color: "transparent"
-      });
+function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [color, setColor] = useState("transparent");
+  const [stateLogIn, setStateLogin] = useState("nc-icon nc-circle-10")
+
+  const sidebarToggle = React.createRef();
+
+  const toggle = () => {
+    if (isOpen) {
+      setColor("transparent");
     } else {
-      this.setState({
-        color: "dark"
-      });
+      setColor("dark");
     }
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+    setIsOpen(!isOpen);
   }
-  dropdownToggle(e) {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
+
+  const dropdownToggle = () => {
+    setDropdownOpen(!dropdownOpen);
   }
-  getBrand() {
+
+  const getBrand = () => {
     let brandName = "Default Brand";
     routes.map((prop, key) => {
       if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
@@ -63,148 +52,159 @@ class Header extends React.Component {
     });
     return brandName;
   }
-  openSidebar() {
+
+  const openSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
-    this.sidebarToggle.current.classList.toggle("toggled");
+    sidebarToggle.current.classList.toggle("toggled");
   }
   // function that adds color dark/transparent to the navbar on resize (this is for the collapse)
-  updateColor() {
-    if (window.innerWidth < 993 && this.state.isOpen) {
-      this.setState({
-        color: "dark"
-      });
-    } else {
-      this.setState({
-        color: "transparent"
-      });
+  
+
+  useEffect(() => {
+    if (localStorage.getItem('access_token') === null) {
+      setStateLogin("nc-icon nc-circle-10")
     }
-  }
-  componentDidMount() {
-    window.addEventListener("resize", this.updateColor.bind(this));
-  }
-  componentDidUpdate(e) {
+    else {
+      setStateLogin("nc-icon nc-button-power")
+    }
+
+    const updateColor = () => {
+      if (window.innerWidth < 993 && isOpen) {
+        setColor("dark");
+      } else {
+        setColor("transparent");
+      }
+    }
+
+    window.addEventListener("resize", updateColor());
     if (
       window.innerWidth < 993 &&
-      e.history.location.pathname !== e.location.pathname &&
       document.documentElement.className.indexOf("nav-open") !== -1
     ) {
       document.documentElement.classList.toggle("nav-open");
-      this.sidebarToggle.current.classList.toggle("toggled");
+      sidebarToggle.current.classList.toggle("toggled");
+    }
+  }, [isOpen,sidebarToggle]);
+
+  const handleLogoutIN = () => {
+    if (localStorage.getItem('access_token') === null) {
+      window.location.href = "/signin"
+    }
+    else
+    {
+      const url = 'http://localhost:9000/api/auth/logout';
+      axios.delete(url, { headers: { authorization: localStorage.getItem('access_token') } })
+        .then(res => {
+          localStorage.removeItem("access_token")
+          setStateLogin("nc-icon nc-circle-10")
+          if(window.location.pathname === "/admin/user-page")
+          {
+            window.location.href = "/signin"
+          }
+        }).catch(error => {
+          console.log(error);
+        });
     }
   }
-
-  handleLogout(){
-    const url = 'http://localhost:9000/api/auth/logout';
-    axios.delete(url, { headers: { authorization: localStorage.getItem('access_token') }})
-    .then(res => {
-      localStorage.setItem('access_token', undefined)
-      window.location.href = "/signin"
-    }).catch(error => {
-      console.log(error);
-    });
-  }
-
-  render() {
-    return (
-      // add or remove classes depending if we are on full-screen-maps page or not
-      <Navbar
-        color={
-          this.props.location.pathname.indexOf("full-screen-maps") !== -1
-            ? "dark"
-            : this.state.color
-        }
-        expand="lg"
-        className={
-          this.props.location.pathname.indexOf("full-screen-maps") !== -1
-            ? "navbar-absolute fixed-top"
-            : "navbar-absolute fixed-top " +
-              (this.state.color === "transparent" ? "navbar-transparent " : "")
-        }
-      >
-        <Container fluid>
-          <div className="navbar-wrapper">
-            <div className="navbar-toggle">
-              <button
-                type="button"
-                ref={this.sidebarToggle}
-                className="navbar-toggler"
-                onClick={() => this.openSidebar()}
-              >
-                <span className="navbar-toggler-bar bar1" />
-                <span className="navbar-toggler-bar bar2" />
-                <span className="navbar-toggler-bar bar3" />
-              </button>
-            </div>
-            <NavbarBrand href="/">{this.getBrand()}</NavbarBrand>
+  return (
+    // add or remove classes depending if we are on full-screen-maps page or not
+    <Navbar
+      color={
+        window.location.pathname.indexOf("full-screen-maps") !== -1
+          ? "dark"
+          : color
+      }
+      expand="lg"
+      className={
+        window.location.pathname.indexOf("full-screen-maps") !== -1
+          ? "navbar-absolute fixed-top"
+          : "navbar-absolute fixed-top " +
+          (color === "transparent" ? "navbar-transparent " : "")
+      }
+    >
+      <Container fluid>
+        <div className="navbar-wrapper">
+          <div className="navbar-toggle">
+            <button
+              type="button"
+              ref={sidebarToggle}
+              className="navbar-toggler"
+              onClick={openSidebar}
+            >
+              <span className="navbar-toggler-bar bar1" />
+              <span className="navbar-toggler-bar bar2" />
+              <span className="navbar-toggler-bar bar3" />
+            </button>
           </div>
-          <NavbarToggler onClick={this.toggle}>
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-          </NavbarToggler>
-          <Collapse
-            isOpen={this.state.isOpen}
-            navbar
-            className="justify-content-end"
-          >
-            <form>
-              <InputGroup className="no-border">
-                <Input placeholder="Search..." />
-                <InputGroupAddon addonType="append">
-                  <InputGroupText>
-                    <i className="nc-icon nc-zoom-split" />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-            </form>
-            <Nav navbar>
-              <NavItem>
-                <Link to="#pablo" className="nav-link btn-magnify">
-                  <i className="nc-icon nc-layout-11" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </Link>
-              </NavItem>
-              <Dropdown
-                nav
-                isOpen={this.state.dropdownOpen}
-                toggle={e => this.dropdownToggle(e)}
-              >
-                <DropdownToggle caret nav>
-                  <i className="nc-icon nc-bell-55" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Some Actions</span>
-                  </p>
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem tag="a">Action</DropdownItem>
-                  <DropdownItem tag="a">Another Action</DropdownItem>
-                  <DropdownItem tag="a">Something else here</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-              <NavItem>
-                <Link to="#pablo" className="nav-link btn-rotate">
-                  <i className="nc-icon nc-settings-gear-65" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Account</span>
-                  </p>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <button onClick={this.handleLogout} className="nav-link btn-rotate">
-                  <i className="nc-icon nc-button-power" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Account</span>
-                  </p>
-                </button>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Container>
-      </Navbar>
-    );
-  }
+          <NavbarBrand href="/">{getBrand()}</NavbarBrand>
+        </div>
+        <NavbarToggler onClick={toggle}>
+          <span className="navbar-toggler-bar navbar-kebab" />
+          <span className="navbar-toggler-bar navbar-kebab" />
+          <span className="navbar-toggler-bar navbar-kebab" />
+        </NavbarToggler>
+        <Collapse
+          isOpen={isOpen}
+          navbar
+          className="justify-content-end"
+        >
+          <form>
+            <InputGroup className="no-border">
+              <Input placeholder="Search..." />
+              <InputGroupAddon addonType="append">
+                <InputGroupText>
+                  <i className="nc-icon nc-zoom-split" />
+                </InputGroupText>
+              </InputGroupAddon>
+            </InputGroup>
+          </form>
+          <Nav navbar>
+            <NavItem>
+              <Link to="#pablo" className="nav-link btn-magnify">
+                <i className="nc-icon nc-layout-11" />
+                <p>
+                  <span className="d-lg-none d-md-block">Stats</span>
+                </p>
+              </Link>
+            </NavItem>
+            <Dropdown
+              nav
+              isOpen={dropdownOpen}
+              toggle={e => dropdownToggle(e)}
+            >
+              <DropdownToggle caret nav>
+                <i className="nc-icon nc-bell-55" />
+                <p>
+                  <span className="d-lg-none d-md-block">Some Actions</span>
+                </p>
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem tag="a">Action</DropdownItem>
+                <DropdownItem tag="a">Another Action</DropdownItem>
+                <DropdownItem tag="a">Something else here</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <NavItem>
+              <Link to="#pablo" className="nav-link btn-rotate">
+                <i className="nc-icon nc-cart-simple" />
+                <p>
+                  <span className="d-lg-none d-md-block">Account</span>
+                </p>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link to="#" onClick={handleLogoutIN} className="nav-link btn-rotate">
+                <i className={stateLogIn} />
+                <p>
+                  <span className="d-lg-none d-md-block">Account</span>
+                </p>
+              </Link>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Container>
+    </Navbar>
+  );
 }
 
 export default Header;

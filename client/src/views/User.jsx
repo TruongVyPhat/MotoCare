@@ -14,8 +14,6 @@ import {
   Col
 } from "reactstrap";
 
-
-
 const Profile = () => {
   const [User , setUser] = useState({})
   
@@ -26,8 +24,11 @@ const Profile = () => {
       setUser(res.data.data);
     }).catch(error => {
       console.log(error);
+      if(localStorage.getItem('access_token') === null) {
+        window.location.href = "/signin"
+      }
     });
-  }, [localStorage.getItem('access_token')]);
+  }, []);
 
   return (
     <>
