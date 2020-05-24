@@ -25,7 +25,6 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [color, setColor] = useState("transparent");
-  const [stateLogIn, setStateLogin] = useState("nc-icon nc-circle-10")
 
   const sidebarToggle = React.createRef();
 
@@ -62,12 +61,8 @@ function Header() {
 
   useEffect(() => {
     if (localStorage.getItem('access_token') === null) {
-      setStateLogin("nc-icon nc-circle-10")
+      window.location.href = "/signin"
     }
-    else {
-      setStateLogin("nc-icon nc-button-power")
-    }
-
     const updateColor = () => {
       if (window.innerWidth < 993 && isOpen) {
         setColor("dark");
@@ -96,11 +91,7 @@ function Header() {
       axios.delete(url, { headers: { authorization: localStorage.getItem('access_token') } })
         .then(res => {
           localStorage.removeItem("access_token")
-          setStateLogin("nc-icon nc-circle-10")
-          if(window.location.pathname === "/admin/user-page")
-          {
-            window.location.href = "/signin"
-          }
+          window.location.href = "/signin"
         }).catch(error => {
           console.log(error);
         });
@@ -194,9 +185,9 @@ function Header() {
             </NavItem>
             <NavItem>
               <Link to="#" onClick={handleLogoutIN} className="nav-link btn-rotate">
-                <i className={stateLogIn} />
+                <i className="nc-icon nc-button-power" />
                 <p>
-                  <span className="d-lg-none d-md-block">Account</span>
+                  <span className="d-lg-none d-md-block">Log Out</span>
                 </p>
               </Link>
             </NavItem>

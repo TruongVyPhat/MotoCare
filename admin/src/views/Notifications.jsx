@@ -69,15 +69,13 @@ class Notifications extends React.Component {
                   <p className="card-category">
                     Handcrafted by our colleague{" "}
                     <a
-                      target="_blank"
-                      href="https://www.instagram.com/manu.nazare/"
+                      href="# "
                     >
                       Nazare Emanuel-Ioan (Manu)
                     </a>
                     . Please checkout the{" "}
                     <a
-                      href="https://github.com/creativetimofficial/react-notification-alert"
-                      target="_blank"
+                      href="# "
                     >
                       full documentation.
                     </a>

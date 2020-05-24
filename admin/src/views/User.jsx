@@ -14,6 +14,7 @@ import {
   Col
 } from "reactstrap";
 
+
 const Profile = () => {
   const [User , setUser] = useState({})
   
@@ -29,6 +30,13 @@ const Profile = () => {
       }
     });
   }, []);
+
+  const onSubmit = ( data ) => {
+    data.preventDefault();
+    console.log(data.target[2].value);
+    console.log(data.target[3].value);
+    console.log(data.target[4].value);
+  }
 
   return (
     <>
@@ -182,19 +190,22 @@ const Profile = () => {
               </CardBody>
             </Card>
           </Col> */}
-          <Col md="8">
+          
+          <Col >
             <Card className="card-user">
               <CardHeader>
                 <CardTitle tag="h5">Edit Profile</CardTitle>
               </CardHeader>
               <CardBody>
-                <Form>
+                {/* form action submit */}
+                <Form onSubmit={onSubmit}>
                   <Row>
                     
                     <Col className="pr-1" md="5">
                       <FormGroup>
                         <label>Username</label>
                         <Input
+                          readOnly
                           defaultValue={User.name}
                           placeholder="Username"
                           type="text"
@@ -206,7 +217,12 @@ const Profile = () => {
                         <label htmlFor="exampleInputEmail1">
                           Email address
                         </label>
-                        <Input defaultValue={User.email} placeholder="Email" type="email" />
+                        <Input 
+                          readOnly 
+                          defaultValue={User.email} 
+                          placeholder="Email" 
+                          type="email" 
+                        />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -230,6 +246,8 @@ const Profile = () => {
                           defaultValue={User.phone}
                           placeholder="Phone"
                           type="text"
+                          pattern="[0-9]{10,11}"
+                          title="10-11 Number"                            
                         />
                       </FormGroup>
                     </Col>
@@ -239,7 +257,7 @@ const Profile = () => {
                         <Input
                           defaultValue={User.date_of_birth}
                           placeholder="Date of birth"
-                          type="text"
+                          type="date"
                         />
                       </FormGroup>
                     </Col>
@@ -269,6 +287,7 @@ const Profile = () => {
               </CardBody>
             </Card>
           </Col>
+          
         </Row>
       </div>
     </>
