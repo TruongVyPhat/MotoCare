@@ -4,6 +4,7 @@ import Icons from "views/Icons.jsx";
 // import Typography from "views/Typography.jsx";
 // import TableList from "views/Tables.jsx";
 import UserPage from "views/User.jsx";
+import UserManager from "views/User_manager"
 
 var routes = [
   {
@@ -32,6 +33,13 @@ var routes = [
     name: "User Profile",
     icon: "nc-icon nc-single-02",
     component: UserPage,
+    layout: "/admin"
+  },
+  {
+    path: "/user-manager",
+    name: "User Manager",
+    icon: "nc-icon nc-circle-10",
+    component: UserManager,
     layout: "/admin"
   },
   // {

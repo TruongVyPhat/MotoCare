@@ -200,7 +200,6 @@ const Profile = () => {
                 {/* form action submit */}
                 <Form onSubmit={onSubmit}>
                   <Row>
-                    
                     <Col className="pr-1" md="5">
                       <FormGroup>
                         <label>Username</label>
@@ -212,7 +211,7 @@ const Profile = () => {
                         />
                       </FormGroup>
                     </Col>
-                    <Col className="pl-1" md="4">
+                    <Col className="pl-1" md="7">
                       <FormGroup>
                         <label htmlFor="exampleInputEmail1">
                           Email address
@@ -239,7 +238,7 @@ const Profile = () => {
                     </Col>
                   </Row>
                   <Row>
-                    <Col className="pr-1" md="4">
+                    <Col className="pr-1" md="6">
                       <FormGroup>
                         <label>Phone</label>
                         <Input
@@ -251,7 +250,7 @@ const Profile = () => {
                         />
                       </FormGroup>
                     </Col>
-                    <Col className="px-1" md="4">
+                    <Col className="px-1" md="6">
                       <FormGroup>
                         <label>Date of birth</label>
                         <Input

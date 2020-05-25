@@ -90,11 +90,12 @@ function Header() {
       const url = 'http://localhost:9000/api/auth/logout';
       axios.delete(url, { headers: { authorization: localStorage.getItem('access_token') } })
         .then(res => {
-          localStorage.removeItem("access_token")
-          window.location.href = "/signin"
+          console.log("Delete accesstoken success")
         }).catch(error => {
           console.log(error);
         });
+      localStorage.removeItem("access_token")
+      window.location.href = "/signin"
     }
   }
   return (
@@ -177,7 +178,7 @@ function Header() {
             </Dropdown>
             <NavItem>
               <Link to="#pablo" className="nav-link btn-rotate">
-                <i className="nc-icon nc-cart-simple" />
+                <i className="nc-icon nc-settings-gear-65" />
                 <p>
                   <span className="d-lg-none d-md-block">Account</span>
                 </p>

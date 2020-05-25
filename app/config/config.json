@@ -3,7 +3,7 @@
         "username": "postgres",
         "password": "postgres",
         "database": "MotoCare",
-        "host": "motocare.cse1ymvs5u0l.ap-southeast-1.rds.amazonaws.com",
+        "host": "localhost",
         "dialect": "postgres",
         "operatorsAliases": false
     },
