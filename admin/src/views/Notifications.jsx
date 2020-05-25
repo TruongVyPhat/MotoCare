@@ -1,26 +1,5 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-/*eslint-disable*/
 import React from "react";
-// react plugin for creating notifications over the dashboard
 import NotificationAlert from "react-notification-alert";
-// reactstrap components
 import {
   UncontrolledAlert,
   Alert,
@@ -90,15 +69,13 @@ class Notifications extends React.Component {
                   <p className="card-category">
                     Handcrafted by our colleague{" "}
                     <a
-                      target="_blank"
-                      href="https://www.instagram.com/manu.nazare/"
+                      href="# "
                     >
                       Nazare Emanuel-Ioan (Manu)
                     </a>
                     . Please checkout the{" "}
                     <a
-                      href="https://github.com/creativetimofficial/react-notification-alert"
-                      target="_blank"
+                      href="# "
                     >
                       full documentation.
                     </a>

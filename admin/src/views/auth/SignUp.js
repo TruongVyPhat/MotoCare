@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,7 @@ import { string as yupstring, object as yupobject } from "yup";
 import * as Yup from 'yup'
 import { useForm } from "react-hook-form";
 import Axios from 'axios';
+import Modal from 'react-bootstrap/Modal'
 
 function Copyright() {
     return (
@@ -66,23 +67,48 @@ const LoginSchema = yupobject().shape({
 
 function SignUp() {
     const classes = useStyles();
-
+    const [show, setShow] = useState(false);
+    const [showCreate, setShowCreate] = useState(false);
+    const [isLoading, setIsloading] = useState(false);
     const {register, handleSubmit, errors } = useForm({
         validationSchema: LoginSchema
     });
 
+    const closeModal = () => {
+        setIsloading(false);
+        setShow(false)
+    }
+
+    const closeModalCreate = () => {
+        setShowCreate(false)
+        window.location.href = "/signin"
+    }
+
     const onSubmit = (data) => {
         delete data.passwordconfirm;
+        setIsloading(true);
         Axios.post('http://localhost:9000/api/users/create',{data})
             .then (res => {
-                if (res.status === 201)
-                    console.log(res.data)
+                if (res.status === 201) {
+                    console.log(res.data);
+                    setShowCreate(true);
+                    setIsloading(true);
+                }
             })
             .catch (error => {
+                if (error.message === "Request failed with status code 406") {
+                    setShow(true)
+                }
                 console.log(error)
             })
         console.log("data", data);
     };
+
+    useEffect(() => {
+        if (localStorage.getItem('access_token') !== null) {
+            window.location.href = "/admin/dashboard"
+        }
+    });
 
     return (
         <Container component="main" maxWidth="xs">
@@ -162,8 +188,9 @@ function SignUp() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        disabled={isLoading}
                     >
-                        Sign Up
+                        {isLoading? "Loading" : "Sign up"}
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
@@ -177,6 +204,24 @@ function SignUp() {
             <Box mt={5}>
                 <Copyright />
             </Box>
+
+            <Modal show={show} onHide={closeModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Email Has Been Used</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button onClick={closeModal}>Close</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showCreate} onHide={closeModalCreate}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Account Created</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button onClick={closeModalCreate}>OK</Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 }

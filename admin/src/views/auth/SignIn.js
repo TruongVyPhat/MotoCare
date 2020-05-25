@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -75,22 +75,26 @@ const LoginSchema = yupobject().shape({
 function SignIn() {
     const classes = useStyles();
     const [show, setShow] = useState(false);
+    const [isLoading, setIsloading] = useState(false);
     const { register, handleSubmit, errors } = useForm({
         validationSchema: LoginSchema
     });
 
     const closeModal = () => {
-        setShow(false)
+        setIsloading(false);
+        setShow(false);
     }
 
     const onSubmit = (data) => {
         console.log(data);
+        setIsloading(true);
         Axios.post('http://localhost:9000/api/auth/login', { data })
             .then(res => {
                 if (res.status === 200) {
                     const jwtToken = res.data.data.access_token;
                     localStorage.setItem('access_token', jwtToken);
-                    window.location.href = '/admin/user-page';
+                    window.location.href = '/admin/dashboard';
+                    setIsloading(true);
                 }
                 
             })
@@ -102,6 +106,11 @@ function SignIn() {
             })
     };
 
+    useEffect(() => {
+        if (localStorage.getItem('access_token') !== null) {
+            window.location.href = "/admin/dashboard"
+        }
+    });
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -144,18 +153,16 @@ function SignIn() {
                         //error={errors.password ? true : false}
                         //helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
                         />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
+                        
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            disabled={isLoading}
                         >
-                            Sign In
+                            {isLoading? "Loading" : "Sign in"}
                         </Button>
                         <Grid container>
                             <Grid item xs>
