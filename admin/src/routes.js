@@ -4,7 +4,8 @@ import Icons from "views/Icons.jsx";
 // import Typography from "views/Typography.jsx";
 // import TableList from "views/Tables.jsx";
 import UserPage from "views/User.jsx";
-import UserManager from "views/User_manager"
+import UserManager from "views/UserManager"
+import ProducManager from "views/ProductManager"
 
 var routes = [
   {
@@ -29,10 +30,10 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/user-page",
-    name: "User Profile",
-    icon: "nc-icon nc-single-02",
-    component: UserPage,
+    path: "/product-manager",
+    name: "Product Manager",
+    icon: "nc-icon nc-cart-simple",
+    component: ProducManager,
     layout: "/admin"
   },
   {
@@ -42,6 +43,14 @@ var routes = [
     component: UserManager,
     layout: "/admin"
   },
+  {
+    path: "/user-page",
+    name: "User Profile",
+    icon: "nc-icon nc-single-02",
+    component: UserPage,
+    layout: "/admin"
+  },
+  
   // {
   //   path: "/tables",
   //   name: "Table List",

@@ -9,13 +9,7 @@ import {
     Card,
     CardHeader,
     CardBody,
-    // CardFooter,
-    CardTitle,
-    FormGroup,
-    Form,
-    Input,
-    Row,
-    Col
+    CardTitle
 } from "reactstrap";
 
 
