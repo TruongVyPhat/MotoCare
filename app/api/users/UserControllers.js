@@ -1,13 +1,14 @@
 const service = require('./UserServices');
-const ROLE = require('../helpers/constants').ROLE;
 const httpStatus = require('http-status-codes');
 const CONSTANTS = require('../helpers/constants');
+const ROLE = CONSTANTS.ROLE;
 const responseJS = require('../helpers/json-generator');
 let status = httpStatus.INTERNAL_SERVER_ERROR;
 
 // get all user
 exports.get_all_users = (req, res) => {
-    service.get_all_user()
+    const page = req.query.page;
+    service.get_all_user(page)
     .then(users => {
         if (users){
             status = httpStatus.OK; 

@@ -3,10 +3,13 @@ const db = require('../../models/index');
 const bcrypt = require('bcrypt');
 const sequelize = db.sequelize;
 const { QueryTypes } = require('sequelize');
+const CONSTANTS = require('../helpers/constants');
 
-exports.get_all_user = () => {
-    const sql = 'SELECT * FROM public.User';
+exports.get_all_user = (page) => {
+    const offset = (page - 1) * CONSTANTS.PAGE_SIZE;
+    const sql = 'SELECT * FROM public.user ORDER BY id LIMIT ? OFFSET ?';
     return sequelize.query(sql, {
+        replacements: [CONSTANTS.PAGE_SIZE, offset],
         type: QueryTypes.SELECT
     });
 }
