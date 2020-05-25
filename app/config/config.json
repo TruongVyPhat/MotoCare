@@ -3,7 +3,7 @@
         "username": "postgres",
         "password": "postgres",
         "database": "MotoCare",
-        "host": "localhost",
+        "host": "127.0.0.1",
         "dialect": "postgres",
         "operatorsAliases": false
     },
@@ -16,11 +16,11 @@
         "operatorsAliases": false
     },
     "production": {
-        "username": "postgres",
-        "password": "postgres",
-        "database": "MotoCare",
-        "host": "motocare.cse1ymvs5u0l.ap-southeast-1.rds.amazonaws.com",
-        "dialect": "postgres",
+        "username": "root",
+        "password": null,
+        "database": "database_production",
+        "host": "127.0.0.1",
+        "dialect": "mysql",
         "operatorsAliases": false
     }
 }

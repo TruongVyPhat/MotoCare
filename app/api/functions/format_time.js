@@ -20,7 +20,7 @@ exports.gettime_to_format = function(time){
         hour = '0' + hour;
     }
     if (min < 10){
-        min = '0' + min; 
+       min = '0' + min; 
     }
     if (sec < 10){
         sec = '0' + sec;

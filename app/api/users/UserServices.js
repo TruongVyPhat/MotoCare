@@ -4,16 +4,23 @@ const bcrypt = require('bcrypt');
 const sequelize = db.sequelize;
 const { QueryTypes } = require('sequelize');
 
+exports.get_all_user = () => {
+    const sql = 'SELECT * FROM public.User';
+    return sequelize.query(sql, {
+        type: QueryTypes.SELECT
+    });
+}
+
 exports.get_user = (id) => {
     const sql = 'SELECT id, name, role_id, email, phone, address, date_of_birth, password from public.User where id = ?::integer or name = ?';
     return sequelize.query(sql, {
-            replacements: [id, id],
-            type: QueryTypes.SELECT
-        });
+        replacements: [id, id],
+        type: QueryTypes.SELECT
+    });
 }
 
 exports.get_me = (user_id) => {
-    const sql = 'SELECT id, name, role_id, email, phone, address, date_of_birth from public.User where id = ?';
+    const sql = 'SELECT id, name, role_id, email, phone, address, date_of_birth, password from public.User where id = ?';
     return sequelize.query(sql, {
         replacements: [user_id],
         type: QueryTypes.SELECT
@@ -26,10 +33,6 @@ exports.get_user_by_email = (email) => {
         replacements: [email],
         type: QueryTypes.SELECT
     });
-}
-
-exports.compare_password = (input, password) => {
-    return bcrypt.compareSync(input, password);
 }
 
 exports.update_token = (refresh_token, time, user_id) => {
@@ -47,6 +50,53 @@ exports.create_user = (name, role_id, email, phone, address, date_of_birth, pass
         replacements: [name, role_id, email, phone, address, date_of_birth, password],
         type: QueryTypes.SELECT
     });
+}
+
+exports.get_user_by_keyword = (keyword) => {
+    const sql = "SELECT id, name from public.User where id::text = ?"
+            + " or LOWER(replace((select convertTVkdau(name)),' ','')) like ?";
+    return sequelize.query(sql, {
+        replacements: [keyword, keyword],
+        type: QueryTypes.SELECT
+    });
+}
+
+// TODO: remove pass out of function
+exports.update_user_info = (name, email, phone, address, date_of_birth, password, user_id) => {
+    const sql = 'UPDATE public.User SET name=?, email=?, phone=?, address=?, date_of_birth=?, password=? '
+            + 'WHERE id = ?::integer'
+    return sequelize.query(sql, {
+        replacements: [name, email, phone, address, date_of_birth, password, user_id],
+        type: QueryTypes.UPDATE
+    });
+}
+
+exports.update_user_role = (role_id, id) => {
+    const sql = 'UPDATE public.User SET role_id = ?::interger WHERE id = ?::integer';
+    return sequelize.query(sql, {
+        replacements: [role_id, id],
+        type: QueryTypes.UPDATE
+    });
+}
+
+exports.delete_user = (id) => {
+    const sql = 'DELETE FROM public.User where id = ?::integer';
+    return sequelize.query(sql, {
+        replacements: [id],
+        type: QueryTypes.DELETE
+    });
+}
+
+exports.change_password = (new_password, id) => {
+    const sql = 'UPDATE public.User SET password = ? where id = ?';
+    return sequelize.query(sql, {
+        replacements: [new_password, id],
+        type: QueryTypes.UPDATE
+    });
+}
+
+exports.compare_password = (input, password) => {
+    return bcrypt.compareSync(input, password);
 }
 
 exports.hash_password = (input_password) => {
