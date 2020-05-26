@@ -18,15 +18,15 @@ router.get('/search', product_Controller.search_products);
 router.get('/:id', product_Controller.get_product);
 
 // CREATE products
-router.post('/create', permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.create_product);
+router.post('/create', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.create_product);
 
 // UPDATE products
-router.put('/update', permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product);
+router.put('/update', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product);
 
 // UPDATE product amount
-router.put('/update-amount', permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product);
+router.put('/update-amount', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product);
 
 // DELETE product
-router.delete('/delete', permission.user_permission([ROLE.ADMIN]), product_Controller.delete_product);
+router.delete('/delete', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), product_Controller.delete_product);
 
 module.exports = router;
