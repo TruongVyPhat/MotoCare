@@ -20,14 +20,13 @@ function UserManager () {
     const [users, setUsers] = useState({})
     const [currentUser, setCurrentUser] = useState(initialFormState)
     const [editing, setEditing] = useState(false)
+    const [isChanged, setIsChanged] = useState(false)
 
     const closeModal = () => {
         setShow(false);
     }
 
     const addUser = data => {
-        const temp = data
-        console.log(temp)
         if(data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
         else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id= Constant.ROLE.STAFF;
         else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id= Constant.ROLE.CUSTOMER;
@@ -36,7 +35,8 @@ function UserManager () {
                 if (res.status === 201) {
                     data.id = idMax + 1
                     idMax++
-                    setUsers([...users, temp])
+                    setUsers([...users, data])
+                    setIsChanged(!isChanged)
                 }
             })
             .catch (error => {
@@ -65,16 +65,15 @@ function UserManager () {
     }
 
     const updateUser = (id, data) => {
-        const temp = data
         if(data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
         else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id= Constant.ROLE.STAFF;
         else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id= Constant.ROLE.CUSTOMER;
-        console.log(data)
         axios.put(`http://localhost:9000/api/users/update-role/${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             if (res.status === 200) {
                 setEditing(false)
-                setUsers(users.map(user => (user.id === id ? temp : user)))
+                setUsers(users.map(user => (user.id === id ? data : user)))
+                setIsChanged(!isChanged)
             }
         })
         .catch (error => {
@@ -95,16 +94,16 @@ function UserManager () {
             .then(res => {
                 const result = res.data.data;
                 for (let i=0;i<result.length;i++){
-                    if(result[i].role_id === Constant.ROLE.ADMIN) result[i].role_id = Constant.ROLENAME.ADMIN
-                    else if (result[i].role_id === Constant.ROLE.STAFF) result[i].role_id= Constant.ROLENAME.STAFF
-                    else if (result[i].role_id === Constant.ROLE.CUSTOMER) result[i].role_id= Constant.ROLENAME.CUSTOMER
+                    if(result[i].role_id === 1) result[i].role_id = "ADMIN"
+                    else if (result[i].role_id === 2) result[i].role_id= "STAFF"
+                    else if (result[i].role_id === 3) result[i].role_id= "CUSTOMER"
                     if(result[i].id > idMax) idMax = result[i].id
                 }
                 setUsers(result)
             }).catch(error => {
                 console.log(error);
             });
-    }, []);
+    }, [isChanged]);
 
     return (
         <>
