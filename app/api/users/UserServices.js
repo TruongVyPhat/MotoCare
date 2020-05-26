@@ -31,7 +31,7 @@ exports.get_me = (user_id) => {
 }
 
 exports.get_user_by_email = (email) => {
-    const sql = 'SELECT id, password, name from public.User where email like ?';   
+    const sql = 'SELECT id, password, name, role_id from public.User where email like ?';   
     return sequelize.query(sql, {
         replacements: [email],
         type: QueryTypes.SELECT
