@@ -114,11 +114,12 @@ exports.update_user_info = (req, res) => {
     const name = req.body.data.name.trim();
     const email = req.body.data.email.trim();
     const address = req.body.data.address.trim();
+    const role_id = req.body.data.role_id;
     const date_of_birth = req.body.data.date_of_birth.trim();
     const password = bcrypt.hashSync(req.body.data.password.trim(), 10);
     const phone = req.body.data.phone.trim();
     
-    service.update_user_info(name, email, phone, address, date_of_birth, password, user_id)
+    service.update_user_info(name, role_id, email, phone, address, date_of_birth, password, user_id)
     .then(updating => {
         status = httpStatus.OK;
         res.status(status).json(responseJS.mess_Json(status));
