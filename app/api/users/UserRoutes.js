@@ -26,14 +26,14 @@ router.get('/:id', users_Controller.get_user);
  */
 router.put('/update-role', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.update_user_role);
 
-// UPDATE user info
-router.put('/update', auth_Controller.isAuthenticated, users_Controller.update_user_info);
-
 // change password
 router.put('/change-password', auth_Controller.isAuthenticated, users_Controller.update_password);
 
 // reset password
 router.put('/reset-password', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.reset_password);
+
+// UPDATE user info
+router.put('/update/:id', auth_Controller.isAuthenticated, users_Controller.update_user_info);
 
 // DELETE user
 router.delete('/delete/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.delete_user);
