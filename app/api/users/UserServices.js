@@ -75,7 +75,7 @@ exports.update_user_info = (name, role_id, email, phone, address, date_of_birth,
 }
 
 exports.update_user_role = (role_id, id) => {
-    const sql = 'UPDATE public.User SET role_id = ?::interger WHERE id = ?::integer';
+    const sql = 'UPDATE public.User SET role_id = ?::integer WHERE id = ?::integer';
     return sequelize.query(sql, {
         replacements: [role_id, id],
         type: QueryTypes.UPDATE

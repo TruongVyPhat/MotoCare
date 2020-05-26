@@ -156,7 +156,7 @@ exports.update_password = (req, res) => {
 // UPDATE user's role
 exports.update_user_role = (req, res) => {
     const id = req.params.id;
-    const role_id = req.body.data.role;
+    const role_id = req.body.data.role_id;
     
     service.update_user_role(role_id, id)
     .then(updating => {

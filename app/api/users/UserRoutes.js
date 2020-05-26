@@ -20,17 +20,17 @@ router.get('/me', auth_Controller.isAuthenticated, users_Controller.get_me);
 // GET user
 router.get('/:id', users_Controller.get_user);
 
-/**
- * UPDATE user role
- * URL: /api/users/update-role?id=
- */
-router.put('/update-role', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.update_user_role);
-
 // change password
 router.put('/change-password', auth_Controller.isAuthenticated, users_Controller.update_password);
 
 // reset password
 router.put('/reset-password', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.reset_password);
+
+/**
+ * UPDATE user role
+ * URL: /api/users/update-role?id=
+ */
+router.put('/update-role/:id', /*auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]),*/ users_Controller.update_user_role);
 
 // UPDATE user info
 router.put('/update/:id', auth_Controller.isAuthenticated, users_Controller.update_user_info);
