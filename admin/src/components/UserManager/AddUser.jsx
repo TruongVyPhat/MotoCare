@@ -20,6 +20,7 @@ const AddUser = props => {
                 event.preventDefault()
                 if (!user.email || !user.name) return
                 props.addUser(user)
+                console.log("đâylà: ", user)
                 setUser(initialFormState)
             }}
         >

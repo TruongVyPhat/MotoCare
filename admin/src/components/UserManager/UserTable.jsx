@@ -24,8 +24,6 @@ const UserTable = props => (
                         <td>{user.role_id}</td>
                         <td>
                         <ButtonGroup aria-label="Basic example">
-
-
                             <Button
                                 size="sm"
                                 onClick={() => {

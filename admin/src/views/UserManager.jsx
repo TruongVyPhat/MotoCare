@@ -12,11 +12,10 @@ import {
     CardBody,
     CardTitle
 } from "reactstrap";
+let idMax = 0;
 
-const UserManager = () => {
-
+function UserManager () {
     const [show, setShow] = useState(false);
-
     const initialFormState = { id: null, name: '', email: '', password: '', role_id: '' }
     const [users, setUsers] = useState({})
     const [currentUser, setCurrentUser] = useState(initialFormState)
@@ -27,21 +26,22 @@ const UserManager = () => {
     }
 
     const addUser = data => {
-        if(data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN
-        else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id= Constant.ROLE.STAFF
-        else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id= Constant.ROLE.CUSTOMER
-        console.log(data)
-        axios.post('http://localhost:9000/api/users/create',{data})
+        
+        if(data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
+        else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id= Constant.ROLE.STAFF;
+        else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id= Constant.ROLE.CUSTOMER;
+        axios.post('http://localhost:9000/api/users/create',{data},{headers: { authorization: localStorage.getItem('access_token') }})
             .then (res => {
                 if (res.status === 201) {
-                    console.log(res.data);
+                    data.id = idMax + 1
+                    idMax++
+                    setUsers([...users, data])
                 }
             })
             .catch (error => {
                 console.log(error)
             })
-        data.id = users.length + 1
-        setUsers([...users, data])
+        
 
     }
 
@@ -51,8 +51,16 @@ const UserManager = () => {
     }
 
     const deleteUser = id => {
-        setEditing(false)
-        setUsers(users.filter(user => user.id !== id))
+        axios.delete(`http://localhost:9000/api/users/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
+        .then (res => {
+            if (res.status === 200) {
+                setEditing(false)
+                setUsers(users.filter(user => user.id !== id))
+            }
+        })
+        .catch (error => {
+            console.log(error)
+        })
     }
 
     const updateUser = (id, updatedUser) => {
@@ -76,6 +84,7 @@ const UserManager = () => {
                     if(result[i].role_id === Constant.ROLE.ADMIN) result[i].role_id = Constant.ROLENAME.ADMIN
                     else if (result[i].role_id === Constant.ROLE.STAFF) result[i].role_id= Constant.ROLENAME.STAFF
                     else if (result[i].role_id === Constant.ROLE.CUSTOMER) result[i].role_id= Constant.ROLENAME.CUSTOMER
+                    if(result[i].id > idMax) idMax = result[i].id
                 }
                 setUsers(result)
             }).catch(error => {

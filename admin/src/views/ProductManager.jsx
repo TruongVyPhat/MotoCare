@@ -56,6 +56,23 @@ const ProductManager = () => {
         setCurrentProduct({ id: product.id, image: product.image, name: product.name, categoryID: product.categoryID, brandID: product.brandID, amount: product.amount})
     }
 
+    useEffect(() => {
+        let url = 'http://localhost:9000/api/products?page=1';
+        axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
+            .then(res => {
+                console.log(res.data.data)
+                // const result = res.data.data;
+                // for (let i=0;i<result.length;i++){
+                //     if(result[i].role_id === Constant.ROLE.ADMIN) result[i].role_id = Constant.ROLENAME.ADMIN
+                //     else if (result[i].role_id === Constant.ROLE.STAFF) result[i].role_id= Constant.ROLENAME.STAFF
+                //     else if (result[i].role_id === Constant.ROLE.CUSTOMER) result[i].role_id= Constant.ROLENAME.CUSTOMER
+                //     if(result[i].id > idMax) idMax = result[i].id
+                // }
+                // setUsers(result)
+            }).catch(error => {
+                console.log(error);
+            });
+    }, []);
 
     return (
         <>
