@@ -30,14 +30,6 @@ const EditUser = props => {
                 props.closeModal(false)
             }}
         >
-            <Form.Group controlId="EditNameUser">
-                <Form.Label>Name</Form.Label>
-                <Form.Control required type="text" name="name" value={user.name} onChange={handleInputChange} />
-            </Form.Group>
-            <Form.Group controlId="EditEmailUser">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control required type="email" placeholder="Enter email" name="email" value={user.email} onChange={handleInputChange} />
-            </Form.Group>
             <Form.Group controlId="EditRoleIDUser">
                 <Form.Label>Role</Form.Label>
                 <Form.Control as="select" required custom name="role_id" value={user.role_id} onChange={handleInputChange}>

@@ -70,7 +70,7 @@ function UserManager () {
         else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id= Constant.ROLE.STAFF;
         else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id= Constant.ROLE.CUSTOMER;
         console.log(data)
-        axios.put(`http://localhost:9000/api/users/update/${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
+        axios.put(`http://localhost:9000/api/users/update-role/${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             if (res.status === 200) {
                 setEditing(false)
