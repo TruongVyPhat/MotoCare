@@ -9,9 +9,9 @@ const UserTable = props => (
     <Table width="100%">
         <thead>
             <tr>
-                <th width="10%">Username</th>
-                <th width="30%">Email</th>
-                <th width="50%">Address</th>
+                <th width="20%">Name</th>
+                <th width="40%">Email</th>
+                <th width="30%">Role</th>
                 <th width="10%">Actions</th>
             </tr>
         </thead>
@@ -19,9 +19,9 @@ const UserTable = props => (
             {props.users.length > 0 ? (
                 props.users.map(user => (
                     <tr key={user.id}>
-                        <td>{user.username}</td>
+                        <td>{user.name}</td>
                         <td>{user.email}</td>
-                        <td>{user.address}</td>
+                        <td>{user.role_id}</td>
                         <td>
                         <ButtonGroup aria-label="Basic example">
 

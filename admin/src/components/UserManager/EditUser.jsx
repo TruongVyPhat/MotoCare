@@ -32,7 +32,7 @@ const EditUser = props => {
         >
             <Form.Group controlId="formGroupUsername">
                 <Form.Label>Username</Form.Label>
-                <Form.Control required type="text" name="username" value={user.username} onChange={handleInputChange} />
+                <Form.Control required type="text" name="username" value={user.name} onChange={handleInputChange} />
             </Form.Group>
             <Form.Group controlId="formGroupEmail">
                 <Form.Label>Email address</Form.Label>
