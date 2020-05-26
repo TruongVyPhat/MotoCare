@@ -24,7 +24,7 @@ router.get('/:id', users_Controller.get_user);
  * UPDATE user role
  * URL: /api/users/update-role?id=
  */
-router.put('/update-role',  permission.user_permission([ROLE.ADMIN]), users_Controller.update_user_role);
+router.put('/update-role', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.update_user_role);
 
 // UPDATE user info
 router.put('/update', auth_Controller.isAuthenticated, users_Controller.update_user_info);
@@ -33,13 +33,13 @@ router.put('/update', auth_Controller.isAuthenticated, users_Controller.update_u
 router.put('/change-password', auth_Controller.isAuthenticated, users_Controller.update_password);
 
 // reset password
-router.put('/reset-password', permission.user_permission([ROLE.ADMIN]), users_Controller.reset_password);
+router.put('/reset-password', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.reset_password);
 
 // DELETE user
-router.delete('/delete/:id',  permission.user_permission([ROLE.ADMIN]), users_Controller.delete_user);
+router.delete('/delete/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.delete_user);
 
 // CREATE user
-router.post('/create', permission.user_permission([ROLE.ADMIN]), users_Controller.create_user);
+router.post('/create', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.create_user);
 
 module.exports = router;
 
