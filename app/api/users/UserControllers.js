@@ -60,6 +60,7 @@ exports.get_me = (req, res) => {
 // create user
 exports.create_user = (req, res) => {
     const name = req.body.data.name;   
+    const a = 1;
     const email = req.body.data.email;
     const password = service.hash_password(req.body.data.password);
     const role_id = req.body.data.role_id ? req.body.data.role_id : ROLE.CUSTOMER;
