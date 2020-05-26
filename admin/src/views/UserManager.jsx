@@ -26,7 +26,8 @@ function UserManager () {
     }
 
     const addUser = data => {
-        
+        const temp = data
+        console.log(temp)
         if(data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
         else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id= Constant.ROLE.STAFF;
         else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id= Constant.ROLE.CUSTOMER;
@@ -35,7 +36,7 @@ function UserManager () {
                 if (res.status === 201) {
                     data.id = idMax + 1
                     idMax++
-                    setUsers([...users, data])
+                    setUsers([...users, temp])
                 }
             })
             .catch (error => {
@@ -65,7 +66,6 @@ function UserManager () {
 
     const updateUser = (id, updatedUser) => {
         setEditing(false)
-
         setUsers(users.map(user => (user.id === id ? updatedUser : user)))
     }
 
@@ -76,7 +76,7 @@ function UserManager () {
     }
 
     useEffect(() => {
-        let url = 'http://localhost:9000/api/users';
+        let url = 'http://localhost:9000/api/users?page=1';
         axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 const result = res.data.data;

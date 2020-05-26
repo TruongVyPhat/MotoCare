@@ -30,21 +30,21 @@ const EditUser = props => {
                 props.closeModal(false)
             }}
         >
-            <Form.Group controlId="formGroupUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control required type="text" name="username" value={user.name} onChange={handleInputChange} />
+            <Form.Group controlId="EditNameUser">
+                <Form.Label>Name</Form.Label>
+                <Form.Control required type="text" name="name" value={user.name} onChange={handleInputChange} />
             </Form.Group>
-            <Form.Group controlId="formGroupEmail">
+            <Form.Group controlId="EditEmailUser">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control required type="email" placeholder="Enter email" name="email" value={user.email} onChange={handleInputChange} />
             </Form.Group>
-            <Form.Group controlId="formGroupAddress">
-                <Form.Label>Address</Form.Label>
-                <Form.Control type="text" name="address" value={user.address} onChange={handleInputChange} />
-            </Form.Group>
-            <Form.Group controlId="formGroupAddress">
-                <Form.Label>Password</Form.Label>
-                <Form.Control required type="password" name="password" value={user.password} onChange={handleInputChange} />
+            <Form.Group controlId="EditRoleIDUser">
+                <Form.Label>Role</Form.Label>
+                <Form.Control as="select" required custom name="role_id" value={user.role_id} onChange={handleInputChange}>
+                    <option></option>
+                    <option>STAFF</option>
+                    <option>CUSTOMER</option>
+                </Form.Control>
             </Form.Group>
             <Modal.Footer>
                 <ButtonGroup aria-label="Basic example">

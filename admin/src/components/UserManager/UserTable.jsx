@@ -23,25 +23,27 @@ const UserTable = props => (
                         <td>{user.email}</td>
                         <td>{user.role_id}</td>
                         <td>
-                        <ButtonGroup aria-label="Basic example">
-                            <Button
-                                size="sm"
-                                onClick={() => {
-                                    props.editRow(user)
-                                }}
-                                className="button muted-button"
-                            >
-                                Edit
-                            </Button>
-                            <Button
-                                color="danger"
-                                size="sm"
-                                onClick={() => props.deleteUser(user.id)}
-                                className="button muted-button"
-                            >
-                                Delete
-                            </Button>
-                            </ButtonGroup>
+                            {user.role_id !== 'ADMIN' &&
+                                <ButtonGroup aria-label="Basic example">
+                                    <Button
+                                        size="sm"
+                                        onClick={() => {
+                                            props.editRow(user)
+                                        }}
+                                        className="button muted-button"
+                                    >
+                                        Edit
+                                </Button>
+                                    <Button
+                                        color="danger"
+                                        size="sm"
+                                        onClick={() => props.deleteUser(user.id)}
+                                        className="button muted-button"
+                                    >
+                                        Delete
+                                    </Button>
+                                </ButtonGroup>
+                            }
                         </td>
                     </tr>
                 ))
