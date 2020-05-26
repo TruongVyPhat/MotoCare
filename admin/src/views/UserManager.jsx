@@ -64,9 +64,15 @@ function UserManager () {
         })
     }
 
-    const updateUser = (id, updatedUser) => {
+    const updateUser = (id, data) => {
+        const temp = data
+        if(data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
+        else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id= Constant.ROLE.STAFF;
+        else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id= Constant.ROLE.CUSTOMER;
+        console.log(data)
+        axios.put(`http://localhost:9000/api/users/update/${id}`,{},{headers: { authorization: localStorage.getItem('access_token') }})
         setEditing(false)
-        setUsers(users.map(user => (user.id === id ? updatedUser : user)))
+        setUsers(users.map(user => (user.id === id ? temp : user)))
     }
 
     const editRow = user => {
