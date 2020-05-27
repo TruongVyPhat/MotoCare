@@ -57,11 +57,21 @@ function Header() {
     sidebarToggle.current.classList.toggle("toggled");
   }
   // function that adds color dark/transparent to the navbar on resize (this is for the collapse)
-  
+
 
   useEffect(() => {
     if (localStorage.getItem('access_token') === null) {
       window.location.href = "/signin"
+    } else {
+      let url = 'http://localhost:9000/api/users/me';
+      axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
+        .then(res => {
+        }).catch(error => {
+          if (error.response.status === 401) {
+            localStorage.removeItem("access_token")
+            window.location.href = "/signin"
+          }
+        })
     }
     const updateColor = () => {
       if (window.innerWidth < 993 && isOpen) {
@@ -79,14 +89,13 @@ function Header() {
       document.documentElement.classList.toggle("nav-open");
       sidebarToggle.current.classList.toggle("toggled");
     }
-  }, [isOpen,sidebarToggle]);
+  }, [isOpen, sidebarToggle]);
 
   const handleLogoutIN = () => {
     if (localStorage.getItem('access_token') === null) {
       window.location.href = "/signin"
     }
-    else
-    {
+    else {
       const url = 'http://localhost:9000/api/auth/logout';
       axios.delete(url, { headers: { authorization: localStorage.getItem('access_token') } })
         .then(res => {

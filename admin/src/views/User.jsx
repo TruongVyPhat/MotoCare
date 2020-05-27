@@ -24,7 +24,7 @@ const Profile = () => {
     .then(res => {
       setUser(res.data.data);
     }).catch(error => {
-      console.log(error);
+      console.log(error.response.status);
       if(localStorage.getItem('access_token') === null) {
         window.location.href = "/signin"
       }
