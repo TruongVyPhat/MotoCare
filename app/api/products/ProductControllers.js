@@ -79,13 +79,13 @@ exports.update_product = (req, res) => {
     console.log(req.body)
     const id = req.query.id
     const name = req.body.data.name.trim();
-    const category_id = req.body.data.category_id;
+    const category_id = req.body.data.category_id.trim();
     const updated_by = req.user.id;
     const current_time = new Date().getTime();
     const updated_at = formatter_time.gettime_to_format(current_time);
     const brand_id = req.body.data.brand_id;
-    const amount = req.body.data.amount;
-    const image = req.body.data.image ? req.body.data.image.trim() : null;
+    const amount = req.body.data.amount.trim();
+    const image = req.body.data.image.trim();
     
     service.update_product(category_id, updated_by, updated_at, brand_id, amount, image, name, id)
     .then(updating => {
