@@ -30,7 +30,7 @@ router.put('/reset-password', auth_Controller.isAuthenticated, permission.user_p
  * UPDATE user role
  * URL: /api/users/update-role?id=
  */
-router.put('/update-role/:id', /*auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]),*/ users_Controller.update_user_role);
+router.put('/update-role/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.update_user_role);
 
 // UPDATE user info
 router.put('/update/:id', auth_Controller.isAuthenticated, users_Controller.update_user_info);

@@ -27,6 +27,6 @@ router.put('/update', auth_Controller.isAuthenticated, permission.user_permissio
 router.put('/update-amount', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product);
 
 // DELETE product
-router.delete('/delete', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), product_Controller.delete_product);
+router.delete('/delete/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), product_Controller.delete_product);
 
 module.exports = router;
