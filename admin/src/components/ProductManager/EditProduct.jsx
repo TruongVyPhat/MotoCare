@@ -19,7 +19,7 @@ const EditProduct = props => {
 
     const handleInputChange = event => {
         const { name, value } = event.target
-        setProduct({ ...product, [name]: name === "category_id" || name === "brand_id" ? parseInt(value) : value})
+        setProduct({ ...product, [name]: name === "category_id" || name === "brand_id" || name === "amount"? parseInt(value) : value})
     }
 
     return (
