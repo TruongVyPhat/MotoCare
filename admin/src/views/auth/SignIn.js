@@ -14,6 +14,7 @@ import { string as yupstring, object as yupobject } from "yup";
 import { useForm } from "react-hook-form";
 import Axios from 'axios';
 import Modal from 'react-bootstrap/Modal'
+import * as Constant from '../../helpers/constants'
 
 function Copyright() {
     return (
@@ -90,7 +91,12 @@ function SignIn() {
             .then(res => {
                 if (res.status === 200) {
                     const jwtToken = res.data.data.access_token;
+                    let role_id = res.data.data.role_id;
+                    if (role_id === Constant.ROLE.ADMIN) role_id = Constant.ROLENAME.ADMIN
+                    else if (role_id === Constant.ROLE.STAFF) role_id = Constant.ROLENAME.STAFF
+                    else if (role_id === Constant.ROLE.CUSTOMER) role_id = Constant.ROLENAME.CUSTOMER
                     localStorage.setItem('access_token', jwtToken);
+                    localStorage.setItem('role_id', role_id);
                     window.location.href = '/admin/dashboard';
                     setIsloading(true);
                 }
@@ -105,7 +111,7 @@ function SignIn() {
     };
 
     useEffect(() => {
-        if (localStorage.getItem('access_token') !== null) {
+        if (localStorage.getItem('access_token') !== null && localStorage.getItem('role_id') !== null) {
             window.location.href = "/admin/dashboard"
         }
     });

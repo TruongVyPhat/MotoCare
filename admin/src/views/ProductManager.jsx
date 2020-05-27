@@ -47,7 +47,7 @@ const ProductManager = () => {
     }
 
     const deleteProduct = id => {
-        axios.delete(`http://localhost:9000/api/product/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
+        axios.delete(`http://localhost:9000/api/products/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
@@ -60,9 +60,19 @@ const ProductManager = () => {
         })
     }
 
-    const updateProduct = (id, updatedProduct) => {
-        setEditing(false)
-        setProducts(products.map(product => (product.id === id ? updatedProduct : product)))
+    const updateProduct = (id, data) => {
+        axios.put(`http://localhost:9000/api/products/update?id=${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
+        .then (res => {
+            console.log(res.status)
+            if (res.status === 200) {
+                setEditing(false)
+                setProducts(products.map(product => (product.id === id ? data : product)))
+                setIsChanged(!isChanged)
+            }
+        })
+        .catch (error => {
+            console.log(error)
+        })
     }
 
     const editRow = product => {

@@ -14,7 +14,7 @@ import {
 } from "reactstrap";
 let idMax = 0;
 
-function UserManager () {
+function UserManager() {
     const [show, setShow] = useState(false);
     const initialFormState = { id: null, name: '', email: '', password: '', role_id: '' }
     const [users, setUsers] = useState({})
@@ -27,11 +27,11 @@ function UserManager () {
     }
 
     const addUser = data => {
-        if(data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
-        else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id= Constant.ROLE.STAFF;
-        else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id= Constant.ROLE.CUSTOMER;
-        axios.post('http://localhost:9000/api/users/create',{data},{headers: { authorization: localStorage.getItem('access_token') }})
-            .then (res => {
+        if (data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
+        else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id = Constant.ROLE.STAFF;
+        else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id = Constant.ROLE.CUSTOMER;
+        axios.post('http://localhost:9000/api/users/create', { data }, { headers: { authorization: localStorage.getItem('access_token') } })
+            .then(res => {
                 if (res.status === 201) {
                     data.id = idMax + 1
                     idMax++
@@ -39,10 +39,10 @@ function UserManager () {
                     setIsChanged(!isChanged)
                 }
             })
-            .catch (error => {
+            .catch(error => {
                 console.log(error)
             })
-        
+
 
     }
 
@@ -52,34 +52,34 @@ function UserManager () {
     }
 
     const deleteUser = id => {
-        axios.delete(`http://localhost:9000/api/users/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
-        .then (res => {
-            if (res.status === 200) {
-                setEditing(false)
-                setUsers(users.filter(user => user.id !== id))
-            }
-        })
-        .catch (error => {
-            console.log(error)
-        })
+        axios.delete(`http://localhost:9000/api/users/delete/${id}`, { headers: { authorization: localStorage.getItem('access_token') } })
+            .then(res => {
+                if (res.status === 200) {
+                    setEditing(false)
+                    setUsers(users.filter(user => user.id !== id))
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     const updateUser = (id, data) => {
-        if(data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
-        else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id= Constant.ROLE.STAFF;
-        else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id= Constant.ROLE.CUSTOMER;
-        axios.put(`http://localhost:9000/api/users/update-role/${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
-        .then (res => {
-            if (res.status === 200) {
-                setEditing(false)
-                setUsers(users.map(user => (user.id === id ? data : user)))
-                setIsChanged(!isChanged)
-            }
-        })
-        .catch (error => {
-            console.log(error)
-        })
-        
+        if (data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
+        else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id = Constant.ROLE.STAFF;
+        else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id = Constant.ROLE.CUSTOMER;
+        axios.put(`http://localhost:9000/api/users/update-role/${id}`, { data }, { headers: { authorization: localStorage.getItem('access_token') } })
+            .then(res => {
+                if (res.status === 200) {
+                    setEditing(false)
+                    setUsers(users.map(user => (user.id === id ? data : user)))
+                    setIsChanged(!isChanged)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
     }
 
     const editRow = user => {
@@ -93,11 +93,11 @@ function UserManager () {
         axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 const result = res.data.data;
-                for (let i=0;i<result.length;i++){
-                    if(result[i].role_id === 1) result[i].role_id = "ADMIN"
-                    else if (result[i].role_id === 2) result[i].role_id= "STAFF"
-                    else if (result[i].role_id === 3) result[i].role_id= "CUSTOMER"
-                    if(result[i].id > idMax) idMax = result[i].id
+                for (let i = 0; i < result.length; i++) {
+                    if (result[i].role_id === Constant.ROLE.ADMIN) result[i].role_id = Constant.ROLENAME.ADMIN
+                    else if (result[i].role_id === Constant.ROLE.STAFF) result[i].role_id = Constant.ROLENAME.STAFF
+                    else if (result[i].role_id === Constant.ROLE.CUSTOMER) result[i].role_id = Constant.ROLENAME.CUSTOMER
+                    if (result[i].id > idMax) idMax = result[i].id
                 }
                 setUsers(result)
             }).catch(error => {
@@ -106,7 +106,7 @@ function UserManager () {
     }, [isChanged]);
 
     return (
-        <>
+        <>{localStorage.getItem('role_id') === Constant.ROLENAME.ADMIN ? (<>
             <div className="content">
                 <Card className="demo-icons">
                     <CardHeader>
@@ -153,6 +153,22 @@ function UserManager () {
                         )}
                 </div>
             </Modal>
+        </>) : <>
+                <div className="content">
+                    <Card className="demo-icons">
+                        <CardHeader>
+                            <CardTitle tag="h5">You are not ADMIN</CardTitle>
+                        </CardHeader>
+                        <CardBody>
+                            <div className="flex-row">
+                                <div className="flex-large">
+                                    <h2>You can't control this page</h2>
+                                </div>
+                            </div>
+                        </CardBody>
+                    </Card>
+                </div>
+            </>}
         </>
     )
 }

@@ -19,7 +19,7 @@ const EditProduct = props => {
 
     const handleInputChange = event => {
         const { name, value } = event.target
-        setProduct({ ...product, [name]: value })
+        setProduct({ ...product, [name]: name === "category_id" || name === "brand_id" ? parseInt(value) : value})
     }
 
     return (
@@ -40,7 +40,7 @@ const EditProduct = props => {
             </Form.Group>
             <Form.Group controlId="EditformGroupCategoryID">
                 <Form.Label>CATEGORY ID</Form.Label>
-                <Form.Control as="select" custom name="categoryID" value={product.categoryID} onChange={handleInputChange}>
+                <Form.Control as="select" required custom name="category_id" defaultValue={product.category_id} value={product.category_id} onChange={handleInputChange}>
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -50,7 +50,7 @@ const EditProduct = props => {
             </Form.Group>
             <Form.Group controlId="EditformGroupBrandID">
                 <Form.Label>BRAND ID</Form.Label>
-                <Form.Control as="select" custom name="brandID" value={product.brandID} onChange={handleInputChange}>
+                <Form.Control as="select" required custom name="brand_id" value={product.brand_id} onChange={handleInputChange}>
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>

@@ -60,7 +60,7 @@ function Header() {
 
 
   useEffect(() => {
-    if (localStorage.getItem('access_token') === null) {
+    if (localStorage.getItem('access_token') === null || localStorage.getItem('role_id') === null) {
       window.location.href = "/signin"
     } else {
       let url = 'http://localhost:9000/api/users/me';
@@ -69,6 +69,7 @@ function Header() {
         }).catch(error => {
           if (error.response.status === 401) {
             localStorage.removeItem("access_token")
+            localStorage.removeItem("role_id")
             window.location.href = "/signin"
           }
         })
@@ -104,6 +105,7 @@ function Header() {
           console.log(error);
         });
       localStorage.removeItem("access_token")
+      localStorage.removeItem("role_id")
       window.location.href = "/signin"
     }
   }

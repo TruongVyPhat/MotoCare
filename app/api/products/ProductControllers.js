@@ -76,6 +76,7 @@ exports.create_product = (req, res) => {
 };
 
 exports.update_product = (req, res) => {
+    console.log(req.body)
     const id = req.query.id
     const name = req.body.data.name.trim();
     const category_id = req.body.data.category_id.trim();
