@@ -31,7 +31,8 @@ exports.login = (req, res) => {
                 const token_data = {
                     access_token: jwt_access_token,
                     refresh_token: jwt_refresh_token,
-                    token_type: "Bearer"
+                    token_type: "Bearer",
+                    role_id: user[0].role_id,
                 };
                 status = httpStatus.OK;
                 res.status(status).json(responseJS.Json(status, token_data));
