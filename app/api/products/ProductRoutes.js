@@ -24,7 +24,7 @@ router.post('/create', auth_Controller.isAuthenticated, permission.user_permissi
 router.put('/update', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product);
 
 // UPDATE product amount
-router.put('/update-amount', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product);
+router.put('/update-amount', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product_amount);
 
 // DELETE product
 router.delete('/delete/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), product_Controller.delete_product);
