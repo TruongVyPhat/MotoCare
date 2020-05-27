@@ -23,8 +23,8 @@ const UserTable = props => (
                     <tr key={product.id}>
                         <td>{product.image}</td>
                         <td>{product.name}</td>
-                        <td>{product.categoryID}</td>
-                        <td>{product.brandID}</td>
+                        <td>{product.category_id}</td>
+                        <td>{product.brand_id}</td>
                         <td>{product.amount}</td>
                         <td>
                         <ButtonGroup aria-label="Basic example">

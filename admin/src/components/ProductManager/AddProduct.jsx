@@ -6,20 +6,19 @@ import {
 } from "reactstrap";
 
 const AddProduct = props => {
-    const initialFormState = { id: null, image: '', name: '', categoryID:'', brandID:'', amount: ''}
+    const initialFormState = { id: null, image: '', name: '', category_id:'', brand_id:'', amount: ''}
     const [product, setProduct] = useState(initialFormState)
 
     const handleInputChange = event => {
         const { name, value } = event.target
         setProduct({ ...product, [name]: value })
-        console.log(event.target.value)
     }
 
     return (
         <Form
             onSubmit={event => {
                 event.preventDefault()
-                if (!product.name || !product.categoryID || !product.brandID) return
+                if (!product.name || !product.category_id || !product.brand_id) return
                 props.addProduct(product)
                 setProduct(initialFormState)
             }}
@@ -34,7 +33,7 @@ const AddProduct = props => {
             </Form.Group>
             <Form.Group controlId="AddformGroupCategoryID">
                 <Form.Label>CATEGORY ID</Form.Label>
-                <Form.Control as="select" custom name="categoryID" value={product.categoryID} onChange={handleInputChange}>
+                <Form.Control as="select" custom name="category_id" value={product.category_id} onChange={handleInputChange}>
                     <option></option>
                     <option>1</option>
                     <option>2</option>
@@ -45,7 +44,7 @@ const AddProduct = props => {
             </Form.Group>
             <Form.Group controlId="AddformGroupBrandID">
                 <Form.Label>BRAND ID</Form.Label>
-                <Form.Control as="select" custom name="brandID" value={product.brandID} onChange={handleInputChange}>
+                <Form.Control as="select" custom name="brand_id" value={product.brand_id} onChange={handleInputChange}>
                     <option></option>
                     <option>1</option>
                     <option>2</option>

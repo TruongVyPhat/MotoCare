@@ -11,28 +11,34 @@ import {
     CardBody,
     CardTitle,
 } from "reactstrap";
-
+let idMax = 0;
 
 const ProductManager = () => {
-
     const [show, setShow] = useState(false);
-    const productData = [
-        { id: 1, image: '', name: 'Loại 1', categoryID: 'dàu nhớt', brandID: 'Toyota', amount: '2'},
-        { id: 2, image: '', name: 'Loại 2', categoryID: 'dàu nhớt', brandID: 'Toyota', amount: '2'},
-        { id: 3, image: '', name: 'Loại 3', categoryID: 'dàu nhớt', brandID: 'Toyota', amount: '2'},
-    ]
-    const initialFormState = { id: null, image: '', name: '', categoryID:'', brandID:'', amount: ''}
-    const [products, setProducts] = useState(productData)
+    const initialFormState = { id: null, image: '', name: '', category_id:'', brand_id:'', amount: ''}
+    const [products, setProducts] = useState({})
     const [currentProduct, setCurrentProduct] = useState(initialFormState)
     const [editing, setEditing] = useState(false)
+    const [isChanged, setIsChanged] = useState(false)
 
     const closeModal = () => {
         setShow(false);
     }
 
-    const addProduct = product => {
-        product.id = products.length + 1
-        setProducts([...products, product])
+    const addProduct = data => {
+        axios.post('http://localhost:9000/api/products/create',{data},{headers: { authorization: localStorage.getItem('access_token') }})
+            .then (res => {
+                console.log(res.status)
+                if (res.status === 200) {
+                    data.id = idMax + 1
+                    idMax++
+                    setProducts([...products, data])
+                    setIsChanged(!isChanged)
+                }
+            })
+            .catch (error => {
+                console.log(error)
+            })
     }
 
     const addButton = () => {
@@ -41,8 +47,17 @@ const ProductManager = () => {
     }
 
     const deleteProduct = id => {
-        setEditing(false)
-        setProducts(products.filter(product => product.id !== id))
+        axios.delete(`http://localhost:9000/api/product/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
+        .then (res => {
+            console.log(res.status)
+            if (res.status === 200) {
+                setEditing(false)
+                setProducts(products.filter(product => product.id !== id))
+            }
+        })
+        .catch (error => {
+            console.log(error)
+        })
     }
 
     const updateProduct = (id, updatedProduct) => {
@@ -61,18 +76,15 @@ const ProductManager = () => {
         axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 console.log(res.data.data)
-                // const result = res.data.data;
-                // for (let i=0;i<result.length;i++){
-                //     if(result[i].role_id === Constant.ROLE.ADMIN) result[i].role_id = Constant.ROLENAME.ADMIN
-                //     else if (result[i].role_id === Constant.ROLE.STAFF) result[i].role_id= Constant.ROLENAME.STAFF
-                //     else if (result[i].role_id === Constant.ROLE.CUSTOMER) result[i].role_id= Constant.ROLENAME.CUSTOMER
-                //     if(result[i].id > idMax) idMax = result[i].id
-                // }
-                // setUsers(result)
+                const result = res.data.data;
+                for (let i=0;i<result.length;i++){
+                    if(result[i].id > idMax) idMax = result[i].id
+                }
+                setProducts(result)
             }).catch(error => {
                 console.log(error);
             });
-    }, []);
+    }, [isChanged]);
 
     return (
         <>

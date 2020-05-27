@@ -32,7 +32,7 @@ const EditProduct = props => {
         >
             <Form.Group controlId="EditformGroupImage">
                 <Form.Label>Input Image</Form.Label>
-                <Form.File name="image" value={product.image} onChange={handleInputChange} id="custom-file" label={product.image} custom />
+                <Form.File name="image"  onChange={handleInputChange} id="custom-file"  custom />
             </Form.Group>
             <Form.Group controlId="EditformGroupName">
                 <Form.Label>Name</Form.Label>
