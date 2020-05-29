@@ -14,6 +14,9 @@ router.get('/', product_Controller.get_all_products);
 // FIND products
 router.get('/search', product_Controller.search_products);
 
+// filter products by category_id and brand_id
+router.get('/filter', product_Controller.filter_products);
+
 // GET products
 router.get('/:id', product_Controller.get_product);
 

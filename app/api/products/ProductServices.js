@@ -13,7 +13,7 @@ exports.get_all_products = (page) => {
     });
 }
 
-exports.get_user = (id) => {
+exports.get_product = (id) => {
     const sql = 'SELECT * from public.Product where id = ?::integer';
     return sequelize.query(sql, {
         replacements: [id],
@@ -26,6 +26,33 @@ exports.get_user_by_keyword = (keyword) => {
             + " or LOWER(replace((select convertTVkdau(name)),' ','')) like ?";
     return sequelize.query(sql, {
         replacements: [keyword, keyword],
+        type: QueryTypes.SELECT
+    });
+}
+
+exports.filter_products = (category_id, brand_id, page) => {
+    const offset = (page - 1) * CONSTANTS.PAGE_SIZE;
+    let replacements = [];
+    let sql = 'SELECT * FROM public.product ';
+    if (category_id){
+        sql = sql + ' where category_id=? ';
+        replacements.push(category_id);
+        if (brand_id){
+            sql = sql + ' and brand_id=? ';
+            replacements.push(brand_id);
+        }
+    }
+    else {
+        if (brand_id){
+            sql = sql + ' where brand_id=? ';
+            replacements.push(brand_id);
+        }
+    }
+    sql = sql + 'ORDER BY id LIMIT ? OFFSET ?';
+    replacements.push(CONSTANTS.PAGE_SIZE);
+    replacements.push(offset);
+    return sequelize.query(sql, {
+        replacements: replacements,
         type: QueryTypes.SELECT
     });
 }

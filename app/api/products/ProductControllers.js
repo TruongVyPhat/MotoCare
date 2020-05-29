@@ -26,10 +26,10 @@ exports.get_all_products = (req, res) => {
 exports.get_product = (req, res) => {
     const product_id = req.params.id;
     service.get_product(product_id)
-    .then(user => {
-        if (user){
+    .then(products => {
+        if (products){
             status = httpStatus.OK;
-            res.status(status).json(responseJS.Json(status, user[0]));
+            res.status(status).json(responseJS.Json(status, products[0]));
         } else {
             status = httpStatus.NOT_FOUND;
             res.status(status).json(responseJS.mess_Json(status));
@@ -55,6 +55,26 @@ exports.search_products = (req, res) => {
         res.status(status).json(error);
     });
 };
+
+exports.filter_products = (req, res) => {
+    const category_id = req.query.category_id;
+    const brand_id = req.query.brand_id;
+    const page = req.query.page;
+    
+    service.filter_products = (category_id, brand_id, page)
+    .then(products => {
+        if (products){
+            status = httpStatus.OK; 
+            res.status(status).json(responseJS.Json(status, products));
+        } else {
+            status = httpStatus.NOT_FOUND;
+            res.status(status).json(responseJS.mess_Json(status));
+        }
+    })
+    .catch(function(error) {
+        res.status(status).json(error);
+    });
+}
 
 exports.create_product = (req, res) => {
     const name = req.body.data.name.trim();
