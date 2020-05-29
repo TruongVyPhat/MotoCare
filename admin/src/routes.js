@@ -6,6 +6,8 @@ import Icons from "views/Icons.jsx";
 import UserPage from "views/User.jsx";
 import UserManager from "views/UserManager"
 import ProducManager from "views/ProductManager"
+import BrandManager from "views/BrandManager"
+import CategoriesManager from "views/CategoriesManager"
 
 var routes = [
   {
@@ -27,6 +29,20 @@ var routes = [
     name: "Notifications",
     icon: "nc-icon nc-bell-55",
     component: Notifications,
+    layout: "/admin"
+  },
+  {
+    path: "/brand-manager",
+    name: "Brand Manager",
+    icon: "nc-icon nc-shop",
+    component: BrandManager,
+    layout: "/admin"
+  },
+  {
+    path: "/categories-manager",
+    name: "Categories Manager",
+    icon: "nc-icon nc-tile-56",
+    component: CategoriesManager,
     layout: "/admin"
   },
   {

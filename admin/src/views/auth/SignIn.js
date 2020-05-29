@@ -75,6 +75,7 @@ function SignIn() {
     const classes = useStyles();
     const [show, setShow] = useState(false);
     const [isLoading, setIsloading] = useState(false);
+    const [showAuth, setShowAuth] = useState(false);
     const { register, handleSubmit, errors } = useForm({
         validationSchema: LoginSchema
     });
@@ -84,27 +85,38 @@ function SignIn() {
         setShow(false);
     }
 
+    const closeModalAuth = () => {
+        setIsloading(false);
+        setShowAuth(false);
+    }
+
     const onSubmit = (data) => {
         console.log(data);
         setIsloading(true);
         Axios.post('http://localhost:9000/api/auth/login', { data })
             .then(res => {
+                setIsloading(true);
                 if (res.status === 200) {
                     const jwtToken = res.data.data.access_token;
                     let role_id = res.data.data.role_id;
-                    if (role_id === Constant.ROLE.ADMIN) role_id = Constant.ROLENAME.ADMIN
-                    else if (role_id === Constant.ROLE.STAFF) role_id = Constant.ROLENAME.STAFF
-                    else if (role_id === Constant.ROLE.CUSTOMER) role_id = Constant.ROLENAME.CUSTOMER
-                    localStorage.setItem('access_token', jwtToken);
-                    localStorage.setItem('role_id', role_id);
-                    window.location.href = '/admin/dashboard';
-                    setIsloading(true);
+                    if (role_id === Constant.ROLE.CUSTOMER) {
+                        setShowAuth(true);
+                        setIsloading(false);
+                    }
+                    else{
+                        if (role_id === Constant.ROLE.ADMIN) role_id = Constant.ROLENAME.ADMIN
+                        else if (role_id === Constant.ROLE.STAFF) role_id = Constant.ROLENAME.STAFF
+                        localStorage.setItem('access_token', jwtToken);
+                        localStorage.setItem('role_id', role_id);
+                        window.location.href = '/admin/dashboard';
+                    }
                 }
                 
             })
             .catch(error => {
                 if (error.message === "Request failed with status code 404") {
                     setShow(true)
+                    setIsloading(false)
                 }
                 console.log(error)
             })
@@ -193,6 +205,18 @@ function SignIn() {
                 </Modal.Header>
                 <Modal.Footer>
                     <Button onClick={closeModal}>Close</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showAuth} onHide={closeModalAuth}>
+                <Modal.Header closeButton>
+                    <Modal.Title>You Are Not Permission!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    You are CUSTOMER!
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={closeModalAuth}>Close</Button>
                 </Modal.Footer>
             </Modal>
         </Grid>

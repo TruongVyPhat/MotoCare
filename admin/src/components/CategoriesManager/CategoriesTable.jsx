@@ -5,7 +5,7 @@ import {
     Button
 } from "reactstrap";
 
-const ProductTable = props => (
+const CategoriesTable = props => (
     <Table width="100%">
         <thead>
             <tr>
@@ -60,4 +60,4 @@ const ProductTable = props => (
     </Table>
 )
 
-export default ProductTable
+export default CategoriesTable
