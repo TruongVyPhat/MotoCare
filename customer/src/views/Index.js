@@ -18,7 +18,7 @@ import NucleoIcons from "views/IndexSections/NucleoIcons.js";
 import Signup from "views/IndexSections/Signup.js";
 import Examples from "views/IndexSections/Examples.js";
 import Download from "views/IndexSections/Download.js";
-import Product from "views/IndexSections/Product.js";
+import MyTabs from "views/IndexSections/MyTabs.js";
 
 class Index extends React.Component {
   componentDidMount() {
@@ -36,7 +36,7 @@ class Index extends React.Component {
 
           <div className="main">
               <JavaScript/>
-              <Product/>
+              <MyTabs />
               <Typography />
               <Tabs />
           </div>

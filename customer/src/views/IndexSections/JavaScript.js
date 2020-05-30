@@ -61,8 +61,6 @@ class JavaScript extends React.Component {
           className="path path1"
           src={require("assets/img/path5.png")}
         />
-       
-
         <div className="section">
             <Container>
                 <Row className="justify-content-between align-items-center">
