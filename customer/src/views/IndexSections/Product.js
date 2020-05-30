@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, Icon, Image } from 'semantic-ui-react';
 import { Container, Row, Col } from 'reactstrap';
 
-const CardExampleCard = () => (
+const Product = () => (
 	<Card>
 		<Image src="https://react.semantic-ui.com/images/avatar/large/matthew.png" wrapped ui={true} />
 		<Card.Content>
@@ -12,25 +12,27 @@ const CardExampleCard = () => (
 			</Card.Meta>
 			<Card.Description>Ester 100% Synthetic</Card.Description>
 		</Card.Content>
-		<Row>
-			<Col xs={7}>
-				<Card.Content extra>
+
+		<Card.Content extra>
+			<Row>
+				<Col xs={7}>
 					<a>
 						<Icon name="cart" />
 						395.000 VNĐ
 					</a>
-				</Card.Content>
-			</Col>
-			<Col xs={5}>
-				<Button animated="vertical">
-					<Button.Content hidden>Add To Cart</Button.Content>
-					<Button.Content visible>
-						<Icon name="add circle" />
-					</Button.Content>
-				</Button>
-			</Col>
-		</Row>
+				</Col>
+				<Col xs={5}>
+					<a animated="horizental">
+						<Button.Content hidden>Add To Cart</Button.Content>
+						<Button.Content visible>
+							{/* <Icon name="add circle" /> */}
+						</Button.Content>
+					</a>
+					{/* <a><Icon name="add circle" /></a>	 */}
+				</Col>
+			</Row>
+		</Card.Content>
 	</Card>
 );
 
-export default CardExampleCard;
+export default Product;
