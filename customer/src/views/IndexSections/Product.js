@@ -6,11 +6,12 @@ const Product = ({product}) => {
 
 	return (
 		<Card>
-			<Image src="https://react.semantic-ui.com/images/avatar/large/matthew.png" wrapped ui={true} />
+			<Image src= {product.image ? product.image:"https://react.semantic-ui.com/images/avatar/large/matthew.png"} wrapped ui={true} />
 			<Card.Content>
 				<Card.Header>{product.name}</Card.Header>
 				<Card.Meta>
 					<span className="date">{product.brand}</span>
+					<span classname="date">{product.amount}</span>
 				</Card.Meta>
 				<Card.Description>{product.description}</Card.Description>
 			</Card.Content>

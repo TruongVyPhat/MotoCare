@@ -39,7 +39,6 @@ class Index extends React.Component {
               <JavaScript/>
               <MyTabs />
               <Typography />
-              <Tabs />
           </div>
           <Footer />
         </div>
