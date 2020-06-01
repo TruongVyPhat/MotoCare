@@ -8,11 +8,11 @@ const Product = ({product}) => {
 		<Card>
 			<Image src="https://react.semantic-ui.com/images/avatar/large/matthew.png" wrapped ui={true} />
 			<Card.Content>
-				<Card.Header>Motul 300V</Card.Header>
+				<Card.Header>{product.name}</Card.Header>
 				<Card.Meta>
-					<span className="date">1L</span>
+					<span className="date">{product.brand}</span>
 				</Card.Meta>
-				<Card.Description>Ester 100% Synthetic</Card.Description>
+				<Card.Description>{product.description}</Card.Description>
 			</Card.Content>
 
 			<Card.Content extra>
@@ -20,7 +20,7 @@ const Product = ({product}) => {
 					<Col xs={9}>
 						<a>
 							<Icon name="cart" />
-							395.000 VNĐ
+							{product.price}VNĐ
 						</a>
 					</Col>
 					<Col xs={3}>

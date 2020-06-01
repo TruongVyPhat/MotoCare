@@ -3,6 +3,7 @@ import React from "react";
 
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
+import ExNavbar from "components/Navbars/ExamplesNavbar.js";
 import PageHeader from "components/PageHeader/PageHeader.js";
 import Footer from "components/Footer/Footer.js";
 
