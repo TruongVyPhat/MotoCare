@@ -3,7 +3,6 @@ import { Button, Card, Icon, Image, Popup } from 'semantic-ui-react';
 import { Row, Col } from 'reactstrap';
 
 const Product = ({product}) => {
-
 	return (
 		<Card>
 			<Image src= {product.image ? product.image:"https://react.semantic-ui.com/images/avatar/large/matthew.png"} wrapped ui={true} />
