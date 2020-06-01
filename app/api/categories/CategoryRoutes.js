@@ -17,6 +17,6 @@ router.post('/', auth_Controller.isAuthenticated, permission.user_permission([RO
 
 router.put('/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), category_Controller.update_category);
 
-router.delete('/id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), category_Controller.delete_category);
+router.delete('/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), category_Controller.delete_category);
 
 module.exports = router;
