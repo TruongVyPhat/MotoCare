@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* BLK Design System React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/blk-design-system-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/blk-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from 'react';
 import classnames from 'classnames';
 import GridViewProduct from './GridViewProducts';
@@ -34,6 +18,7 @@ import {
 	NavItem,
 	NavLink
 } from 'reactstrap';
+import GridViewService from './GridViewService';
 
 class Tabs extends React.Component {
 	constructor(props) {
@@ -51,7 +36,7 @@ class Tabs extends React.Component {
 	};
 	render() {
 		return (
-			<div className="section section-tabs" style={{ margin: '140px', width: '1230px' }}>
+			<div className="section section-tabs" style={{ margin: '5%'}}>
 				<Card>
 					<CardHeader>
 						<Nav className="nav-tabs-info" role="tablist" tabs>
@@ -100,13 +85,7 @@ class Tabs extends React.Component {
 								<GridViewProduct />
 							</TabPane>
 							<TabPane tabId="link2">
-								<p>
-									Completely synergize resource taxing relationships via premier niche markets.
-									Professionally cultivate one-to-one customer service with robust ideas. <br />
-									<br />
-									Dynamically innovate resource-leveling customer service for state of the art
-									customer service.
-								</p>
+								<GridViewService />
 							</TabPane>
 							<TabPane tabId="link3">
 								<p>

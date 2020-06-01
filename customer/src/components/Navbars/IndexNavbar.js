@@ -74,7 +74,7 @@ class ComponentsNavbar extends React.Component {
 				<Container>
 					<div className="navbar-translate">
 						<NavbarBrand to="/" tag={Link} id="navbar-brand">
-							<span>BLK• </span>
+							<span>MotorCare• </span>
 							Design System React
 						</NavbarBrand>
 						<UncontrolledTooltip placement="bottom" target="navbar-brand">
@@ -101,7 +101,7 @@ class ComponentsNavbar extends React.Component {
 							<Row>
 								<Col className="collapse-brand" xs="6">
 									<a href="#pablo" onClick={(e) => e.preventDefault()}>
-										BLK•React
+										MotorCare•React
 									</a>
 								</Col>
 								<Col className="collapse-close text-right" xs="6">

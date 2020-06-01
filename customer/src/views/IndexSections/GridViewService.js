@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Button, Card, Icon, Image } from 'semantic-ui-react';
-import Product from './Product';
+import Service from './Service';
 import axios from 'axios';
 
-const GridViewProducts = () => {
+const GridViewService = () => {
     
-    const [listProduct, setListProduct] = useState([]);
+    const [listService, setListService] = useState([]);
     useEffect(() => {
-        axios.get(`http://localhost:9000/api/products?page=1`)
+        axios.get(`http://localhost:9000/api/service?page=1`)
         .then(res => {
             console.log(res.data.data)
-            setListProduct(res.data.data);
+            setListService(res.data.data);
         }).catch(error => {
             console.log(error);
         });
@@ -22,10 +22,10 @@ const GridViewProducts = () => {
     return(
         <div>
             <Card.Group>
-                {listProduct && listProduct.map((product) => <Product product={product}/>)}
+                {listService && listService.map((service) => <Service service={service}/>)}
             </Card.Group>
         </div>
     );
 };
 
-export default GridViewProducts;
+export default GridViewService;

@@ -131,11 +131,11 @@ class Typography extends React.Component {
           </div>
           <div className="space-50" />
           <div id="images">
-            <h3 className="mb-5">Images</h3>
+            <h3 className="mb-5">FOUNDER</h3>
             <Row>
               <Col sm="3" xs="6">
                 <small className="d-block text-uppercase font-weight-bold mb-4">
-                  Image
+                  Frontend 
                 </small>
                 <img
                   alt="..."
@@ -146,7 +146,7 @@ class Typography extends React.Component {
               </Col>
               <Col sm="3" xs="6">
                 <small className="d-block text-uppercase font-weight-bold mb-4">
-                  Circle Image
+                  Backend
                 </small>
                 <img
                   alt="..."
@@ -157,7 +157,7 @@ class Typography extends React.Component {
               </Col>
               <Col className="mt-5 mt-sm-0" sm="3" xs="6">
                 <small className="d-block text-uppercase font-weight-bold mb-4">
-                  Raised
+                  Tester
                 </small>
                 <img
                   alt="..."
@@ -168,7 +168,7 @@ class Typography extends React.Component {
               </Col>
               <Col className="mt-5 mt-sm-0" sm="3" xs="6">
                 <small className="d-block text-uppercase font-weight-bold mb-4">
-                  Circle Raised
+                  Our Partner
                 </small>
                 <img
                   alt="..."
