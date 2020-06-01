@@ -15,7 +15,7 @@ let idMax = 0;
 
 const BrandManager = () => {
     const [show, setShow] = useState(false);
-    const initialFormState = { id: null, image: '', name: '', category_id:'', brand_id:'', amount: ''}
+    const initialFormState = { id: null, title:''}
     const [products, setProducts] = useState({})
     const [currentProduct, setCurrentProduct] = useState(initialFormState)
     const [editing, setEditing] = useState(false)
@@ -82,7 +82,7 @@ const BrandManager = () => {
     }
 
     useEffect(() => {
-        let url = 'http://localhost:9000/api/products?page=1';
+        let url = 'http://localhost:9000/api/categories?page=1';
         axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 console.log(res.data.data)
@@ -102,7 +102,7 @@ const BrandManager = () => {
                 <Card className="demo-icons">
                     <CardHeader>
                         <CardTitle tag="h5">Categories Manager</CardTitle>
-                        <Button color="primary" onClick={addButton} > Add Product </Button>
+                        <Button color="primary" onClick={addButton} > Add Categories </Button>
                     </CardHeader>
                     <CardBody>
                         <div className="flex-row">
@@ -120,7 +120,7 @@ const BrandManager = () => {
                     {editing ? (
                         <Fragment>
                             <Modal.Header closeButton>
-                                <Modal.Title>Edit Brand</Modal.Title>
+                                <Modal.Title>Edit Categories</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 <EditCategories
@@ -134,7 +134,7 @@ const BrandManager = () => {
                     ) : (
                             <Fragment>
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Add Brand</Modal.Title>
+                                    <Modal.Title>Add Categories</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <AddCategories addProduct={addProduct} />

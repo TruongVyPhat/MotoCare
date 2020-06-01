@@ -21,11 +21,7 @@ const CategoriesTable = props => (
             {props.products.length > 0 ? (
                 props.products.map(product => (
                     <tr key={product.id}>
-                        <td>{product.image}</td>
-                        <td>{product.name}</td>
-                        <td>{product.category_id}</td>
-                        <td>{product.brand_id}</td>
-                        <td>{product.amount}</td>
+                        <td>{product.title}</td>
                         <td>
                         <ButtonGroup aria-label="Basic example">
 
@@ -53,7 +49,7 @@ const CategoriesTable = props => (
                 ))
             ) : (
                     <tr>
-                        <td colSpan={3}>No Product</td>
+                        <td colSpan={3}>No Category</td>
                     </tr>
                 )}
         </tbody>
