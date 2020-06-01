@@ -22,22 +22,22 @@ import {
 
 const carouselItems = [
   {
-    src: require("assets/img/washbike.jpg"),
+    src: require("assets/img/rsz_washbike.jpg"),
     altText: "Slide 1",
     caption: ""
   },
   {
-    src: require("assets/img/castrol.jpg"),
+    src: require("assets/img/rsz_castrol.jpg"),
     altText: "Slide 2",
     caption: ""
   },
   {
-    src: require("assets/img/change-oil.jpg"),
+    src: require("assets/img/rsz_change-oil.jpg"),
     altText: "Slide 3",
     caption: ""
   },
   {
-    src: require("assets/img/oil-change.jpg"),
+    src: require("assets/img/rsz_oil-change.jpg"),
     altText: "Slide 4",
     caption: ""
   }
