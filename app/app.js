@@ -10,6 +10,7 @@ const authRouter = require('./api/auth/AuthRoutes');
 // const roleRouter = require('./api/roles/RoleRoutes');
 const productRouter = require('./api/products/ProductRoutes');
 const categoryRouter = require('./api/categories/CategoryRoutes');
+const serviceRouter = require('./api/services/ServiceRouters');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/api/auth', authRouter);
 // app.use('/api/roles', roleRouter);
 app.use('/api/products', productRouter);
 app.use('/api/categories', categoryRouter);
+app.use('/api/services', serviceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
