@@ -11,14 +11,12 @@ const Product = ({ product }) => {
 		const start_date = new Date(product.start_date).getTime();
 		const end_date = new Date(product.end_date).getTime();
 		if (current_date > start_date && current_date < end_date) {
-			const price = parseInt(product.sell_price.replace(',', ''));
-			let temp = price * (100 - product.discount_percent) / 100;
-			// temp = temp.replaceAll('');
-			setonSale_price(temp);
+			const price = parseInt(product.sell_price) * (100 - product.discount_percent) / 100;
+			setonSale_price(price);
 			setonSale(true);
 		}
 	}, []);
-	console.log(product);
+
 	return (
 		<Card>
 			<Image
