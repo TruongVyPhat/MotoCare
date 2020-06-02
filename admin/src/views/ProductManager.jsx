@@ -78,7 +78,7 @@ const ProductManager = () => {
     const editRow = product => {
         setEditing(true)
         setShow(true)
-        setCurrentProduct({ id: product.id, image: product.image, name: product.name, categoryID: product.categoryID, brandID: product.brandID, amount: product.amount})
+        setCurrentProduct({ id: product.id, image: product.image, name: product.name, title: product.title, brand_name: product.brand_name, amount: product.amount})
     }
 
     useEffect(() => {

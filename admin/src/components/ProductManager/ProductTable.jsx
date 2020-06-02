@@ -11,8 +11,8 @@ const ProductTable = props => (
             <tr>
                 <th width="20%">Image</th>
                 <th width="20%">Name</th>
-                <th width="20%">Category ID</th>
-                <th width="20%">Brand ID</th>
+                <th width="20%">Category Name</th>
+                <th width="20%">Brand Name</th>
                 <th width="10%">Amount</th>
                 <th width="10%">Actions</th>
             </tr>
@@ -23,8 +23,8 @@ const ProductTable = props => (
                     <tr key={product.id}>
                         <td>{product.image}</td>
                         <td>{product.name}</td>
-                        <td>{product.category_id}</td>
-                        <td>{product.brand_id}</td>
+                        <td>{product.title}</td>
+                        <td>{product.brand_name}</td>
                         <td>{product.amount}</td>
                         <td>
                         <ButtonGroup aria-label="Basic example">
