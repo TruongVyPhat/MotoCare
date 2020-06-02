@@ -6,7 +6,10 @@ const { QueryTypes } = require('sequelize');
 
 exports.get_all_products = (page) => {
     const offset = (page - 1) * CONSTANTS.PAGE_SIZE;
-    const sql = 'SELECT * FROM public.product ORDER BY id LIMIT ? OFFSET ?';
+    const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent FROM public.product p ' 
+            + 'JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
+            + ' LEFT JOIN public."onSale" s on p.id = s.product_id and s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id)'
+            + ' ORDER BY id LIMIT ? OFFSET ?';
     return sequelize.query(sql, {
         replacements: [CONSTANTS.PAGE_SIZE, offset],
         type: QueryTypes.SELECT
@@ -14,7 +17,9 @@ exports.get_all_products = (page) => {
 }
 
 exports.get_product = (id) => {
-    const sql = 'SELECT * from public.Product where id = ?::integer';
+    const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent FROM public.product p ' 
+            + ' JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
+            + ' LEFT JOIN public."onSale" s on p.id = s.product_id where p.id = ? and s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id)';
     return sequelize.query(sql, {
         replacements: [id],
         type: QueryTypes.SELECT
