@@ -7,11 +7,11 @@ import {
 } from "reactstrap";
 
 const EditCategories = props => {
-    const [product, setProduct] = useState(props.currentProduct)
+    const [category, setCategory] = useState(props.currentCategory)
 
     useEffect(
         () => {
-            setProduct(props.currentProduct)
+            setCategory(props.currentCategory)
         },
         [props]
     )
@@ -19,48 +19,20 @@ const EditCategories = props => {
 
     const handleInputChange = event => {
         const { name, value } = event.target
-        setProduct({ ...product, [name]: name === "category_id" || name === "brand_id" || name === "amount"? parseInt(value) : value})
+        setCategory({ ...category, [name]: value})
     }
 
     return (
         <Form
             onSubmit={event => {
                 event.preventDefault()
-                props.updateProduct(product.id, product)
+                props.updateCategory(category.id, category)
                 props.closeModal(false)
             }}
         >
-            <Form.Group controlId="EditformGroupImage">
-                <Form.Label>Input Image</Form.Label>
-                <Form.File name="image"  onChange={handleInputChange} id="custom-file"  custom />
-            </Form.Group>
-            <Form.Group controlId="EditformGroupName">
-                <Form.Label>Name</Form.Label>
-                <Form.Control required type="text" placeholder="Enter name" name="name" value={product.name} onChange={handleInputChange} />
-            </Form.Group>
-            <Form.Group controlId="EditformGroupCategoryID">
-                <Form.Label>CATEGORY ID</Form.Label>
-                <Form.Control as="select" required custom name="category_id" defaultValue={product.category_id} value={product.category_id} onChange={handleInputChange}>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="EditformGroupBrandID">
-                <Form.Label>BRAND ID</Form.Label>
-                <Form.Control as="select" required custom name="brand_id" value={product.brand_id} onChange={handleInputChange}>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="EditformGroupAmount">
+            <Form.Group controlId="EditformGroupNameCategory">
                 <Form.Label>Amount</Form.Label>
-                <Form.Control required type="number" placeholder="Enter amount" name="amount" value={product.amount} onChange={handleInputChange} />
+                <Form.Control required type="text" placeholder="Enter name" name="name" value={category.name} onChange={handleInputChange} />
             </Form.Group>
             <Modal.Footer>
                 <ButtonGroup aria-label="Basic example">

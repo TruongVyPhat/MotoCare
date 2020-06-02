@@ -9,19 +9,15 @@ const CategoriesTable = props => (
     <Table width="100%">
         <thead>
             <tr>
-                <th width="20%">Image</th>
-                <th width="20%">Name</th>
-                <th width="20%">Category ID</th>
-                <th width="20%">Brand ID</th>
-                <th width="10%">Amount</th>
+                <th width="90%">Name</th>
                 <th width="10%">Actions</th>
             </tr>
         </thead>
         <tbody>
-            {props.products.length > 0 ? (
-                props.products.map(product => (
-                    <tr key={product.id}>
-                        <td>{product.title}</td>
+            {props.categories.length > 0 ? (
+                props.categories.map(category => (
+                    <tr key={category.id}>
+                        <td>{category.title}</td>
                         <td>
                         <ButtonGroup aria-label="Basic example">
 
@@ -29,7 +25,7 @@ const CategoriesTable = props => (
                             <Button
                                 size="sm"
                                 onClick={() => {
-                                    props.editRow(product)
+                                    props.editRow(category)
                                 }}
                                 className="button muted-button"
                             >
@@ -38,7 +34,7 @@ const CategoriesTable = props => (
                             <Button
                                 color="danger"
                                 size="sm"
-                                onClick={() => props.deleteProduct(product.id)}
+                                onClick={() => props.deleteCategory(category.id)}
                                 className="button muted-button"
                             >
                                 Delete

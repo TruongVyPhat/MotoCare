@@ -16,8 +16,8 @@ let idMax = 0;
 const BrandManager = () => {
     const [show, setShow] = useState(false);
     const initialFormState = { id: null, title:''}
-    const [products, setProducts] = useState({})
-    const [currentProduct, setCurrentProduct] = useState(initialFormState)
+    const [categories, setCategories] = useState({})
+    const [currentCategory, setCurrentCategory] = useState(initialFormState)
     const [editing, setEditing] = useState(false)
     const [isChanged, setIsChanged] = useState(false)
 
@@ -25,14 +25,14 @@ const BrandManager = () => {
         setShow(false);
     }
 
-    const addProduct = data => {
-        axios.post('http://localhost:9000/api/products/create',{data},{headers: { authorization: localStorage.getItem('access_token') }})
+    const addCategory = data => {
+        axios.post('http://localhost:9000/api/categories/',{data},{headers: { authorization: localStorage.getItem('access_token') }})
             .then (res => {
                 console.log(res.status)
                 if (res.status === 200) {
                     data.id = idMax + 1
                     idMax++
-                    setProducts([...products, data])
+                    setCategories([...categories, data])
                     setIsChanged(!isChanged)
                 }
             })
@@ -46,13 +46,13 @@ const BrandManager = () => {
         setShow(true)
     }
 
-    const deleteProduct = id => {
-        axios.delete(`http://localhost:9000/api/products/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
+    const deleteCategory = id => {
+        axios.delete(`http://localhost:9000/api/categories/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
                 setEditing(false)
-                setProducts(products.filter(product => product.id !== id))
+                setCategories(categories.filter(category => category.id !== id))
             }
         })
         .catch (error => {
@@ -60,13 +60,13 @@ const BrandManager = () => {
         })
     }
 
-    const updateProduct = (id, data) => {
-        axios.put(`http://localhost:9000/api/products/update?id=${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
+    const updateCategory = (id, data) => {
+        axios.put(`http://localhost:9000/api/categories/${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
                 setEditing(false)
-                setProducts(products.map(product => (product.id === id ? data : product)))
+                setCategories(categories.map(category => (category.id === id ? data : category)))
                 setIsChanged(!isChanged)
             }
         })
@@ -75,10 +75,10 @@ const BrandManager = () => {
         })
     }
 
-    const editRow = product => {
+    const editRow = category => {
         setEditing(true)
         setShow(true)
-        setCurrentProduct({ id: product.id, image: product.image, name: product.name, categoryID: product.categoryID, brandID: product.brandID, amount: product.amount})
+        setCurrentCategory({ id: category.id, name: category.name})
     }
 
     useEffect(() => {
@@ -90,7 +90,7 @@ const BrandManager = () => {
                 for (let i=0;i<result.length;i++){
                     if(result[i].id > idMax) idMax = result[i].id
                 }
-                setProducts(result)
+                setCategories(result)
             }).catch(error => {
                 console.log(error);
             });
@@ -108,7 +108,7 @@ const BrandManager = () => {
                         <div className="flex-row">
 
                             <div className="flex-large">
-                                <CategoriesTable products={products} editRow={editRow} deleteProduct={deleteProduct} />
+                                <CategoriesTable categories={categories} editRow={editRow} deleteCategory={deleteCategory} />
                             </div>
                         </div>
                     </CardBody>
@@ -126,8 +126,8 @@ const BrandManager = () => {
                                 <EditCategories
                                     editing={editing}
                                     closeModal={closeModal}
-                                    currentProduct={currentProduct}
-                                    updateProduct={updateProduct}
+                                    currentCategory={currentCategory}
+                                    updateCategory={updateCategory}
                                 />
                             </Modal.Body>
                         </Fragment>
@@ -137,7 +137,7 @@ const BrandManager = () => {
                                     <Modal.Title>Add Categories</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                    <AddCategories addProduct={addProduct} />
+                                    <AddCategories addCategory={addCategory} />
                                 </Modal.Body>
                             </Fragment>
                         )}
