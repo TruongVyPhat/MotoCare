@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
+import axios from 'axios'
 import {
     Button
 } from "reactstrap";
@@ -8,11 +9,24 @@ import {
 const AddProduct = props => {
     const initialFormState = { id: null, image: '', name: '', category_id:'', brand_id:'', amount: ''}
     const [product, setProduct] = useState(initialFormState)
+    const [categories, setCategories] = useState([{}])
 
     const handleInputChange = event => {
         const { name, value } = event.target
         setProduct({ ...product, [name]: value })
     }
+
+    useEffect(() => {
+        let url = 'http://localhost:9000/api/categories?page=1';
+        axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
+            .then(res => {
+                console.log(res.data.data)
+                const result = res.data.data;
+                setCategories(result)
+            }).catch(error => {
+                console.log(error);
+            });
+    }, []);
 
     return (
         <Form
@@ -35,11 +49,7 @@ const AddProduct = props => {
                 <Form.Label>CATEGORY ID</Form.Label>
                 <Form.Control as="select" custom name="category_id" value={product.category_id} onChange={handleInputChange}>
                     <option></option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    {categories.map((category , index) => (<option key={index}>{category.title}</option>))}
                 </Form.Control>
             </Form.Group>
             <Form.Group controlId="AddformGroupBrandID">

@@ -30,13 +30,13 @@ const EditCategories = props => {
                 props.closeModal(false)
             }}
         >
-            <Form.Group controlId="EditformGroupNameCategory">
-                <Form.Label>Amount</Form.Label>
-                <Form.Control required type="text" placeholder="Enter name" name="name" value={category.name} onChange={handleInputChange} />
+            <Form.Group controlId="EditformTitleCategory">
+                <Form.Label>Title</Form.Label>
+                <Form.Control required type="text" placeholder="Enter title" name="title" value={category.title} onChange={handleInputChange} />
             </Form.Group>
             <Modal.Footer>
                 <ButtonGroup aria-label="Basic example">
-                    <Button color="info">Update user</Button>
+                    <Button color="info">Update category</Button>
                     <Button onClick={() => props.closeModal(false)} className="button muted-button">
                         Cancel
                     </Button>

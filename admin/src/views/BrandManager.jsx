@@ -82,7 +82,7 @@ const BrandManager = () => {
     }
 
     useEffect(() => {
-        let url = 'http://localhost:9000/api/products?page=1';
+        let url = 'http://localhost:9000/api/brand?page=1';
         axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 console.log(res.data.data)

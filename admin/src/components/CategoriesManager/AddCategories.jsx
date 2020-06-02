@@ -6,7 +6,7 @@ import {
 } from "reactstrap";
 
 const AddCategories = props => {
-    const initialFormState = { id: null, image: '', name: ''}
+    const initialFormState = { id: null, image: '', title: ''}
     const [category, setCategory] = useState(initialFormState)
 
     const handleInputChange = event => {
@@ -18,14 +18,14 @@ const AddCategories = props => {
         <Form
             onSubmit={event => {
                 event.preventDefault()
-                if (!category.name) return
+                if (!category.title) return
                 props.addCategory(category)
                 setCategory(initialFormState)
             }}
         >
             <Form.Group controlId="AddformGroupNameCategory">
                 <Form.Label>Name</Form.Label>
-                <Form.Control required type="text" placeholder="Enter name" name="name" value={category.name} onChange={handleInputChange} />
+                <Form.Control required type="text" placeholder="Enter title" name="title" value={category.title} onChange={handleInputChange} />
             </Form.Group>
             <Modal.Footer>
                 <Button type="submit" color="primary">Add new Category</Button>

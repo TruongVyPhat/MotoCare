@@ -78,7 +78,7 @@ const BrandManager = () => {
     const editRow = category => {
         setEditing(true)
         setShow(true)
-        setCurrentCategory({ id: category.id, name: category.name})
+        setCurrentCategory({ id: category.id, title: category.title})
     }
 
     useEffect(() => {
