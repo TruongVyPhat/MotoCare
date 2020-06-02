@@ -83,7 +83,7 @@ const ProductManager = () => {
 
     useEffect(() => {
         let url = 'http://localhost:9000/api/products?page=1';
-        axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
+        axios.get(url)
             .then(res => {
                 console.log(res.data.data)
                 const result = res.data.data;

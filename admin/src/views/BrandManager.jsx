@@ -15,9 +15,9 @@ let idMax = 0;
 
 const BrandManager = () => {
     const [show, setShow] = useState(false);
-    const initialFormState = { id: null, image: '', name: '', category_id:'', brand_id:'', amount: ''}
-    const [products, setProducts] = useState({})
-    const [currentProduct, setCurrentProduct] = useState(initialFormState)
+    const initialFormState = { id: null, name: ''}
+    const [brands, setBrands] = useState({})
+    const [currentBrand, setCurrentBrand] = useState(initialFormState)
     const [editing, setEditing] = useState(false)
     const [isChanged, setIsChanged] = useState(false)
 
@@ -25,14 +25,14 @@ const BrandManager = () => {
         setShow(false);
     }
 
-    const addProduct = data => {
-        axios.post('http://localhost:9000/api/products/create',{data},{headers: { authorization: localStorage.getItem('access_token') }})
+    const addBrand = data => {
+        axios.post('http://localhost:9000/api/brands/create',{data},{headers: { authorization: localStorage.getItem('access_token') }})
             .then (res => {
                 console.log(res.status)
                 if (res.status === 200) {
                     data.id = idMax + 1
                     idMax++
-                    setProducts([...products, data])
+                    setBrands([...brands, data])
                     setIsChanged(!isChanged)
                 }
             })
@@ -46,13 +46,13 @@ const BrandManager = () => {
         setShow(true)
     }
 
-    const deleteProduct = id => {
-        axios.delete(`http://localhost:9000/api/products/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
+    const deleteBrand = id => {
+        axios.delete(`http://localhost:9000/api/brands/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
                 setEditing(false)
-                setProducts(products.filter(product => product.id !== id))
+                setBrands(brands.filter(brand => brand.id !== id))
             }
         })
         .catch (error => {
@@ -61,12 +61,12 @@ const BrandManager = () => {
     }
 
     const updateProduct = (id, data) => {
-        axios.put(`http://localhost:9000/api/products/update?id=${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
+        axios.put(`http://localhost:9000/api/brands/update?id=${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
                 setEditing(false)
-                setProducts(products.map(product => (product.id === id ? data : product)))
+                setBrands(brands.map(brand => (brand.id === id ? data : brand)))
                 setIsChanged(!isChanged)
             }
         })
@@ -75,10 +75,10 @@ const BrandManager = () => {
         })
     }
 
-    const editRow = product => {
+    const editRow = brand => {
         setEditing(true)
         setShow(true)
-        setCurrentProduct({ id: product.id, image: product.image, name: product.name, categoryID: product.categoryID, brandID: product.brandID, amount: product.amount})
+        setCurrentBrand({ id: brand.id, name: brand.name})
     }
 
     useEffect(() => {
@@ -90,7 +90,7 @@ const BrandManager = () => {
                 for (let i=0;i<result.length;i++){
                     if(result[i].id > idMax) idMax = result[i].id
                 }
-                setProducts(result)
+                setBrands(result)
             }).catch(error => {
                 console.log(error);
             });
@@ -102,13 +102,13 @@ const BrandManager = () => {
                 <Card className="demo-icons">
                     <CardHeader>
                         <CardTitle tag="h5">Brand Manager</CardTitle>
-                        <Button color="primary" onClick={addButton} > Add Product </Button>
+                        <Button color="primary" onClick={addButton} > Add Brand </Button>
                     </CardHeader>
                     <CardBody>
                         <div className="flex-row">
 
                             <div className="flex-large">
-                                <BrandTable products={products} editRow={editRow} deleteProduct={deleteProduct} />
+                                <BrandTable brands={brands} editRow={editRow} deleteBrand={deleteBrand} />
                             </div>
                         </div>
                     </CardBody>
@@ -126,7 +126,7 @@ const BrandManager = () => {
                                 <EditBrand
                                     editing={editing}
                                     closeModal={closeModal}
-                                    currentProduct={currentProduct}
+                                    currentBrand={currentBrand}
                                     updateProduct={updateProduct}
                                 />
                             </Modal.Body>
@@ -137,7 +137,7 @@ const BrandManager = () => {
                                     <Modal.Title>Add Brand</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                    <AddBrand addProduct={addProduct} />
+                                    <AddBrand addBrand={addBrand} />
                                 </Modal.Body>
                             </Fragment>
                         )}

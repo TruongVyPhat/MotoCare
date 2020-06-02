@@ -9,23 +9,15 @@ const BrandTable = props => (
     <Table width="100%">
         <thead>
             <tr>
-                <th width="20%">Image</th>
-                <th width="20%">Name</th>
-                <th width="20%">Category ID</th>
-                <th width="20%">Brand ID</th>
-                <th width="10%">Amount</th>
+                <th width="90%">Name</th>
                 <th width="10%">Actions</th>
             </tr>
         </thead>
         <tbody>
-            {props.products.length > 0 ? (
-                props.products.map(product => (
-                    <tr key={product.id}>
-                        <td>{product.image}</td>
-                        <td>{product.name}</td>
-                        <td>{product.category_id}</td>
-                        <td>{product.brand_id}</td>
-                        <td>{product.amount}</td>
+            {props.brands.length > 0 ? (
+                props.brands.map(brand => (
+                    <tr key={brand.id}>
+                        <td>{brand.name}</td>
                         <td>
                         <ButtonGroup aria-label="Basic example">
 
@@ -33,7 +25,7 @@ const BrandTable = props => (
                             <Button
                                 size="sm"
                                 onClick={() => {
-                                    props.editRow(product)
+                                    props.editRow(brand)
                                 }}
                                 className="button muted-button"
                             >
@@ -42,7 +34,7 @@ const BrandTable = props => (
                             <Button
                                 color="danger"
                                 size="sm"
-                                onClick={() => props.deleteProduct(product.id)}
+                                onClick={() => props.deleteBrand(brand.id)}
                                 className="button muted-button"
                             >
                                 Delete
