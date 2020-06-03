@@ -7,9 +7,10 @@ import {
 } from "reactstrap";
 
 const AddProduct = props => {
-    const initialFormState = { id: null, image: '', name: '', title:'', brand_name:'', amount: ''}
+    const initialFormState = { id: null, image: '', name: '', title: '', brand_name: '', amount: '', description: '', sell_price: '' }
     const [product, setProduct] = useState(initialFormState)
     const [categories, setCategories] = useState([{}])
+    const [brands, setBrands] = useState([{}])
 
     const handleInputChange = event => {
         const { name, value } = event.target
@@ -17,23 +18,44 @@ const AddProduct = props => {
     }
 
     useEffect(() => {
-        let url = 'http://localhost:9000/api/categories?page=1';
-        axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
+        //clean up useEffect
+        let didCancel = false;
+
+        //Call Category and brand for form Edit
+        let urlCategories = 'http://localhost:9000/api/categories?page=1';
+        axios.get(urlCategories, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
-                console.log(res.data.data)
-                const result = res.data.data;
-                setCategories(result)
+                if (!didCancel) {
+                    const result = res.data.data;
+                    setCategories(result)
+                }
             }).catch(error => {
                 console.log(error);
             });
+        let urlBrands = 'http://localhost:9000/api/brands?page=1';
+        axios.get(urlBrands, { headers: { authorization: localStorage.getItem('access_token') } })
+            .then(res => {
+                if (!didCancel) {
+                    const result = res.data.data;
+                    setBrands(result)
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+            
+        //clean up useEffect
+        return () => {
+            didCancel = true;
+        };
     }, []);
 
     return (
         <Form
             onSubmit={event => {
                 event.preventDefault()
-                if (!product.name || !product.title || !product.brand_name) return
+                if (!product.name || !product.category_id || !product.brand_id) return
                 props.addProduct(product)
+                console.log("final: ", product)
                 setProduct(initialFormState)
             }}
         >
@@ -46,31 +68,35 @@ const AddProduct = props => {
                 <Form.Control required type="text" placeholder="Enter name" name="name" value={product.name} onChange={handleInputChange} />
             </Form.Group>
             <Form.Group controlId="AddformGroupCategoryID">
-                <Form.Label>CATEGORY ID</Form.Label>
-                <Form.Control as="select" custom name="title" value={product.title} onChange={handleInputChange}>
+                <Form.Label>CATEGORY NAME</Form.Label>
+                <Form.Control as="select" required custom name="category_id" value={product.category_id} onChange={handleInputChange}>
                     <option></option>
-                    {categories.map((category , index) => (<option key={index}>{category.title}</option>))}
+                    {categories.map((category, index) => (<option value={category.id} key={index}>{category.title}</option>))}
                 </Form.Control>
             </Form.Group>
             <Form.Group controlId="AddformGroupBrandID">
-                <Form.Label>BRAND ID</Form.Label>
-                <Form.Control as="select" custom name="brand_name" value={product.brand_name} onChange={handleInputChange}>
+                <Form.Label>BRAND NAME</Form.Label>
+                <Form.Control as="select" required custom name="brand_id" value={product.brand_id} onChange={handleInputChange}>
                     <option></option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    {brands.map((brand, index) => (<option value={brand.id} key={index}>{brand.name}</option>))}
                 </Form.Control>
             </Form.Group>
             <Form.Group controlId="AddformGroupAmount">
                 <Form.Label>Amount</Form.Label>
                 <Form.Control required type="number" placeholder="Enter amount" name="amount" value={product.amount} onChange={handleInputChange} />
             </Form.Group>
+            <Form.Group controlId="AddformGroupSellPrice">
+                <Form.Label>Price</Form.Label>
+                <Form.Control required type="number" placeholder="Enter price" name="sell_price" value={product.sell_price} onChange={handleInputChange} />
+            </Form.Group>
+            <Form.Group controlId="AddformGroupDescription">
+                <Form.Label>Description</Form.Label>
+                <Form.Control as="textarea" rows="3" placeholder="Enter description" name="description" value={product.description} onChange={handleInputChange}/>
+            </Form.Group>
             <Modal.Footer>
                 <Button type="submit" color="primary">Add new Product</Button>
             </Modal.Footer>
-
+            
         </Form>
     )
 }

@@ -26,7 +26,7 @@ const BrandManager = () => {
     }
 
     const addBrand = data => {
-        axios.post('http://localhost:9000/api/brands/create',{data},{headers: { authorization: localStorage.getItem('access_token') }})
+        axios.post('http://localhost:9000/api/brands',{data},{headers: { authorization: localStorage.getItem('access_token') }})
             .then (res => {
                 console.log(res.status)
                 if (res.status === 200) {
@@ -47,7 +47,7 @@ const BrandManager = () => {
     }
 
     const deleteBrand = id => {
-        axios.delete(`http://localhost:9000/api/brands/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
+        axios.delete(`http://localhost:9000/api/brands/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
@@ -60,8 +60,8 @@ const BrandManager = () => {
         })
     }
 
-    const updateProduct = (id, data) => {
-        axios.put(`http://localhost:9000/api/brands/update?id=${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
+    const updateBrand = (id, data) => {
+        axios.put(`http://localhost:9000/api/brands/${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
@@ -102,7 +102,7 @@ const BrandManager = () => {
                 <Card className="demo-icons">
                     <CardHeader>
                         <CardTitle tag="h5">Brand Manager</CardTitle>
-                        <Button color="primary" onClick={addButton} > Add Brand </Button>
+                        {localStorage.getItem('role_id') === 'ADMIN'? <Button color="primary" onClick={addButton} > Add Brand </Button> : ''}
                     </CardHeader>
                     <CardBody>
                         <div className="flex-row">
@@ -127,7 +127,7 @@ const BrandManager = () => {
                                     editing={editing}
                                     closeModal={closeModal}
                                     currentBrand={currentBrand}
-                                    updateProduct={updateProduct}
+                                    updateBrand={updateBrand}
                                 />
                             </Modal.Body>
                         </Fragment>

@@ -15,7 +15,7 @@ let idMax = 0;
 
 const ProductManager = () => {
     const [show, setShow] = useState(false);
-    const initialFormState = { id: null, image: '', name: '', category_id:'', brand_id:'', amount: ''}
+    const initialFormState = { id: null, image: '', name: '', category_id:'', brand_id:'', amount: '', title: '', brand_name:'', description:'', sell_price:''}
     const [products, setProducts] = useState({})
     const [currentProduct, setCurrentProduct] = useState(initialFormState)
     const [editing, setEditing] = useState(false)
@@ -78,7 +78,7 @@ const ProductManager = () => {
     const editRow = product => {
         setEditing(true)
         setShow(true)
-        setCurrentProduct({ id: product.id, image: product.image, name: product.name, title: product.title, brand_name: product.brand_name, amount: product.amount})
+        setCurrentProduct({ id: product.id, image: product.image, name: product.name, title: product.title, brand_name: product.brand_name, amount: product.amount, category_id: product.category_id, brand_id: product.brand_id, description: product.description, sell_price: product.sell_price})
     }
 
     useEffect(() => {

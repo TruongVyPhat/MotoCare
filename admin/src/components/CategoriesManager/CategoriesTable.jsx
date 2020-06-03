@@ -31,14 +31,15 @@ const CategoriesTable = props => (
                             >
                                 Edit
                             </Button>
-                            <Button
+                            {localStorage.getItem('role_id') === 'ADMIN'? <Button
                                 color="danger"
                                 size="sm"
                                 onClick={() => props.deleteCategory(category.id)}
                                 className="button muted-button"
                             >
                                 Delete
-                            </Button>
+                            </Button> : ''}
+                            
                             </ButtonGroup>
                         </td>
                     </tr>

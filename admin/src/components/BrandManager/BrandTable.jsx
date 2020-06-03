@@ -31,14 +31,15 @@ const BrandTable = props => (
                             >
                                 Edit
                             </Button>
-                            <Button
+                            {localStorage.getItem('role_id') === 'ADMIN'? <Button
                                 color="danger"
                                 size="sm"
                                 onClick={() => props.deleteBrand(brand.id)}
                                 className="button muted-button"
                             >
                                 Delete
-                            </Button>
+                            </Button> : ''}
+                            
                             </ButtonGroup>
                         </td>
                     </tr>

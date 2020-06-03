@@ -102,7 +102,7 @@ const BrandManager = () => {
                 <Card className="demo-icons">
                     <CardHeader>
                         <CardTitle tag="h5">Categories Manager</CardTitle>
-                        <Button color="primary" onClick={addButton} > Add Categories </Button>
+                        {localStorage.getItem('role_id') === 'ADMIN'? <Button color="primary" onClick={addButton} > Add Categories </Button> : ''}
                     </CardHeader>
                     <CardBody>
                         <div className="flex-row">

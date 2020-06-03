@@ -23,10 +23,6 @@ const AddBrand = props => {
                 setBrand(initialFormState)
             }}
         >
-            <Form.Group controlId="AddformGroupImage">
-                <Form.Label>Input Image</Form.Label>
-                <Form.File name="image" value={brand.image} onChange={handleInputChange} id="custom-file" label={brand.image} custom />
-            </Form.Group>
             <Form.Group controlId="AddformGroupNameBrand">
                 <Form.Label>Name</Form.Label>
                 <Form.Control required type="text" placeholder="Enter name" name="name" value={brand.name} onChange={handleInputChange} />
