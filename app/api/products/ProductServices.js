@@ -97,3 +97,11 @@ exports.delete_product = (id) => {
         type: QueryTypes.UPDATE
     });
 }
+
+exports.get_created_product = (created_at, created_by) => {
+    const sql = 'SELECT id from public.product where created_at=? and created_by=?';
+    return sequelize.query(sql, {
+        replacements: [created_at, created_by],
+        type: QueryTypes.SELECT
+    }); 
+}
