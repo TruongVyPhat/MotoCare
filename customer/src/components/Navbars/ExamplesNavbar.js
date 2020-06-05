@@ -156,22 +156,15 @@ class PagesNavbar extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <Button
-                  className="nav-link d-none d-lg-block"
-                  color="primary"
-                  target="_blank"
-                >
-                  <i className="tim-icons icon-spaceship" /> Upgrade to PRO
-                </Button>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/">
-                  Back to Kit
+                  Back to HomePage
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/creativetimofficial/blk-design-system-react/issues">
-                  Have an issue?
+                  Feedback about service's quality?
                 </NavLink>
               </NavItem>
             </Nav>

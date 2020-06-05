@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Icon } from 'semantic-ui-react';
+import anime3 from 'assets/img/anime3.png';
+
 // reactstrap components
 import {
 	Button,
@@ -125,7 +128,7 @@ class ComponentsNavbar extends React.Component {
 									title="Follow us on Twitter"
 								>
 									<Badge badgeContent={11} color="secondary">
-										<i class="fas fa-cart-plus"></i>
+										<i class="fas fa-cart-plus" />
 									</Badge>
 									<p className="d-lg-none d-xl-none">Twitter</p>
 								</NavLink>
@@ -164,32 +167,75 @@ class ComponentsNavbar extends React.Component {
 									onClick={(e) => e.preventDefault()}
 								>
 									<i className="fa fa-cogs d-lg-none d-xl-none" />
-									Getting started
+									Dầu nhớt xe máy
 								</DropdownToggle>
 								<DropdownMenu className="dropdown-with-icons">
-									<DropdownItem href="https://demos.creative-tim.com/blk-design-system-react/#/documentation/tutorial">
-										<i className="tim-icons icon-paper" />
-										Documentation
-									</DropdownItem>
 									<DropdownItem tag={Link} to="/register-page">
-										<i className="tim-icons icon-bullet-list-67" />
-										Register Page
+										<i className="tim-icons icon-user-run" />
+										Xe số
 									</DropdownItem>
-									<DropdownItem tag={Link} to="/landing-page">
-										<i className="tim-icons icon-image-02" />
-										Landing Page
-									</DropdownItem>
-									<DropdownItem tag={Link} to="/profile-page">
-										<i className="tim-icons icon-single-02" />
-										Profile Page
+									<DropdownItem tag={Link} to="/product-detail">
+										<i className="tim-icons icon-settings-gear-63" />
+										Xe tay ga
 									</DropdownItem>
 								</DropdownMenu>
 							</UncontrolledDropdown>
-							<NavItem>
+
+							<UncontrolledDropdown nav>
+								<DropdownToggle
+									caret
+									color="default"
+									data-toggle="dropdown"
+									href="#pablo"
+									nav
+									onClick={(e) => e.preventDefault()}
+								>
+									<i className="fa fa-cogs d-lg-none d-xl-none" />
+									Phụ trợ động cơ
+								</DropdownToggle>
+								<DropdownMenu className="dropdown-with-icons">
+									<DropdownItem tag={Link} to="/register-page">
+										<i className="tim-icons icon-atom" />
+										Vệ sinh buồng đốt
+									</DropdownItem>
+									<DropdownItem tag={Link} to="/landing-page">
+										<i className="tim-icons icon-settings-gear-63" />
+										Súc rửa động cơ
+									</DropdownItem>
+								</DropdownMenu>
+							</UncontrolledDropdown>
+
+							<UncontrolledDropdown nav>
+								<DropdownToggle
+									caret
+									color="default"
+									data-toggle="dropdown"
+									href="#pablo"
+									nav
+									onClick={(e) => e.preventDefault()}
+								>
+									<i className="fa fa-cogs d-lg-none d-xl-none" />
+									<div className="photo">
+										<img src={anime3} alt="anime3" />
+									</div>
+								</DropdownToggle>
+								<DropdownMenu className="dropdown-with-icons">
+									<DropdownItem tag={Link} to="/register-page">
+										<i className="tim-icons icon-bullet-list-67" />
+										Register
+									</DropdownItem>
+									<DropdownItem tag={Link} to="/landing-page">
+										<i className="tim-icons icon-button-power" />
+										Log out
+									</DropdownItem>
+								</DropdownMenu>
+							</UncontrolledDropdown>
+
+							{/* <NavItem>
 								<Button className="nav-link d-none d-lg-block" color="primary" target="_blank">
 									<i className="tim-icons icon-spaceship" /> Upgrade to PRO
 								</Button>
-							</NavItem>
+							</NavItem> */}
 						</Nav>
 					</Collapse>
 				</Container>

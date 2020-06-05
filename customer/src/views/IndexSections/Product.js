@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Icon, Image, Popup } from 'semantic-ui-react';
 import { Row, Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { purple } from '@material-ui/core/colors';
+import ProductDetail from "views/examples/ProductDetail";
 
 const Product = ({ product }) => {
 	const [ onSale_price, setonSale_price ] = useState(undefined);
@@ -17,9 +19,13 @@ const Product = ({ product }) => {
 		}
 	}, []);
 
+	const handleAddtoCart = () => {
+		console.log('dada')
+	}
+	
 	return (
-		<Card>
-			<Image
+		<Card href={`/product-detail/${product.id}`}> 
+			<Image 
 				src={product.image ? product.image : 'https://react.semantic-ui.com/images/avatar/large/matthew.png'}
 				wrapped
 				ui={true}
@@ -30,22 +36,24 @@ const Product = ({ product }) => {
 					Nhãn hiệu: <span className="date">{product.brand_name}</span>
 				</Card.Meta>
 				<Card.Meta>
-					Số lượng: <span classname="date">{product.amount}</span>
+					Số lượng tồn: <span classname="date">{product.amount}</span> bình
 				</Card.Meta>
-				{/* <Card.Description>{product.description}</Card.Description> */}
 			</Card.Content>
 
 			<Card.Content extra>
 				<Row>
 					<Col xs={9}>
 						<a>
-							<Icon name="cart" />
-							{onSale ? onSale_price : product.sell_price}VNĐ
+							<Icon name="cart"  />
+							{onSale ? onSale_price : product.sell_price} VNĐ
 						</a>
 					</Col>
 					<Col xs={3}>
 						<a animated="horizental">
-							<Popup content="Add to cart" trigger={<Button icon="add" />} />
+							<Popup content="Add to cart" trigger={<Button onClick={(event)=>{
+								event.preventDefault();
+								handleAddtoCart()
+								}} icon="add" />} />
 						</a>
 					</Col>
 				</Row>

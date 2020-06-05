@@ -14,7 +14,7 @@ class Typography extends React.Component {
           src={require("assets/img/path3.png")}
         />
         <Container>
-          <h3 className="title">Danh mục sản phẩm</h3>
+          {/* <h3 className="title">Danh mục sản phẩm</h3>
           <div id="typography">
             <Row>
               <Col md="12">
@@ -128,7 +128,7 @@ class Typography extends React.Component {
                 </div>
               </Col>
             </Row>
-          </div>
+          </div> */}
           <div className="space-50" />
           <div id="images">
             <h3 className="mb-5">FOUNDER</h3>

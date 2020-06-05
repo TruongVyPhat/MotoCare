@@ -11,12 +11,13 @@ import Index from "views/Index.js";
 import LandingPage from "views/examples/LandingPage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
+import ProductDetail from "views/examples/ProductDetail";
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path="/components" render={props => <Index {...props} />} />
-      {/* <Route
+      <Route
         path="/landing-page"
         render={props => <LandingPage {...props} />}
       />
@@ -27,7 +28,11 @@ ReactDOM.render(
       <Route
         path="/profile-page"
         render={props => <ProfilePage {...props} />}
-      /> */}
+      />
+      <Route
+        path="/product-detail/:id"
+        render={props => <ProductDetail {...props} />}
+      />
       <Redirect from="/" to="/components" />
     </Switch>
   </BrowserRouter>,

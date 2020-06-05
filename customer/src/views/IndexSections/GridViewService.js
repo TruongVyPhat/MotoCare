@@ -8,7 +8,7 @@ const GridViewService = () => {
     
     const [listService, setListService] = useState([]);
     useEffect(() => {
-        axios.get(`http://localhost:9000/api/service?page=1`)
+        axios.get(`http://localhost:9000/api/services?page=1`)
         .then(res => {
             console.log(res.data.data)
             setListService(res.data.data);

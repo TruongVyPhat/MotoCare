@@ -10,7 +10,7 @@ const Service = ({service}) => {
 			<Card.Content>
 				<Card.Header>{service.name}</Card.Header>
 				<Card.Meta>
-					<span className="date">{service.brand}</span>
+					Thời gian: <span className="date">{service.duration}</span> phút
 				</Card.Meta>
 				{/* <Card.Description>{service.description}</Card.Description> */}
 			</Card.Content>
@@ -20,7 +20,7 @@ const Service = ({service}) => {
 					<Col xs={9}>
 						<a>
 							<Icon name="cart" />
-							{service.price}VNĐ
+							Giá tiền: {service.price} VNĐ
 						</a>
 					</Col>
 					<Col xs={3}>
