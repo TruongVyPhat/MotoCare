@@ -22,9 +22,7 @@ ReactDOM.render(
         render={props => <LandingPage {...props} />}
       />
       <Route
-        path="/register-page"
-        render={props => <RegisterPage {...props} />}
-      />
+        path="/register-page"><RegisterPage/> </Route>
       <Route
         path="/profile-page"
         render={props => <ProfilePage {...props} />}
