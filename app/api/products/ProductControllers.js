@@ -80,7 +80,7 @@ exports.filter_products = (req, res) => {
 exports.create_product = (req, res) => {
     const name = req.body.data.name.trim();
     const category_id = req.body.data.category_id;
-    const created_by = 1 //req.user.id;
+    const created_by = req.user.id;
     const current_time = new Date().getTime();
     const created_at = formatter_time.gettime_to_format(current_time);
     const brand_id = req.body.data.brand_id;
@@ -113,7 +113,7 @@ exports.update_product = (req, res) => {
     const id = req.query.id
     const name = req.body.data.name.trim();
     const category_id = req.body.data.category_id;
-    const updated_by = 1//req.user.id;
+    const updated_by = req.user.id;
     const current_time = new Date().getTime();
     const updated_at = formatter_time.gettime_to_format(current_time);
     const brand_id = req.body.data.brand_id;
@@ -158,11 +158,19 @@ exports.update_product_amount = (req, res) => {
 exports.delete_product = (req, res) => {
     const id = req.params.id;
     
-    service.delete_product(id)
+    price_service.delete_price_by_productId(id)
     .then(deleted => {
-        status = httpStatus.OK;
-        res.status(status).json(responseJS.mess_Json(status));
+        
+        service.delete_product(id)
+        .then(deleted => {
+            status = httpStatus.OK;
+            res.status(status).json(responseJS.mess_Json(status));
+        }).catch(function(error) {
+            res.status(status).json(error);
+        });
+        
     }).catch(function(error) {
         res.status(status).json(error);
     });
+    
 }
