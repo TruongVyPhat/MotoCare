@@ -41,5 +41,7 @@ router.delete('/delete/:id', auth_Controller.isAuthenticated, permission.user_pe
 // CREATE user
 router.post('/create', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.create_user);
 
+router.post('/register', users_Controller.create_user);
+
 module.exports = router;
 

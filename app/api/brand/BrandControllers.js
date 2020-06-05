@@ -1,15 +1,15 @@
-const service = require('./ServiceServices');
+const service = require('./BrandServices');
 const httpStatus = require('http-status-codes');
 const responseJS = require('../helpers/json-generator');
 let status = httpStatus.INTERNAL_SERVER_ERROR;
 
-exports.get_all_services = (req, res) => {
+exports.get_all_brands = (req, res) => {
     const page = req.query.page;
-    service.get_all_services(page)
-    .then(services => {
-        if (services){
+    service.get_all_brands(page)
+    .then(brands => {
+        if (brands){
             status = httpStatus.OK; 
-            res.status(status).json(responseJS.Json(status, services));
+            res.status(status).json(responseJS.Json(status, brands));
         } else {
             status = httpStatus.NOT_FOUND;
             res.status(status).json(responseJS.mess_Json(status));
@@ -20,13 +20,13 @@ exports.get_all_services = (req, res) => {
     });
 }
 
-exports.get_service = (req, res) => {
-    const service_id = req.params.id;
-    service.get_service(service_id)
-    .then(services => {
-        if (services){
+exports.get_brand = (req, res) => {
+    const brand_id = req.params.id;
+    service.get_brand(brand_id)
+    .then(brands => {
+        if (brands){
             status = httpStatus.OK;
-            res.status(status).json(responseJS.Json(status, services[0]));
+            res.status(status).json(responseJS.Json(status, brands[0]));
         } else {
             status = httpStatus.NOT_FOUND;
             res.status(status).json(responseJS.mess_Json(status));
@@ -36,13 +36,10 @@ exports.get_service = (req, res) => {
     });
 }
 
-exports.create_service = (req, res) => {
+exports.create_brand = (req, res) => {
     const name = req.body.data.name.trim();
-    const duration = req.body.data.duration;
-    const price = req.body.data.price;
-    const image = req.body.data.image;
     
-    service.create_service(name, duration, price, image)
+    service.create_brand(name)
     .then(created => {
         status = httpStatus.OK;
         res.status(status).json(responseJS.mess_Json(status));
@@ -51,26 +48,23 @@ exports.create_service = (req, res) => {
     });
 }
 
-exports.update_service = (req, res) => {
+exports.update_brand = (req, res) => {
     const id = req.params.id
     const name = req.body.data.name.trim();
-    const duration = req.body.data.duration;
-    const price = req.body.data.price;
-    const image = req.body.data.image;
     
-    service.update_service(name, duration, price, image, id)
+    service.update_brand(name, id)
     .then(updating => {
         status = httpStatus.OK;
         res.status(status).json(responseJS.mess_Json(status));
     }).catch(function(error) {
         res.status(status).json(error);
     });
-};
+}
 
-exports.delete_service = (req, res) => {
+exports.delete_brand = (req, res) => {
     const id = req.params.id;
     
-    service.delete_service(id)
+    service.delete_brand(id)
     .then(deleted => {
         status = httpStatus.OK;
         res.status(status).json(responseJS.mess_Json(status));

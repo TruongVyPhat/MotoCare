@@ -6,8 +6,9 @@ const { QueryTypes } = require('sequelize');
 
 exports.get_all_products = (page) => {
     const offset = (page - 1) * CONSTANTS.PAGE_SIZE;
-    const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent FROM public.product p ' 
-            + 'JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
+    const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent, c.title FROM public.product p ' 
+            + ' JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
+            + ' JOIN public.categories c on c.id = p.category_id '
             + ' LEFT JOIN public."onSale" s on p.id = s.product_id and s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id)'
             + ' ORDER BY id LIMIT ? OFFSET ?';
     return sequelize.query(sql, {
@@ -17,8 +18,9 @@ exports.get_all_products = (page) => {
 }
 
 exports.get_product = (id) => {
-    const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent FROM public.product p ' 
+    const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent, c.title FROM public.product p ' 
             + ' JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
+            + ' JOIN public.categories c on c.id = p.category_id '
             + ' LEFT JOIN public."onSale" s on p.id = s.product_id where p.id = ? and s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id)';
     return sequelize.query(sql, {
         replacements: [id],
@@ -94,4 +96,12 @@ exports.delete_product = (id) => {
         replacements: [id],
         type: QueryTypes.UPDATE
     });
+}
+
+exports.get_created_product = (created_at, created_by) => {
+    const sql = 'SELECT id from public.product where created_at=? and created_by=?';
+    return sequelize.query(sql, {
+        replacements: [created_at, created_by],
+        type: QueryTypes.SELECT
+    }); 
 }

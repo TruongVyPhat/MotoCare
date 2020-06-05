@@ -1,4 +1,5 @@
 const service = require('./ProductServices');
+const price_service = require('../prices/PriceServices');
 const httpStatus = require('http-status-codes');
 const CONSTANTS = require('../helpers/constants');
 const ROLE = CONSTANTS.ROLE;
@@ -83,13 +84,26 @@ exports.create_product = (req, res) => {
     const current_time = new Date().getTime();
     const created_at = formatter_time.gettime_to_format(current_time);
     const brand_id = req.body.data.brand_id;
-    const amount = req.body.data.amount.trim();
+    const amount = req.body.data.amount;
     const image = req.body.data.image ? req.body.data.image.trim() : null;
+    const sell_price = req.body.data.sell_price ? req.body.data.sell_price.trim() : '';
+    const input_price = req.body.data.input_price ? req.body.data.input_price.trim() : '';
     
     service.create_product(category_id, created_by, created_at, brand_id, amount, image, name)
     .then(created => {
-        status = httpStatus.OK;
-        res.status(status).json(responseJS.mess_Json(status));
+    
+        service.get_created_product(created_at, created_by)
+        .then(result => {
+            price_service.create_price(result[0].id, input_price, sell_price)
+            .then(products => {
+                status = httpStatus.OK;
+                res.status(status).json(responseJS.mess_Json(status));
+            })
+            .catch(function(error) {
+                res.status(status).json(error);
+            });
+        });
+        
     }).catch(function(error) {
         res.status(status).json(error);
     });
@@ -105,11 +119,21 @@ exports.update_product = (req, res) => {
     const brand_id = req.body.data.brand_id;
     const amount = req.body.data.amount;
     const image = req.body.data.image ? req.body.data.image.trim() : null;
+    const sell_price = req.body.data.sell_price ? req.body.data.sell_price.trim() : '';
+    const input_price = req.body.data.input_price ? req.body.data.input_price.trim() : '';
     
     service.update_product(category_id, updated_by, updated_at, brand_id, amount, image, name, id)
     .then(updating => {
-        status = httpStatus.OK;
-        res.status(status).json(responseJS.mess_Json(status));
+
+        price_service.update_price(sell_price, input_price, id, null)
+        .then(products => {
+            status = httpStatus.OK;
+            res.status(status).json(responseJS.mess_Json(status));
+        })
+        .catch(function(error) {
+            res.status(status).json(error);
+        });
+
     }).catch(function(error) {
         res.status(status).json(error);
     });
@@ -134,11 +158,19 @@ exports.update_product_amount = (req, res) => {
 exports.delete_product = (req, res) => {
     const id = req.params.id;
     
-    service.delete_product(id)
+    price_service.delete_price_by_productId(id)
     .then(deleted => {
-        status = httpStatus.OK;
-        res.status(status).json(responseJS.mess_Json(status));
+        
+        service.delete_product(id)
+        .then(deleted => {
+            status = httpStatus.OK;
+            res.status(status).json(responseJS.mess_Json(status));
+        }).catch(function(error) {
+            res.status(status).json(error);
+        });
+        
     }).catch(function(error) {
         res.status(status).json(error);
     });
+    
 }
