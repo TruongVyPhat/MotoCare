@@ -5,7 +5,7 @@ import { Row, Col } from 'reactstrap';
 const Service = ({service}) => {
 
 	return (
-		<Card>
+		<Card href="# ">
 			<Image src= {service.image ? service.image:"https://react.semantic-ui.com/images/avatar/large/matthew.png"} wrapped ui={true} />
 			<Card.Content>
 				<Card.Header>{service.name}</Card.Header>
@@ -18,15 +18,11 @@ const Service = ({service}) => {
 			<Card.Content extra>
 				<Row>
 					<Col xs={9}>
-						<a>
 							<Icon name="cart" />
 							Giá tiền: {service.price} VNĐ
-						</a>
 					</Col>
 					<Col xs={3}>
-						<a animated="horizental">
 							<Popup content='Add to service' trigger={<Button icon='add' />} />
-						</a>
 					</Col>
 				</Row>
 			</Card.Content>

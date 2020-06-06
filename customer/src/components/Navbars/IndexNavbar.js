@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Icon } from 'semantic-ui-react';
 import anime3 from 'assets/img/anime3.png';
 
 // reactstrap components
 import {
-	Button,
 	Collapse,
 	DropdownToggle,
 	DropdownMenu,
@@ -21,11 +19,7 @@ import {
 	Col,
 	UncontrolledTooltip
 } from 'reactstrap';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
 
 class ComponentsNavbar extends React.Component {
 	constructor(props) {
@@ -137,8 +131,8 @@ class ComponentsNavbar extends React.Component {
 									target="_blank"
 									title="Follow us on Twitter"
 								>
-									<Badge badgeContent={11} color="secondary">
-										<i class="fas fa-cart-plus" />
+									<Badge badgeContent={1} color="secondary">
+										<i className="fas fa-cart-plus" />
 									</Badge>
 									<p className="d-lg-none d-xl-none">Twitter</p>
 								</NavLink>

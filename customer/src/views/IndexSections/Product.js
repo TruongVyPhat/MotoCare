@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Icon, Image, Popup } from 'semantic-ui-react';
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { purple } from '@material-ui/core/colors';
-import ProductDetail from "views/examples/ProductDetail";
 
 const Product = ({ product }) => {
 	const [ onSale_price, setonSale_price ] = useState(undefined);
 	const [ onSale, setonSale ] = useState(false);
+	const current_date = new Date().getTime();
+	const start_date = new Date(product.start_date).getTime();
+	const end_date = new Date(product.end_date).getTime();
+	
 	useEffect(() => {
-		const current_date = new Date().getTime();
-		const start_date = new Date(product.start_date).getTime();
-		const end_date = new Date(product.end_date).getTime();
 		if (current_date > start_date && current_date < end_date) {
 			const price = parseInt(product.sell_price) * (100 - product.discount_percent) / 100;
 			setonSale_price(price);
@@ -20,7 +18,46 @@ const Product = ({ product }) => {
 	}, []);
 
 	const handleAddtoCart = () => {
-		console.log('dada')
+		if(window.localStorage.getItem('myCart') !== null){
+			let same = 0;
+			var oldCart = JSON.parse(window.localStorage.getItem('myCart')) || [];
+			console.log(oldCart.data.orders)
+			for(let i=0; i< oldCart.data.orders.length;i++)
+			{
+				console.log('ak')
+				if(product.id === oldCart.data.orders[i].id){
+					oldCart.data.orders[i].amount++
+					same = 1;
+				}
+			}
+			if(same === 0){
+				let newItem = { 
+					'id': product.id,
+					'name':product.name,
+					'image': product.image,
+					'amount': 1,
+					'sell_price': product.sell_price
+				}
+				oldCart.data.orders.push(newItem)
+			}
+			window.localStorage.setItem("myCart",JSON.stringify(oldCart))
+		}
+		else if(window.localStorage.getItem('myCart') === null){
+			window.localStorage.setItem("myCart",JSON.stringify({
+				"data": {
+					"discount":20,
+					"orders": [
+					{
+						"id": product.id,
+						'name':product.name,
+						'image': product.image,
+						"amount": 1,
+						'sell_price': product.sell_price
+					}
+					]
+				}
+			}))
+		}
 	}
 	
 	return (
@@ -43,18 +80,14 @@ const Product = ({ product }) => {
 			<Card.Content extra>
 				<Row>
 					<Col xs={9}>
-						<a>
 							<Icon name="cart"  />
 							{onSale ? onSale_price : product.sell_price} VNĐ
-						</a>
 					</Col>
 					<Col xs={3}>
-						<a animated="horizental">
 							<Popup content="Add to cart" trigger={<Button onClick={(event)=>{
 								event.preventDefault();
 								handleAddtoCart()
 								}} icon="add" />} />
-						</a>
 					</Col>
 				</Row>
 			</Card.Content>
