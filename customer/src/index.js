@@ -10,8 +10,8 @@ import "assets/demo/demo.css";
 import Index from "views/Index.js";
 import LandingPage from "views/examples/LandingPage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
-import ProfilePage from "views/examples/ProfilePage.js";
-import ProductDetail from "views/examples/ProductDetail";
+import ProductDetail from "views/examples/ProductDetail.js";
+import Signin from "views/examples/Signin.js";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -22,10 +22,10 @@ ReactDOM.render(
         render={props => <LandingPage {...props} />}
       />
       <Route
-        path="/register-page"><RegisterPage/> </Route>
-      <Route
-        path="/profile-page"
-        render={props => <ProfilePage {...props} />}
+        path="/register-page"> <RegisterPage/> </Route>
+     <Route
+        path="/signin"
+        render={props => <Signin {...props} />}
       />
       <Route
         path="/product-detail/:id"

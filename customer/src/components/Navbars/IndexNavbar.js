@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 import anime3 from 'assets/img/anime3.png';
@@ -31,12 +31,19 @@ class ComponentsNavbar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isLogin: false,
 			collapseOpen: false,
 			color: 'navbar-transparent'
 		};
 	}
 	componentDidMount() {
 		window.addEventListener('scroll', this.changeColor);
+		if (localStorage.getItem('access_token') !== null && localStorage.getItem('role_id') !== null) {
+            // window.location.href = "/"
+            this.setState({
+				isLogin: true
+			});
+        }
 	}
 	componentWillUnmount() {
 		window.removeEventListener('scroll', this.changeColor);
@@ -67,6 +74,9 @@ class ComponentsNavbar extends React.Component {
 		this.setState({
 			collapseOut: ''
 		});
+	};
+	handleClick = () => {
+		window.localStorage.clear();
 	};
 	scrollToDownload = () => {
 		document.getElementById('download-section').scrollIntoView({ behavior: 'smooth' });
@@ -170,11 +180,11 @@ class ComponentsNavbar extends React.Component {
 									Dầu nhớt xe máy
 								</DropdownToggle>
 								<DropdownMenu className="dropdown-with-icons">
-									<DropdownItem tag={Link} to="/register-page">
+									<DropdownItem tag={Link} to="/product-detail/:id">
 										<i className="tim-icons icon-user-run" />
 										Xe số
 									</DropdownItem>
-									<DropdownItem tag={Link} to="/product-detail">
+									<DropdownItem tag={Link} to="/product-detail/:id">
 										<i className="tim-icons icon-settings-gear-63" />
 										Xe tay ga
 									</DropdownItem>
@@ -194,11 +204,11 @@ class ComponentsNavbar extends React.Component {
 									Phụ trợ động cơ
 								</DropdownToggle>
 								<DropdownMenu className="dropdown-with-icons">
-									<DropdownItem tag={Link} to="/register-page">
+									<DropdownItem tag={Link} to="/product-detail/:id">
 										<i className="tim-icons icon-atom" />
 										Vệ sinh buồng đốt
 									</DropdownItem>
-									<DropdownItem tag={Link} to="/landing-page">
+									<DropdownItem tag={Link} to="/product-detail/:id">
 										<i className="tim-icons icon-settings-gear-63" />
 										Súc rửa động cơ
 									</DropdownItem>
@@ -224,18 +234,21 @@ class ComponentsNavbar extends React.Component {
 										<i className="tim-icons icon-bullet-list-67" />
 										Register
 									</DropdownItem>
-									<DropdownItem tag={Link} to="/landing-page">
+									
+									{this.state.isLogin? "": 
+									<DropdownItem tag={Link} to="/signin">
+										<i className="tim-icons icon-bullet-list-67" />
+										Sign in
+									</DropdownItem>}
+									
+									{this.state.isLogin? 
+									<DropdownItem onClick = {this.handleClick} tag={Link} to="/">
 										<i className="tim-icons icon-button-power" />
 										Log out
-									</DropdownItem>
+									</DropdownItem> : ""}
+									
 								</DropdownMenu>
 							</UncontrolledDropdown>
-
-							{/* <NavItem>
-								<Button className="nav-link d-none d-lg-block" color="primary" target="_blank">
-									<i className="tim-icons icon-spaceship" /> Upgrade to PRO
-								</Button>
-							</NavItem> */}
 						</Nav>
 					</Collapse>
 				</Container>

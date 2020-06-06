@@ -65,7 +65,7 @@ const LoginSchema = yupobject().shape({
     
 });
 
-function SignUp() {
+function RegisterPage() {
     const classes = useStyles();
     const [show, setShow] = useState(false);
     const [showCreate, setShowCreate] = useState(false);
@@ -87,7 +87,7 @@ function SignUp() {
     const onSubmit = (data) => {
         delete data.passwordconfirm;
         setIsloading(true);
-        Axios.post('http://localhost:9000/api/users/create',{data})
+        Axios.post('http://localhost:9000/api/users/register',{data})
             .then (res => {
                 if (res.status === 201) {
                     console.log(res.data);
@@ -226,4 +226,4 @@ function SignUp() {
     );
 }
 
-export default SignUp;
+export default RegisterPage;
