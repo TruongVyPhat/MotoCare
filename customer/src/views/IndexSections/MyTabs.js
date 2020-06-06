@@ -8,9 +8,7 @@ import Search from './Search';
 import {
 	TabContent,
 	TabPane,
-	Container,
 	Row,
-	Col,
 	Card,
 	CardHeader,
 	CardBody,

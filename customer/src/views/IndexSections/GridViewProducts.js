@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { Button, Card, Icon, Image } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import Product from './Product';
 import axios from 'axios';
 
@@ -22,7 +21,7 @@ const GridViewProducts = () => {
     return(
         <div>
             <Card.Group>
-                {listProduct && listProduct.map((product) => <Product product={product}/>)}
+                {listProduct && listProduct.map((product) => <Product key={product.id} product={product}/>)}
             </Card.Group>
         </div>
     );

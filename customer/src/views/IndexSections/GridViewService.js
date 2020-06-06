@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { Button, Card, Icon, Image } from 'semantic-ui-react';
+import {Card} from 'semantic-ui-react';
 import Service from './Service';
 import axios from 'axios';
 
@@ -22,7 +21,7 @@ const GridViewService = () => {
     return(
         <div>
             <Card.Group>
-                {listService && listService.map((service) => <Service service={service}/>)}
+                {listService && listService.map((service) => <Service key={service.id} service={service}/>)}
             </Card.Group>
         </div>
     );

@@ -12,6 +12,7 @@ import LandingPage from "views/examples/LandingPage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import ProductDetail from "views/examples/ProductDetail";
+import MyCart from "views/IndexSections/MyCart"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -24,6 +25,10 @@ ReactDOM.render(
       <Route
         path="/register-page"
         render={props => <RegisterPage {...props} />}
+      />
+      <Route
+        path="/my-cart"
+        render={props => <MyCart {...props} />}
       />
       <Route
         path="/profile-page"
