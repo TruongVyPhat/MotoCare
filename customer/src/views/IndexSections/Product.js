@@ -73,7 +73,7 @@ const Product = ({ product }) => {
 					Nhãn hiệu: <span className="date">{product.brand_name}</span>
 				</Card.Meta>
 				<Card.Meta>
-					Số lượng tồn: <span classname="date">{product.amount}</span> 
+					Số lượng tồn: <span className="date">{product.amount}</span> 
 				</Card.Meta>
 			</Card.Content>
 

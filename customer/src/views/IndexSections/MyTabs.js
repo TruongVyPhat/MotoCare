@@ -34,7 +34,7 @@ class Tabs extends React.Component {
 	};
 	render() {
 		return (
-			<div className="section section-tabs" style={{ margin: '0%'}}>
+			<div className="section section-tabs" style={{ margin: '10%'}}>
 				<Card>
 					<CardHeader>
 						<Nav className="nav-tabs-info" role="tablist" tabs>
