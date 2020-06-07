@@ -20,8 +20,8 @@ exports.get_all_products = (page) => {
 exports.get_product = (id) => {
     const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent, c.title FROM public.product p ' 
             + ' JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
-            + ' JOIN public.categories c on c.id = p.category_id '
-            + ' LEFT JOIN public."onSale" s on p.id = s.product_id where p.id = ? and s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id)';
+            + ' JOIN public.categories c on c.id = p.category_id LEFT JOIN public."onSale" s on p.id = s.product_id '
+            + ' where p.id = ? and (s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id) or s.end_date is null)';
     return sequelize.query(sql, {
         replacements: [id],
         type: QueryTypes.SELECT
