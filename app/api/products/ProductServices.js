@@ -29,8 +29,8 @@ exports.get_product = (id) => {
 }
 
 exports.get_user_by_keyword = (keyword) => {
-    const sql = "SELECT id, name from public.Product where id::text = ?"
-            + " or LOWER(replace((select convertTVkdau(name)),' ','')) like ?";
+    const sql = "SELECT p.id, p.name as title, p.image, pr.sell_price as price from public.product p join public.price pr on pr.product_id = p.id "
+            + " where p.id::text = ? or LOWER(replace((select convertTVkdau(p.name)),' ','')) like ?";
     return sequelize.query(sql, {
         replacements: [keyword, keyword],
         type: QueryTypes.SELECT
