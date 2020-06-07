@@ -73,7 +73,7 @@ exports.get_bill = (req, res) => {
 }
 
 exports.create_bill = (req, res) => {
-    const user_id = req.body.data.user_id;
+    const user_id = req.user.id;
     const discount = req.body.data.discount ? req.body.data.discount : CONSTANTS.DEFAULT_DISCOUNT;
     const orders = req.body.data.orders;
 
