@@ -5,6 +5,6 @@ const auth_Controller = require('../auth/AuthControllers');
 const ROLE = require('../helpers/constants').ROLE;
 const permission = require('../middlewares/permission');
 
-router.get('/payment', bill_Controller.create_bill);
+router.post('/payment', bill_Controller.create_bill);
 
 module.exports = router;
