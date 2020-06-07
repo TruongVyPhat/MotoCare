@@ -2,10 +2,17 @@ const service = require('./BillServices');
 const pOrder_service = require('../product_order/ProductOrderServices');
 const httpStatus = require('http-status-codes');
 const CONSTANTS = require('../helpers/constants');
+const path = require('path');
 const ROLE = CONSTANTS.ROLE;
 const formatter_time = require('../functions/format_time');
 const responseJS = require('../helpers/json-generator');
 let status = httpStatus.INTERNAL_SERVER_ERROR;
+const paypal = require('paypal-rest-sdk');
+paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': 'AXDAV98ZNIEvDHKGNpENqMhu9TENENbKKU9rnZHhpoUEuQZ_9jA5oAQHeCCfg6BGiFy9zKpJMJbgjwiM',
+    'client_secret': 'ECXQyWFi_XgcUtFFpLgPiBug3pa7Y84WMw36y7RyAL5ZRqP__ISgOUd5gdkjRGIBG0KftGGCUKuNlLW4'
+});
 
 exports.get_all_bills = (req, res) => {
     const page = req.query.page;
@@ -34,6 +41,7 @@ exports.get_bill = (req, res) => {
     const user_id = req.user.id;
     const role_id = req.user.role_id;
     if (role_id === ROLE.ADMIN || role_id === ROLE.CUSTOMER) user_id = null;
+
     service.get_bill(bill_id, user_id)
     .then(bills => {
         if (bills){
@@ -68,25 +76,61 @@ exports.create_bill = (req, res) => {
     const user_id = req.body.data.user_id;
     const discount = req.body.data.discount ? req.body.data.discount : CONSTANTS.DEFAULT_DISCOUNT;
     const orders = req.body.data.orders;
-    
+
     sequelize.transaction(async transaction => {
         try {
             service.create_bill(user_id, created_at, discount)
             .then(created => {
             
                 pOrder_service.create_orders(orders, bill_id)
-                .then(result => {
+                .then(results => {
                     service.check_update_bill(bill_id)
-                    .then(results => {
-                        const total_price = 0;
+                    .then(items => {
+                        const total = 0;
                     
                         for(let i = 0; i < results.length; i++){
-                            if (results[i].total_price){
-                                total_price = total_price + results[i].total_price;
-                            } else total_price = total_price + results[i].sell_price;
+                            total += results[i].price;
                         }
                         service.trigger_update_price(total_price, bill_id)
-                        .then(orders => {
+                        .then(updated => {
+                            
+                            const create_payment_json = {
+                                intent: 'sale',
+                                payer: {
+                                    payment_method: 'paypal'
+                                },
+                                redirect_urls: {
+                                    return_url: '',
+                                    cancel_url: ''
+                                },
+                                transactions: [
+                                    {
+                                        item_list: {
+                                            items: items
+                                        },
+                                        amount: {
+                                            currency: 'USD',
+                                            total: total.toString()
+                                        },
+                                        description: 'Hat for the best team ever'
+                                    }
+                                ]
+                            };
+                        
+                            paypal.payment.create(create_payment_json, function(error, payment) {
+                                if (error) {
+                                    console.log(error);
+                                    status = httpStatus.METHOD_FAILURE;
+                                    res.status(status).json(responseJS.mess_Json(status));
+                                } else {
+                                    for (let i = 0; i < payment.links.length; i++) {
+                                        if (payment.links[i].rel === 'approval_url') {
+                                            res.redirect(payment.links[i].href);
+                                        }
+                                    }
+                                }
+                            });
+
                             status = httpStatus.OK;
                             res.status(status).json(responseJS.mess_Json(status));
                         }).catch(error => {
@@ -108,5 +152,33 @@ exports.create_bill = (req, res) => {
         }
     })
 };
-    
+
+exports.payment = (req, res) => {
+    const payerId = req.query.PayerID;
+	const paymentId = req.query.paymentId;
+
+	const execute_payment_json = {
+		payer_id: payerId,
+		transactions: [
+			{
+				amount: {
+					currency: 'VND',
+					total: total.toString()
+				}
+			}
+		]
+	};
+
+	paypal.payment.execute(paymentId, execute_payment_json, function(error, payment) {
+		if (error) {
+            console.log(error);
+            status = httpStatus.METHOD_FAILURE;
+            res.status(status).json(responseJS.mess_Json(status));
+		} else {
+			console.log(JSON.stringify(payment));
+			status = httpStatus.OK;
+            res.status(status).json(responseJS.mess_Json(status));
+		}
+	});
+}
 

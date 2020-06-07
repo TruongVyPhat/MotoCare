@@ -44,11 +44,13 @@ exports.create_bill = (user_id, created_at, discount) => {
 }
 
 exports.check_update_bill = (bill_id) => {
-    const sql = 'select pro.product_id, pro.amount, p.sell_price, s.discount_percent, s.start_date, s.end_date, '
-            + ' (select (p.sell_price *(100-s.discount_percent))/100 * pro.amount where s.start_date <= (select now()) and (select now()) <= s.end_date) as total_price '
-            + ' from public.product_order pro JOIN public.price p on p.product_id = pro.product_id '
-            + ' LEFT JOIN public."onSale" s on pro.product_id = s.product_id'
-            + ' where bill_id = ? ORDER BY pro.product_id';
+    const sql = "select pro.product_id as sku, pr.name, pro.amount as quantity, (select 'USD') as currency, "
+            + " (SELECT COALESCE((select (p.sell_price *(100- s.discount_percent))/100 * pro.amount), p.sell_price)) as price "
+            + " from public.product_order pro JOIN public.product pr on pr.id = pro.product_id "
+            + " JOIN public.price p on p.product_id = pro.product_id "
+            + ' LEFT JOIN public."onSale" s on pro.product_id = s.product_id '
+            + " where bill_id = ? and (s.start_date is null or (s.start_date <= (select now()) and (select now()) <= s.end_date)) "
+            + " ORDER BY pro.product_id";
     return sequelize.query(sql, {            
         replacements: [bill_id],
         type: QueryTypes.SELECT
