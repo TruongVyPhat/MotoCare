@@ -76,69 +76,75 @@ exports.create_bill = (req, res) => {
     const user_id = req.user.id;
     const discount = req.body.data.discount ? req.body.data.discount : CONSTANTS.DEFAULT_DISCOUNT;
     const orders = req.body.data.orders;
+    const current_time = new Date().getTime();
+    const created_at = formatter_time.gettime_to_format(current_time);
 
     sequelize.transaction(async transaction => {
         try {
             service.create_bill(user_id, created_at, discount)
             .then(created => {
-            
-                pOrder_service.create_orders(orders, bill_id)
-                .then(results => {
-                    service.check_update_bill(bill_id)
-                    .then(items => {
-                        const total = 0;
-                    
-                        for(let i = 0; i < results.length; i++){
-                            total += results[i].price;
-                        }
-                        service.trigger_update_price(total_price, bill_id)
-                        .then(updated => {
-                            
-                            const create_payment_json = {
-                                intent: 'sale',
-                                payer: {
-                                    payment_method: 'paypal'
-                                },
-                                redirect_urls: {
-                                    return_url: '',
-                                    cancel_url: ''
-                                },
-                                transactions: [
-                                    {
-                                        item_list: {
-                                            items: items
-                                        },
-                                        amount: {
-                                            currency: 'USD',
-                                            total: total.toString()
-                                        },
-                                        description: 'Hat for the best team ever'
-                                    }
-                                ]
-                            };
+                service.get_created_bill(user_id, created_at)
+                .then(bills => {
+                    const bill_id = bills[0].id;
+                    pOrder_service.create_orders(orders, bill_id)
+                    .then(results => {
+                        service.check_update_bill(bill_id)
+                        .then(items => {
+                            const total = 0;
                         
-                            paypal.payment.create(create_payment_json, function(error, payment) {
-                                if (error) {
-                                    console.log(error);
-                                    status = httpStatus.METHOD_FAILURE;
-                                    res.status(status).json(responseJS.mess_Json(status));
-                                } else {
-                                    for (let i = 0; i < payment.links.length; i++) {
-                                        if (payment.links[i].rel === 'approval_url') {
-                                            res.redirect(payment.links[i].href);
+                            for(let i = 0; i < results.length; i++){
+                                total += results[i].price;
+                            }
+                            service.trigger_update_price(total_price, bill_id)
+                            .then(updated => {
+                                
+                                const create_payment_json = {
+                                    intent: 'sale',
+                                    payer: {
+                                        payment_method: 'paypal'
+                                    },
+                                    redirect_urls: {
+                                        return_url: '',
+                                        cancel_url: ''
+                                    },
+                                    transactions: [
+                                        {
+                                            item_list: {
+                                                items: items
+                                            },
+                                            amount: {
+                                                currency: 'USD',
+                                                total: total.toString()
+                                            },
+                                            description: 'Hat for the best team ever'
+                                        }
+                                    ]
+                                };
+                            
+                                paypal.payment.create(create_payment_json, function(error, payment) {
+                                    if (error) {
+                                        console.log(error);
+                                        status = httpStatus.METHOD_FAILURE;
+                                        res.status(status).json(responseJS.mess_Json(status));
+                                    } else {
+                                        for (let i = 0; i < payment.links.length; i++) {
+                                            if (payment.links[i].rel === 'approval_url') {
+                                                res.redirect(payment.links[i].href);
+                                            }
                                         }
                                     }
-                                }
-                            });
+                                });
 
-                            status = httpStatus.OK;
-                            res.status(status).json(responseJS.mess_Json(status));
-                        }).catch(error => {
+                                status = httpStatus.OK;
+                                res.status(status).json(responseJS.mess_Json(status));
+                            }).catch(error => {
+                                res.status(status).json(error);
+                            });
+                        })
+                        .catch(function(error) {
                             res.status(status).json(error);
                         });
-                
-                    })
-                    .catch(function(error) {
+                    }).catch(error => {
                         res.status(status).json(error);
                     });
                 });

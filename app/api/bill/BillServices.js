@@ -34,6 +34,14 @@ exports.get_bill = (bill_id, user_id) => {
     });
 }
 
+exports.get_created_bill = (user_id, created_at) => {
+    const sql = 'SELECT id from public.bill where user_id=? and created_at=?'
+    return sequelize.query(sql, {
+        replacements: [user_id, created_at],
+        type: QueryTypes.SELECT
+    });
+}
+
 exports.create_bill = (user_id, created_at, discount) => {
     const total_price = 0;
     const sql = 'INSERT INTO public.bill(user_id, created_at, discount, total_price)VALUES (?, ?, ?, ?)';
