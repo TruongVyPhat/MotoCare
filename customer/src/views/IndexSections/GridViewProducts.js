@@ -9,12 +9,10 @@ const GridViewProducts = () => {
     useEffect(() => {
         axios.get(`http://localhost:9000/api/products?page=1`)
         .then(res => {
-            console.log(res.data.data)
             setListProduct(res.data.data);
         }).catch(error => {
             console.log(error);
         });
-        //setListProduct(result);
     }, []);
     
 

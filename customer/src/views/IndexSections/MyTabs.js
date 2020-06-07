@@ -3,7 +3,7 @@ import React from 'react';
 import classnames from 'classnames';
 import GridViewProduct from './GridViewProducts';
 import { Pagination } from 'semantic-ui-react';
-import Search from './Search';
+import Search from './se';
 // reactstrap components
 import {
 	TabContent,

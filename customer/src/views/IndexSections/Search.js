@@ -5,13 +5,6 @@ import { Search, Grid } from 'semantic-ui-react';
 
 const initialState = { isLoading: false, results: [], value: '' };
 
-// const source = _.times(5, () => ({
-// 	title: faker.company.companyName(),
-// 	description: faker.company.catchPhrase(),
-// 	image: faker.internet.avatar(),
-// 	price: faker.finance.amount(0, 100, 2, '$')
-// }));
-
 const source = [
     {
       "title": "Oberbrunner, Rice and Roob",
@@ -79,7 +72,7 @@ export default class SearchExampleStandard extends Component {
 						})}
 						results={results}
 						value={value}
-						{...this.props}
+						//{...this.props}
 					/>
 			</Grid>
 		);
