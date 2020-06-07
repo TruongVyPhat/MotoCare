@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
+import IndexNavbar from "components/Navbars/IndexNavbar";
 import Footer from "components/Footer/Footer.js";
 import { Container } from 'reactstrap';
 import { Image, Button, Icon, Label } from 'semantic-ui-react'
 import Table from 'react-bootstrap/Table'
 
 function MyCart() {
-    const [myCartFinal, setMyCartFinal] = useState({})
     const [listItem, setListItem] = useState([])
     const [isEmpty, setIsEmpty] = useState(true)
+    const [isChangeArray, setIsChangeArray] = useState(false) 
     let totalPrice = 0;
 
     const handleBack = () => {
@@ -18,19 +18,94 @@ function MyCart() {
 
     useEffect(() => {
         if (window.localStorage.getItem('myCart')) {
-            setMyCartFinal(JSON.parse(window.localStorage.getItem('myCart')))
             setListItem(JSON.parse(window.localStorage.getItem('myCart')).data.orders)
             setIsEmpty(false)
         }
-    }, [])
+    }, [isChangeArray])
 
     const handleCheckOut = () => {
         console.log('clicked')
     }
 
+    const handleDelete = (id) => {
+        setListItem(listItem.filter(list => list.id !== id))
+        if(listItem.length !== 1) {
+            window.localStorage.setItem("myCart",JSON.stringify({
+                "data": {
+                    "discount":0,
+                    "orders": listItem.filter(list => list.id !== id)
+                }
+            }))
+        } else if(listItem.length === 1){
+            window.localStorage.removeItem("myCart") 
+            setIsEmpty(true)
+        }
+        setIsChangeArray(!isChangeArray)
+    }
+
+    const handleIncrease = (id) => {
+        let temp = listItem
+        for (let i = 0; i < temp.length ; i++)
+        {
+            if(temp[i].id === id) {
+                temp[i].quantity++
+            } 
+        }
+        setListItem(temp)
+        window.localStorage.setItem("myCart",JSON.stringify({
+            "data": {
+                "discount":0,
+                "orders": listItem
+            }
+        }))
+        setIsChangeArray(!isChangeArray)
+    }
+
+    
+
+    const handleDecrease = (id) => {
+        let temp = listItem
+        for (let i = 0; i < temp.length ; i++)
+        {
+            if (temp[i].quantity > 1 && temp[i].id === id) {
+                temp[i].quantity = temp[i].quantity - 1
+            }
+        }
+        setListItem(temp)
+        window.localStorage.setItem("myCart",JSON.stringify({
+            "data": {
+                "discount":0,
+                "orders": listItem
+            }
+        }))
+        setIsChangeArray(!isChangeArray)
+    }
+
+    const List = listItem.map((data) => {
+        totalPrice = totalPrice + (data.sell_price * data.quantity)
+        return (
+            <tr key={data.id}>
+                <td>{data.name}</td>
+                <td>
+                    <Button.Group color='grey' size='tiny'>
+                        <Button onClick={() => handleIncrease(data.id)}>+</Button>
+                        <Button.Or text={data.quantity} />
+                        {data.quantity > 1 ? <Button onClick={() => handleDecrease(data.id)}>-</Button> : ''}
+                    </Button.Group>
+                    
+                    </td>
+                <td>{data.sell_price} $</td>
+                <td>{data.sell_price * data.quantity} $</td>
+                <td><Button onClick={() => handleDelete(data.id)} color='red' icon>
+                        <Icon name='trash alternate outline' />
+                    </Button></td>
+            </tr>
+        )
+    })
+
     return (
         <>
-            <ExamplesNavbar />
+            <IndexNavbar />
             <Container style={{ marginTop: '100px' }}>
                 <div >
                     {isEmpty ? <>
@@ -44,39 +119,30 @@ function MyCart() {
                             <Table width="100%">
                                 <thead>
                                     <tr>
-                                        <th width="40%">Name</th>
-                                        <th width="30%">Amount</th>
-                                        <th width="10%">Price</th>
-                                        <th width="20%">Total</th>
+                                        <th width="25%">Name</th>
+                                        <th width="30%">Quantity</th>
+                                        <th width="15%">Price</th>
+                                        <th width="25%">Total</th>
+                                        <th width="5%"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {listItem.map((data) => {
-                                        totalPrice = totalPrice + (data.sell_price * data.amount)
-                                        return (
-                                            <tr key={data.id}>
-                                                <td>{data.name}</td>
-                                                <td>{data.amount}</td>
-                                                <td>{data.sell_price}</td>
-                                                <td>{data.sell_price * data.amount}</td>
-                                            </tr>
-                                        )
-                                    })}
+                                    {List}
                                 </tbody>
-                            </Table>
-                        </>}
-                </div>
-                <div style={{textAlign:'right', marginBottom: '100px' }}>
+                            </Table><div style={{textAlign:'right', marginBottom: '100px' }}>
                     <Button onClick={handleCheckOut} as='div' labelPosition='right'>
                         <Button color='teal'>
                             <Icon name='cart' />
                             Check out
                         </Button>
                         <Label as='a' basic color='teal' pointing='left'>
-                            {totalPrice}
+                            {totalPrice} $
                         </Label>
                     </Button>
                 </div>
+                        </>}
+                </div>
+                
             </Container>
 
             <Footer />

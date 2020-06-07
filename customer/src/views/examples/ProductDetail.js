@@ -8,9 +8,10 @@ import {
   Col,
   UncontrolledCarousel
 } from "reactstrap";
+import { Rating } from 'semantic-ui-react'
 
 // core components
-import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
+import IndexNavbar from "components/Navbars/IndexNavbar";
 import Footer from "components/Footer/Footer.js";
 
 const carouselItems = [
@@ -36,10 +37,51 @@ const ProductDetail = ({ match }) => {
   let id = parseInt(match.params.id);
   console.log(id)
   const [ProductDetail, setListProductDetail] = useState({});
+  const [isChanged, setIsChanged] = useState(false)
 
   const handleAddtoCart = () => {
-    
-  }
+		if(window.localStorage.getItem('myCart') !== null){
+			let same = 0;
+			var oldCart = JSON.parse(window.localStorage.getItem('myCart')) || [];
+			console.log(oldCart.data.orders)
+			for(let i=0; i< oldCart.data.orders.length;i++)
+			{
+				console.log('ak')
+				if(ProductDetail.id === oldCart.data.orders[i].id){
+					oldCart.data.orders[i].quantity++
+					same = 1;
+				}
+			}
+			if(same === 0){
+				let newItem = { 
+					'id': ProductDetail.id,
+					'name':ProductDetail.name,
+					'image': ProductDetail.image,
+					'quantity': 1,
+					'sell_price': ProductDetail.sell_price
+				}
+				oldCart.data.orders.push(newItem)
+			}
+			window.localStorage.setItem("myCart",JSON.stringify(oldCart))
+		}
+		else if(window.localStorage.getItem('myCart') === null){
+			window.localStorage.setItem("myCart",JSON.stringify({
+				"data": {
+					"discount":20,
+					"orders": [
+					{
+						"id": ProductDetail.id,
+						'name':ProductDetail.name,
+						'image': ProductDetail.image,
+						"quantity": 1,
+						'sell_price': ProductDetail.sell_price
+					}
+					]
+				}
+			}))
+    }
+    setIsChanged(!isChanged)
+	}
 
   useEffect(() => {
     axios.get(`http://localhost:9000/api/products/${id}`)
@@ -49,11 +91,11 @@ const ProductDetail = ({ match }) => {
       }).catch(error => {
         console.log(error);
       });
-  }, [id]);
+  }, [id,isChanged]);
 
   return (
     <>
-      <ExamplesNavbar />
+      <IndexNavbar />
       <div className="wrapper">
         <div className="section">
           <Container style={{ marginTop: "100px" }}>
@@ -70,6 +112,8 @@ const ProductDetail = ({ match }) => {
                   {ProductDetail.description}
                 </p>
                 <div>Số lượng tồn: </div> <p>{ProductDetail.amount} bình</p>
+                <br/>
+                <Rating maxRating={5} defaultRating={4} icon='star' size='mini' />
                 <div className="btn-wrapper pt-3">
                   <Button
                     className="btn-simple"

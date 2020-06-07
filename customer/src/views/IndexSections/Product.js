@@ -8,6 +8,7 @@ const Product = ({ product }) => {
 	const current_date = new Date().getTime();
 	const start_date = new Date(product.start_date).getTime();
 	const end_date = new Date(product.end_date).getTime();
+	const [isChanged, setIsChanged] = useState(false)
 	
 	useEffect(() => {
 		if (current_date > start_date && current_date < end_date) {
@@ -15,7 +16,7 @@ const Product = ({ product }) => {
 			setonSale_price(price);
 			setonSale(true);
 		}
-	}, []);
+	}, [isChanged]);
 
 	const handleAddtoCart = () => {
 		if(window.localStorage.getItem('myCart') !== null){
@@ -26,7 +27,7 @@ const Product = ({ product }) => {
 			{
 				console.log('ak')
 				if(product.id === oldCart.data.orders[i].id){
-					oldCart.data.orders[i].amount++
+					oldCart.data.orders[i].quantity++
 					same = 1;
 				}
 			}
@@ -35,7 +36,7 @@ const Product = ({ product }) => {
 					'id': product.id,
 					'name':product.name,
 					'image': product.image,
-					'amount': 1,
+					'quantity': 1,
 					'sell_price': product.sell_price
 				}
 				oldCart.data.orders.push(newItem)
@@ -45,19 +46,20 @@ const Product = ({ product }) => {
 		else if(window.localStorage.getItem('myCart') === null){
 			window.localStorage.setItem("myCart",JSON.stringify({
 				"data": {
-					"discount":20,
+					"discount":0,
 					"orders": [
 					{
 						"id": product.id,
 						'name':product.name,
 						'image': product.image,
-						"amount": 1,
+						"quantity": 1,
 						'sell_price': product.sell_price
 					}
 					]
 				}
 			}))
 		}
+		setIsChanged(!isChanged)
 	}
 	
 	return (
