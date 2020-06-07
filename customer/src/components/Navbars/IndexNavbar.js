@@ -81,21 +81,8 @@ class ComponentsNavbar extends React.Component {
 				<Container>
 					<div className="navbar-translate">
 						<NavbarBrand to="/" tag={Link} id="navbar-brand">
-							<span>MotorCare• </span>
-							Design System React
+							<span>MotorCare</span>
 						</NavbarBrand>
-						<UncontrolledTooltip placement="bottom" target="navbar-brand">
-							Designed and Coded by HPT Group
-						</UncontrolledTooltip>
-						<button
-							aria-expanded={this.state.collapseOpen}
-							className="navbar-toggler navbar-toggler"
-							onClick={this.toggleCollapse}
-						>
-							<span className="navbar-toggler-bar bar1" />
-							<span className="navbar-toggler-bar bar2" />
-							<span className="navbar-toggler-bar bar3" />
-						</button>
 					</div>
 					<Collapse
 						className={'justify-content-end ' + this.state.collapseOut}

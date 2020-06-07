@@ -4,6 +4,7 @@ import Footer from "components/Footer/Footer.js";
 import { Container } from 'reactstrap';
 import { Image, Button, Icon, Label } from 'semantic-ui-react'
 import Table from 'react-bootstrap/Table'
+import axios from 'axios'
 
 function MyCart() {
     const [listItem, setListItem] = useState([])
@@ -24,7 +25,15 @@ function MyCart() {
     }, [isChangeArray])
 
     const handleCheckOut = () => {
-        console.log('clicked')
+        let url = 'http://localhost:9000/api/bill/payment'
+        let data = JSON.parse(window.localStorage.getItem("myCart"))
+        console.log(data)
+        axios.post(url, data, { headers: { authorization: localStorage.getItem('access_token') } })
+        .then(res => {
+            console.log(res.data.data)
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     const handleDelete = (id) => {

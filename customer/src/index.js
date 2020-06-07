@@ -13,11 +13,13 @@ import RegisterPage from "views/examples/RegisterPage.js";
 import ProductDetail from "views/examples/ProductDetail";
 import MyCart from "views/IndexSections/MyCart"
 import Signin from "views/examples/Signin";
+import MyTab from "views/IndexSections/MyTabs"
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/components" render={props => <Index {...props} />} />
+      <Route path="/components/product" render={props => <Index {...props} data={'MyTab'}/>} />
+      <Route path="/components/success" render={props => <Index {...props} data={'Success'} />} />
       <Route
         path="/landing-page"
         render={props => <LandingPage {...props} />}
@@ -30,13 +32,13 @@ ReactDOM.render(
         render={props => <Signin {...props} />} />
       <Route
         path="/my-cart"
-        render={props => <MyCart {...props} />}
+        render={props => <Index {...props} data={'MyCart'} />}
       />
       <Route
         path="/product-detail/:id"
         render={props => <ProductDetail {...props} />}
       />
-      <Redirect from="/" to="/components" />
+      <Redirect from="/" to="/components/product" />
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

@@ -83,7 +83,7 @@ const Product = ({ product }) => {
 				<Row>
 					<Col xs={9}>
 							<Icon name="cart"  />
-							{onSale ? onSale_price : product.sell_price} VNĐ
+							{onSale ? onSale_price : product.sell_price} USD
 					</Col>
 					<Col xs={3}>
 							<Popup content="Add to cart" trigger={<Button onClick={(event)=>{
