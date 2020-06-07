@@ -102,7 +102,7 @@ exports.create_bill = (req, res) => {
                                     payment_method: 'paypal'
                                 },
                                 redirect_urls: {
-                                    return_url: 'http://localhost:3000/success',
+                                    return_url: `http://localhost:9000/success?${total}`,
                                     cancel_url: 'http://localhost:3000/cancel'
                                 },
                                 transactions: [
@@ -153,7 +153,8 @@ exports.create_bill = (req, res) => {
 
 exports.payment = (req, res) => {
 	const payerId = req.query.PayerID;
-	const paymentId = req.query.paymentId;
+    const paymentId = req.query.paymentId;
+    const total = req.query.total;
 
 	const execute_payment_json = {
 		payer_id: payerId,
@@ -174,8 +175,7 @@ exports.payment = (req, res) => {
 			res.status(status).json(responseJS.mess_Json(status));
 		} else {
 			console.log(JSON.stringify(payment));
-			status = httpStatus.OK;
-			res.status(status).json(responseJS.mess_Json(status));
+			res.redirect('http://locahost:300/success', httpStatus.OK);
 		}
 	});
 };
