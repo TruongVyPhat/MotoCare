@@ -33,10 +33,20 @@ const carouselItems = [
 ];
 
 
-const ProductDetail = ({ match }) => {
+const Product = ({ match }) => {
   let id = parseInt(match.params.id);
   console.log(id)
-  const [ProductDetail, setListProductDetail] = useState({});
+  const [Product, setProduct] = useState({});
+  useEffect(() => {
+    axios.get(`http://localhost:9000/api/products/${id}`)
+      .then(res => {
+        console.log(res.data.data)
+        setProduct(res.data.data);
+      }).catch(error => {
+        console.log(error);
+      });
+  }, [id,isChanged]);
+
   const [isChanged, setIsChanged] = useState(false)
 
   const handleAddtoCart = () => {
@@ -47,18 +57,18 @@ const ProductDetail = ({ match }) => {
 			for(let i=0; i< oldCart.data.orders.length;i++)
 			{
 				console.log('ak')
-				if(ProductDetail.id === oldCart.data.orders[i].id){
+				if(Product.id === oldCart.data.orders[i].id){
 					oldCart.data.orders[i].quantity++
 					same = 1;
 				}
 			}
 			if(same === 0){
 				let newItem = { 
-					'id': ProductDetail.id,
-					'name':ProductDetail.name,
-					'image': ProductDetail.image,
+					'id': Product.id,
+					'name':Product.name,
+					'image': Product.image,
 					'quantity': 1,
-					'sell_price': ProductDetail.sell_price
+					'sell_price': Product.sell_price
 				}
 				oldCart.data.orders.push(newItem)
 			}
@@ -70,11 +80,11 @@ const ProductDetail = ({ match }) => {
 					"discount":20,
 					"orders": [
 					{
-						"id": ProductDetail.id,
-						'name':ProductDetail.name,
-						'image': ProductDetail.image,
+						"id": Product.id,
+						'name':Product.name,
+						'image': Product.image,
 						"quantity": 1,
-						'sell_price': ProductDetail.sell_price
+						'sell_price': Product.sell_price
 					}
 					]
 				}
@@ -82,16 +92,6 @@ const ProductDetail = ({ match }) => {
     }
     setIsChanged(!isChanged)
 	}
-
-  useEffect(() => {
-    axios.get(`http://localhost:9000/api/products/${id}`)
-      .then(res => {
-        console.log(res.data.data)
-        setListProductDetail(res.data.data);
-      }).catch(error => {
-        console.log(error);
-      });
-  }, [id,isChanged]);
 
   return (
     <>
@@ -106,12 +106,12 @@ const ProductDetail = ({ match }) => {
                 </Row>
               </Col>
               <Col md="5">
-                <h1 className="profile-title text-left">{ProductDetail.name}</h1>
+                <h1 className="profile-title text-left">{Product.name}</h1>
                 <div>Mô tả sản phẩm: </div>
                 <p className="profile-description text-left">
-                  {ProductDetail.description}
+                  {Product.description}
                 </p>
-                <div>Số lượng tồn: </div> <p>{ProductDetail.amount} bình</p>
+                <div>Số lượng tồn: </div> <p>{Product.amount} bình</p>
                 <br/>
                 <Rating maxRating={5} defaultRating={4} icon='star' size='mini' />
                 <div className="btn-wrapper pt-3">
@@ -146,4 +146,4 @@ const ProductDetail = ({ match }) => {
 }
 
 
-export default ProductDetail;
+export default Product;
