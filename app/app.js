@@ -1,9 +1,11 @@
 const createError = require('http-errors');
 const express = require('express');
+const paypal = require('paypal-rest-sdk');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require("cors");
+//const paypal_secret = require('./api/helpers/paypal_config');
 
 const userRouter = require('./api/users/UserRoutes');
 const authRouter = require('./api/auth/AuthRoutes');
@@ -14,12 +16,19 @@ const brandRouter = require('./api/brand/BrandRouters');
 const serviceRouter = require('./api/services/ServiceRouters');
 const slotRouter = require('./api/slots/SlotRouters');
 const priceRouter = require('./api/prices/PriceRouters');
+const billRouter = require('./api/bill/BillRoutes');
+const paymentRouter = require('./api/bill/PaymentRouters');
 
 const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AXDAV98ZNIEvDHKGNpENqMhu9TENENbKKU9rnZHhpoUEuQZ_9jA5oAQHeCCfg6BGiFy9zKpJMJbgjwiM',
+  'client_secret': 'ECXQyWFi_XgcUtFFpLgPiBug3pa7Y84WMw36y7RyAL5ZRqP__ISgOUd5gdkjRGIBG0KftGGCUKuNlLW4'
+});
 app.use(cors());
 
 app.use(logger('dev'));
@@ -37,6 +46,34 @@ app.use('/api/brands', brandRouter);
 app.use('/api/services', serviceRouter);
 app.use('/api/slots', slotRouter);
 app.use('/api/prices', priceRouter);
+app.use('/api/bill', billRouter);
+app.use('success', paymentRouter);
+
+// app.get('/success', (req, res) => {
+// 	const payerId = req.query.PayerID;
+// 	const paymentId = req.query.paymentId;
+
+// 	const execute_payment_json = {
+// 		payer_id: payerId,
+// 		transactions: [
+// 			{
+// 				amount: {
+// 					currency: 'VND',
+// 					total: total.toString()
+// 				}
+// 			}
+// 		]
+// 	};
+
+// 	paypal.payment.execute(paymentId, execute_payment_json, function(error, payment) {
+// 		if (error) {
+// 			res.render('cancle');
+// 		} else {
+// 			console.log(JSON.stringify(payment));
+// 			res.render('success');
+// 		}
+// 	});
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
