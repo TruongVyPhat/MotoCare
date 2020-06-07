@@ -4,7 +4,7 @@ const paypal = require('paypal-rest-sdk');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require("cors");
+const cors = require('cors');
 //const paypal_secret = require('./api/helpers/paypal_config');
 
 const userRouter = require('./api/users/UserRoutes');
@@ -25,9 +25,9 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 paypal.configure({
-  'mode': 'sandbox', //sandbox or live
-  'client_id': 'AXDAV98ZNIEvDHKGNpENqMhu9TENENbKKU9rnZHhpoUEuQZ_9jA5oAQHeCCfg6BGiFy9zKpJMJbgjwiM',
-  'client_secret': 'ECXQyWFi_XgcUtFFpLgPiBug3pa7Y84WMw36y7RyAL5ZRqP__ISgOUd5gdkjRGIBG0KftGGCUKuNlLW4'
+	mode: 'sandbox', //sandbox or live
+	client_id: 'AXDAV98ZNIEvDHKGNpENqMhu9TENENbKKU9rnZHhpoUEuQZ_9jA5oAQHeCCfg6BGiFy9zKpJMJbgjwiM',
+	client_secret: 'ECXQyWFi_XgcUtFFpLgPiBug3pa7Y84WMw36y7RyAL5ZRqP__ISgOUd5gdkjRGIBG0KftGGCUKuNlLW4'
 });
 app.use(cors());
 
@@ -47,53 +47,27 @@ app.use('/api/services', serviceRouter);
 app.use('/api/slots', slotRouter);
 app.use('/api/prices', priceRouter);
 app.use('/api/bill', billRouter);
-app.use('success', paymentRouter);
-
-// app.get('/success', (req, res) => {
-// 	const payerId = req.query.PayerID;
-// 	const paymentId = req.query.paymentId;
-
-// 	const execute_payment_json = {
-// 		payer_id: payerId,
-// 		transactions: [
-// 			{
-// 				amount: {
-// 					currency: 'VND',
-// 					total: total.toString()
-// 				}
-// 			}
-// 		]
-// 	};
-
-// 	paypal.payment.execute(paymentId, execute_payment_json, function(error, payment) {
-// 		if (error) {
-// 			res.render('cancle');
-// 		} else {
-// 			console.log(JSON.stringify(payment));
-// 			res.render('success');
-// 		}
-// 	});
-// });
+app.use('/success', paymentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+	next(createError(404));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+	// set locals, only providing error in development
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+	// render the error page
+	res.status(err.status || 500);
+	res.render('error');
 });
 
 // set port
-app.listen(9000,function() {
-  console.log('----Hello Tiger Tran----');
+app.listen(9000, function() {
+	console.log('----Hello Tiger Tran----');
 });
 
 module.exports = app;
