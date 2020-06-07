@@ -31,6 +31,7 @@ function MyCart() {
         axios.post(url, data, { headers: { authorization: localStorage.getItem('access_token') } })
         .then(res => {
             console.log(res.data.data)
+            window.location.href(res.data.data)
         }).catch(error => {
             console.log(error);
         });

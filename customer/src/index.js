@@ -11,9 +11,8 @@ import Index from "views/Index.js";
 import LandingPage from "views/examples/LandingPage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import ProductDetail from "views/examples/ProductDetail";
-import MyCart from "views/IndexSections/MyCart"
+import SuccessPayment from "views/IndexSections/SuccessPayment"
 import Signin from "views/examples/Signin";
-import MyTab from "views/IndexSections/MyTabs"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -37,6 +36,10 @@ ReactDOM.render(
       <Route
         path="/product-detail/:id"
         render={props => <ProductDetail {...props} />}
+      />
+      <Route
+        path="/success"
+        render={props => <SuccessPayment {...props} />}
       />
       <Redirect from="/" to="/components/product" />
     </Switch>
