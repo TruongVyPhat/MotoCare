@@ -6,3 +6,5 @@ const ROLE = require('../helpers/constants').ROLE;
 const permission = require('../middlewares/permission');
 
 router.get('/payment', bill_Controller.create_bill);
+
+module.exports = router;
