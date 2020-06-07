@@ -66,7 +66,7 @@ exports.check_update_bill = (bill_id) => {
 } 
 
 exports.trigger_update_price = (total_price, bill_id) => {
-    const sql = 'UPDATE public.bill total_price=? WHERE id=?';
+    const sql = 'UPDATE public.bill SET total_price=? WHERE id=?';
     return sequelize.query(sql, {            
         replacements: [total_price, bill_id],
         type: QueryTypes.UPDATE
