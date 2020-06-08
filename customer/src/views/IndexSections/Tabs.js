@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-import GridViewProduct from './GridViewProducts';
+import GridViewProduct from '../products/GridViewProducts';
+import GridViewService from '../services/GridViewService';
 import { Pagination } from 'semantic-ui-react';
-import Search from './Search';
-
+import Search from '../products/Search';
 // reactstrap components
 import {
 	TabContent,
@@ -20,7 +20,6 @@ import {
 	NavItem,
 	NavLink
 } from 'reactstrap';
-import GridViewService from './GridViewService';
 
 const Tabs = () => {
 	const [ search, setSearch ] = useState(null);
@@ -73,17 +72,16 @@ const Tabs = () => {
 							</NavLink>
 						</NavItem>
 						{iconTabs === 1 && <NavItem>
-							<UncontrolledDropdown nav>
+							<UncontrolledDropdown style={{paddingRight:"10px"}}>
 								<DropdownToggle
 									caret
-									color="default"
+									color="info"
 									data-toggle="dropdown"
 									href="#pablo"
-									nav
 									onClick={(e) => e.preventDefault()}
 								>
 									<i className="tim-icons icon-bag-16" />
-									Categories
+									&nbsp; Categories
 								</DropdownToggle>
 								<DropdownMenu className="dropdown-with-icons">
 									<DropdownItem onClick={e => handleFilter(e, null)}>

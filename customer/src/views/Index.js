@@ -3,11 +3,11 @@ import React, { useEffect } from "react";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import PageHeader from "components/PageHeader/PageHeader.js";
 import Footer from "components/Footer/Footer.js";
-import Typography from "views/IndexSections/Typography.js";
-import JavaScript from "views/IndexSections/JavaScript.js";
+import Typography from "components/Typography/Typography";
+import JavaScript from "components/Slider/JavaScript";
 import Tabs from "views/IndexSections/Tabs.js";
+import ProductDetail from "views/products/ProductDetail";
 import { ToastProvider } from 'react-toast-notifications'
-import ProductDetail from "views/examples/ProductDetail";
 
 const Index = (props) => {
   useEffect (() => {

@@ -9,11 +9,11 @@ import "assets/demo/demo.css";
 
 import Index from "views/Index.js";
 import ProfilePage from "views/examples/ProfilePage.js";
-import RegisterPage from "views/examples/RegisterPage.js";
-import ProductDetail from "views/examples/ProductDetail";
-import SuccessPayment from "views/IndexSections/SuccessPayment"
-import Signin from "views/examples/Signin";
-import MyCart from "views/IndexSections/Cart"
+import RegisterPage from "views/auth/RegisterPage";
+import ProductDetail from "views/products/ProductDetail";
+import SuccessPayment from "views/payment/SuccessPayment"
+import Signin from "views/auth/Signin";
+import MyCart from "views/cart/Cart"
 import { ToastProvider } from 'react-toast-notifications'
 
 ReactDOM.render(

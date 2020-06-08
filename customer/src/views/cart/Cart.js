@@ -32,10 +32,10 @@ function MyCart() {
         console.log(data)
         axios.post(url, data, { headers: { authorization: localStorage.getItem('access_token') } })
         .then(res => {
-            console.log(res.data)
-            console.log('a: ' ,res.data.data)
+            window.location.href = res.data.data
         }).catch(error => {
-            console.log(error);
+            if(error.response.data.message === 'Unauthorized') window.location.href = '/signin'
+            console.log(error.response.data.message);
         });
     }
 
