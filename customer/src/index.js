@@ -11,13 +11,14 @@ import Index from "views/Index.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import ProductDetail from "views/examples/ProductDetail";
-import MyCart from "views/IndexSections/MyCart"
+import SuccessPayment from "views/IndexSections/SuccessPayment"
 import Signin from "views/examples/Signin";
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/components" render={props => <Index {...props} />} />
+      <Route path="/components/product" render={props => <Index {...props} data={'MyTab'}/>} />
+      <Route path="/components/success" render={props => <Index {...props} data={'Success'} />} />
       <Route
         path="/profile-page"
         render={props => <ProfilePage {...props} />}
@@ -31,13 +32,17 @@ ReactDOM.render(
       />
       <Route
         path="/my-cart"
-        render={props => <MyCart {...props} />}
+        render={props => <Index {...props} data={'MyCart'} />}
       />
       <Route
         path="/product-detail/:id"
         render={props => <ProductDetail {...props} />}
       />
-      <Redirect from="/" to="/components" />
+      <Route
+        path="/success"
+        render={props => <SuccessPayment {...props} />}
+      />
+      <Redirect from="/" to="/components/product" />
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

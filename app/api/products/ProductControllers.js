@@ -4,6 +4,7 @@ const httpStatus = require('http-status-codes');
 const CONSTANTS = require('../helpers/constants');
 const ROLE = CONSTANTS.ROLE;
 const formatter_time = require('../functions/format_time');
+const formatter = require('../functions/format_vi_str');
 const responseJS = require('../helpers/json-generator');
 let status = httpStatus.INTERNAL_SERVER_ERROR;
 
@@ -11,7 +12,7 @@ exports.get_all_products = (req, res) => {
     const page = req.query.page;
     service.get_all_products(page)
     .then(products => {
-        if (products){
+        if (products.length > 0){
             status = httpStatus.OK; 
             res.status(status).json(responseJS.Json(status, products));
         } else {
@@ -28,7 +29,7 @@ exports.get_product = (req, res) => {
     const product_id = req.params.id;
     service.get_product(product_id)
     .then(products => {
-        if (products){
+        if (products.length > 0){
             status = httpStatus.OK;
             res.status(status).json(responseJS.Json(status, products[0]));
         } else {

@@ -82,21 +82,8 @@ class ComponentsNavbar extends React.Component {
 				<Container>
 					<div className="navbar-translate">
 						<NavbarBrand to="/" tag={Link} id="navbar-brand">
-							<span>MotorCare• </span>
-							Design System React
+							<span>MotorCare</span>
 						</NavbarBrand>
-						<UncontrolledTooltip placement="bottom" target="navbar-brand">
-							Designed and Coded by HPT Group
-						</UncontrolledTooltip>
-						<button
-							aria-expanded={this.state.collapseOpen}
-							className="navbar-toggler navbar-toggler"
-							onClick={this.toggleCollapse}
-						>
-							<span className="navbar-toggler-bar bar1" />
-							<span className="navbar-toggler-bar bar2" />
-							<span className="navbar-toggler-bar bar3" />
-						</button>
 					</div>
 					<Collapse
 						className={'justify-content-end ' + this.state.collapseOut}
@@ -127,12 +114,10 @@ class ComponentsNavbar extends React.Component {
 							<NavItem className="p-0">
 								<NavLink
 									data-placement="bottom"
-									href="https://twitter.com/CreativeTim"
+									href="/my-cart"
 									rel="noopener noreferrer"
-									target="_blank"
-									title="Follow us on Twitter"
 								>
-									<Badge badgeContent={1} color="secondary">
+									<Badge badgeContent={window.localStorage.getItem('myCart')? JSON.parse(window.localStorage.getItem('myCart')).data.orders.length : 0} color="secondary">
 										<i className="fas fa-cart-plus" />
 									</Badge>
 									<p className="d-lg-none d-xl-none">Twitter</p>
@@ -141,9 +126,8 @@ class ComponentsNavbar extends React.Component {
 							<NavItem className="p-0">
 								<NavLink
 									data-placement="bottom"
-									href="https://www.facebook.com/CreativeTim"
+									href="# "
 									rel="noopener noreferrer"
-									target="_blank"
 									title="Like us on Facebook"
 								>
 									<i className="fab fa-facebook-square" />
@@ -153,9 +137,8 @@ class ComponentsNavbar extends React.Component {
 							<NavItem className="p-0">
 								<NavLink
 									data-placement="bottom"
-									href="https://www.instagram.com/CreativeTimOfficial"
+									href="# "
 									rel="noopener noreferrer"
-									target="_blank"
 									title="Follow us on Instagram"
 								>
 									<i className="fab fa-instagram" />

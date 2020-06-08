@@ -21,3 +21,20 @@ exports.get_all_my_bookings = (user_id, page) => {
         type: QueryTypes.SELECT
     });
 }
+
+exports.filter_by_status = (status, user_id) => {
+    let sql = 'SELECT * from public.booking where status=? ';
+    let replacements = [status];
+    if (user_id){
+        sql = sql + ' and user_id=?';
+        replacements.push(user_id);
+    }
+    return sequelize.query(sql, {
+        replacements: replacements,
+        type: QueryTypes.SELECT
+    });
+}
+
+exports.get_calendar = (start_time, end_time) => {
+    const sql = 'SELECT * from public.booking where '
+}
