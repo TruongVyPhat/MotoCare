@@ -35,7 +35,7 @@ let ps = null;
 
 const User = () => {
 const [User, setUser] = useState({});
-const [readOnly, setreadOnly] = useState(true);
+const [isreadOnly, setreadOnly] = useState(true);
 let RoleName = null;
   
   useEffect(() => {
@@ -63,8 +63,7 @@ let RoleName = null;
   }
 
   const handleClick = () => {
-    // <Input readOnly={false} placeholder={User.name} type="text" />
-    // <Input readOnl placeholder={User.email} type="email"/>
+      setreadOnly(!isreadOnly)
   }
 
 
@@ -91,14 +90,14 @@ let RoleName = null;
                           <Col md="6">
                             <FormGroup>
                               <label>User Name</label>
-                              <Input readOnly placeholder={User.name} type="text" />
+                              <Input readOnly={isreadOnly} placeholder={User.name} type="text" />
                             </FormGroup>
                           </Col>
                           <Col md="6">
                             <FormGroup>
                               <label>Email address</label>
                               <Input 
-                                readOnly
+                                readOnly={isreadOnly}
                                 placeholder={User.email}
                                 type="email"
                               />
@@ -109,13 +108,13 @@ let RoleName = null;
                           <Col md="6">
                             <FormGroup>
                             <label for="exampleInputPassword1">Password</label>
-                              <Input readOnly defaultValue={User.password} type="password" />
+                              <Input readOnly={isreadOnly} defaultValue={User.password} type="password" />
                             </FormGroup>
                           </Col>
                           <Col md="6">
                             <FormGroup>
                               <label>Phone Number</label>
-                              <Input readOnly placeholder={User.phone} type="text" />
+                              <Input readOnly={isreadOnly} placeholder={User.phone} type="text" />
                             </FormGroup>
                           </Col>
                         </Row>
@@ -123,13 +122,13 @@ let RoleName = null;
                           <Col md="6">
                             <FormGroup>
                               <label>Date of Birth</label>
-                              <Input readOnly placeholder={User.date_of_birth} type="text" />
+                              <Input readOnly={isreadOnly} placeholder={User.date_of_birth} type="text" />
                             </FormGroup>
                           </Col>
                           <Col md="6">
                             <FormGroup>
                               <label>Role</label>
-                              <Input readOnly placeholder={changeNameUserRole(RoleName)} type="text" />
+                              <Input readOnly={isreadOnly} placeholder={changeNameUserRole(RoleName)} type="text" />
                             </FormGroup>
                           </Col>
                         </Row>
@@ -137,7 +136,7 @@ let RoleName = null;
                           <Col md="12">
                             <FormGroup>
                               <label>Address</label>
-                              <Input readOnly defaultValue={User.address} type="text" />
+                              <Input readOnly={isreadOnly} defaultValue={User.address} type="text" />
                             </FormGroup>
                           </Col>
                         </Row>
@@ -149,7 +148,7 @@ let RoleName = null;
                               data-placement="right"
                               id="tooltip877922017"
                               type="button"
-                              onClick={handleClick()}
+                              onClick= {handleClick}
                             >
                               Edit Profile
                             </Button>
@@ -168,14 +167,14 @@ let RoleName = null;
                               id="tooltip341148792"
                               type="button"
                             >
-                              Send For Us
+                              Save profile
                             </Button>
                             <UncontrolledTooltip
                               delay={0}
                               placement="right"
                               target="tooltip341148792"
                             >
-                              Send for us when you edited your information!
+                              Save profile when you edited your information!
                             </UncontrolledTooltip>
                           </Col>
                         </Row>
