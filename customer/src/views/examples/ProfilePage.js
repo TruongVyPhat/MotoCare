@@ -27,11 +27,8 @@ import {
 } from "reactstrap";
 
 // core components
-import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
+import Navbar from "components/Navbars/IndexNavbar";
 import Footer from "components/Footer/Footer.js";
-
-
-let ps = null;
 
 const User = () => {
 const [User, setUser] = useState({});
@@ -69,7 +66,7 @@ let RoleName = null;
 
     return (
       <>
-        <ExamplesNavbar />
+        <Navbar />
         <div className="wrapper">
           <section className="section">
             <Container>
@@ -90,7 +87,7 @@ let RoleName = null;
                           <Col md="6">
                             <FormGroup>
                               <label>User Name</label>
-                              <Input readOnly={isreadOnly} placeholder={User.name} type="text" />
+                              <Input readOnly={isreadOnly} value={User.name} type="text" />
                             </FormGroup>
                           </Col>
                           <Col md="6">
@@ -98,7 +95,7 @@ let RoleName = null;
                               <label>Email address</label>
                               <Input 
                                 readOnly={isreadOnly}
-                                placeholder={User.email}
+                                value={User.email}
                                 type="email"
                               />
                             </FormGroup>
@@ -108,13 +105,13 @@ let RoleName = null;
                           <Col md="6">
                             <FormGroup>
                             <label for="exampleInputPassword1">Password</label>
-                              <Input readOnly={isreadOnly} defaultValue={User.password} type="password" />
+                              <Input readOnly={isreadOnly} value={User.password} type="password" />
                             </FormGroup>
                           </Col>
                           <Col md="6">
                             <FormGroup>
                               <label>Phone Number</label>
-                              <Input readOnly={isreadOnly} placeholder={User.phone} type="text" />
+                              <Input readOnly={isreadOnly} value={User.phone} type="text" />
                             </FormGroup>
                           </Col>
                         </Row>
@@ -122,13 +119,13 @@ let RoleName = null;
                           <Col md="6">
                             <FormGroup>
                               <label>Date of Birth</label>
-                              <Input readOnly={isreadOnly} placeholder={User.date_of_birth} type="text" />
+                              <Input readOnly={isreadOnly} value={User.date_of_birth} type="text" />
                             </FormGroup>
                           </Col>
                           <Col md="6">
                             <FormGroup>
                               <label>Role</label>
-                              <Input readOnly={isreadOnly} placeholder={changeNameUserRole(RoleName)} type="text" />
+                              <Input readOnly defaultValue={changeNameUserRole(RoleName)} type="text" />
                             </FormGroup>
                           </Col>
                         </Row>
@@ -142,6 +139,17 @@ let RoleName = null;
                         </Row>
                         <Row>
                           <Col md = "6">
+                            {!isreadOnly && <Button
+                              className="btn-round float-right"
+                              color="primary"
+                              data-placement="right"
+                              id="tooltip341148792"
+                              type="button"
+                            >
+                              Save
+                            </Button>}
+                          </Col>
+                          <Col md = "6">
                             <Button
                               className="btn-round float-right"
                               color="primary"
@@ -150,32 +158,8 @@ let RoleName = null;
                               type="button"
                               onClick= {handleClick}
                             >
-                              Edit Profile
+                              {isreadOnly? "Edit Profile" : "Cancle"}
                             </Button>
-                            <UncontrolledTooltip 
-                              delay={0} 
-                              placement="right"
-                              target="tooltip877922017">
-                              Edit Your Profile Here!
-                            </UncontrolledTooltip>
-                          </Col>
-                          <Col md = "6">
-                            <Button
-                              className="btn-round float-right"
-                              color="primary"
-                              data-placement="right"
-                              id="tooltip341148792"
-                              type="button"
-                            >
-                              Save profile
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              placement="right"
-                              target="tooltip341148792"
-                            >
-                              Save profile when you edited your information!
-                            </UncontrolledTooltip>
                           </Col>
                         </Row>
                       </Form>
