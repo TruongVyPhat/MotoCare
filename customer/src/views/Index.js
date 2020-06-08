@@ -8,8 +8,8 @@ import PageHeader from "components/PageHeader/PageHeader.js";
 import Footer from "components/Footer/Footer.js";
 import Typography from "views/IndexSections/Typography.js";
 import JavaScript from "views/IndexSections/JavaScript.js";
-import MyTabs from "views/IndexSections/MyTabs.js";
-import MyCart from "views/IndexSections/MyCart"
+import Tabs from "views/IndexSections/Tabs.js";
+import Cart from "views/IndexSections/Cart"
 
 const Index = (props) => {
   useEffect (() => {
@@ -23,8 +23,8 @@ const Index = (props) => {
 
           <div className="main">
           <JavaScript/>
-              {props.data && (props.data === "MyTab")  &&<MyTabs /> }
-              {props.data && (props.data === "MyCart") && <MyCart /> }
+              {props.data && (props.data === "MyTab")  &&<Tabs /> }
+              {props.data && (props.data === "MyCart") && <Cart /> }
               <Typography />
           </div>
           <Footer />

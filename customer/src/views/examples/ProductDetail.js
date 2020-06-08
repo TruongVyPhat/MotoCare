@@ -56,7 +56,6 @@ const Product = ({ match }) => {
 			console.log(oldCart.data.orders)
 			for(let i=0; i< oldCart.data.orders.length;i++)
 			{
-				console.log('ak')
 				if(Product.id === oldCart.data.orders[i].id){
 					oldCart.data.orders[i].quantity++
 					same = 1;
