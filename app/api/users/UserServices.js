@@ -65,13 +65,13 @@ exports.get_user_by_keyword = (keyword) => {
 }
 
 // TODO: remove pass out of function
-exports.update_user_info = (name, role_id, phone, address, date_of_birth, id, user_id, password) => {
+exports.update_user_info = (name, role_id, phone, address, date_of_birth, id, user_id) => {
     let sql = 'UPDATE public.User SET name=?, role_id=?, phone=?, address=?, date_of_birth=? '
-            + 'WHERE id = ?::integer';
+            + ' WHERE id = ?::integer';
     let replacements = [name, role_id, phone, address, date_of_birth, id];
     if (user_id === id){
-        sql = 'UPDATE public.User SET name=?, phone=?, address=?, date_of_birth=?, password=? '
-            + 'WHERE id = ?::integer';
+        sql = 'UPDATE public.User SET name=?, phone=?, address=?, date_of_birth=? '
+            + ' WHERE id = ?::integer';
         replacements = [name, phone, address, date_of_birth, password, id];
     }
     return sequelize.query(sql, {
