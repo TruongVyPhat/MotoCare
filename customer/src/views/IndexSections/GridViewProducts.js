@@ -3,18 +3,28 @@ import { Card } from 'semantic-ui-react';
 import Product from './Product';
 import axios from 'axios';
 
-const GridViewProducts = ({search}) => {
+const GridViewProducts = ({search, category}) => {
     
     const [listProduct, setListProduct] = useState([]);
     useEffect(() => {
         if (!search){
-            axios.get(`http://localhost:9000/api/products?page=1`)
-            .then(res => {
-                setListProduct(res.data.data);
-            }).catch(error => {
-                console.log(error);
-            });
-        } else {
+            if(category){
+                axios.get(`http://localhost:9000/api/products?category=${category}&page=1`)
+                .then(res => {
+                    setListProduct(res.data.data);
+                }).catch(error => {
+                    console.log(error);
+                });
+            }else {
+                axios.get(`http://localhost:9000/api/products?page=1`)
+                .then(res => {
+                    setListProduct(res.data.data);
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+        } 
+        else {
             axios.get(`http://localhost:9000/api/products/search?keyword=${search}`)
             .then(res => {
                 setListProduct(res.data.data);
@@ -22,7 +32,7 @@ const GridViewProducts = ({search}) => {
                 console.log(error);
             });
         }
-    }, [search]);
+    }, [search, category]);
     
 
     return(
