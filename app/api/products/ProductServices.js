@@ -17,6 +17,16 @@ exports.get_all_products = (page) => {
     });
 }
 
+exports.data_search = () => {
+    const sql = "SELECT p.id, p.name as title, (select COALESCE(p.image, 'https://react.semantic-ui.com/images/avatar/large/matthew.png')) as image, "
+            + " (select CONCAT('$',pr.sell_price::text)) as price from public.product p "
+            + " join public.price pr on pr.product_id = p.id";
+    return sequelize.query(sql, {
+        replacements: [],
+        type: QueryTypes.SELECT
+    });
+}
+
 exports.get_product = (id) => {
     const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent, c.title FROM public.product p ' 
             + ' JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
