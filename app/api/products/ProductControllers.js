@@ -75,13 +75,13 @@ exports.search_products = (req, res) => {
 };
 
 exports.filter_products = (req, res) => {
-    const category_id = req.query.category_id;
-    const brand_id = req.query.brand_id;
+    const category_id = req.query.category ? parseInt(req.query.category) : null;
+    const brand_id = req.query.brand ? parseInt(req.query.brand) : null;
     const page = req.query.page;
     
-    service.filter_products = (category_id, brand_id, page)
+    service.filter_products(category_id, brand_id, page)
     .then(products => {
-        if (products){
+        if (products.length > 0){
             status = httpStatus.OK; 
             res.status(status).json(responseJS.Json(status, products));
         } else {
