@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import React, {useEffect, useState} from 'react';
-import { Search, Grid } from 'semantic-ui-react';
+import { Search, Grid, Form } from 'semantic-ui-react';
 import axios from 'axios';
 
-const SearchExampleStandard = () => {
+const SearchExampleStandard = ({updateSearch}) => {
     const initialState = { isLoading: false, results: [], value: '' };
     const [curState, setCurState] = useState(initialState);
     const [source, setSource] = useState([]);
@@ -17,9 +17,17 @@ const SearchExampleStandard = () => {
         });
 	}, []);
 
-	const handleResultSelect = (e, { result }) => setCurState({ isLoading: false, results: [], value: result.title });
+	const handleResultSelect = (e, { result }) => {
+    setCurState({ isLoading: false, results: [], value: result.title });
+    window.location.href = `http://localhost:3000/product-detail/${result.id}`;
+  }
+  const handleFormSubmit = (e, value) => {
+    console.log(e.key)
+    updateSearch(value);
+  } 
 
 	const handleSearchChange = (e, { value }) => {
+    
 		setCurState({ isLoading: true, value: value, results: []});
 
 		setTimeout(() => {
@@ -38,17 +46,19 @@ const SearchExampleStandard = () => {
 	};
 
 	return (
-        <Grid>
+        <Grid >
+          {/* <Form onSubmit={handleFormSubmit(curState.value)}> */}
             <Search
-                style={{ paddingTop: '1.3rem' }}
-                loading={curState.isLoading}
-                onResultSelect={handleResultSelect}
-                onSearchChange={_.debounce(handleSearchChange, 500, {
-                    leading: true
-                })}
-                results={curState.results}
-                value={curState.value}
-            />
+                  style={{ paddingTop: '1.3rem' }}
+                  loading={curState.isLoading}
+                  onResultSelect={handleResultSelect}
+                  onSearchChange={_.debounce(handleSearchChange, 500, {
+                      leading: true
+                  })}
+                  results={curState.results}
+                  value={curState.value}
+              />
+          {/* </Form> */}
         </Grid>
     );
 }

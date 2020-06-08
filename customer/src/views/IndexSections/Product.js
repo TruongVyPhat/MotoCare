@@ -25,7 +25,6 @@ const Product = ({ product }) => {
 			console.log(oldCart.data.orders)
 			for(let i=0; i< oldCart.data.orders.length;i++)
 			{
-				console.log('ak')
 				if(product.id === oldCart.data.orders[i].id){
 					oldCart.data.orders[i].quantity++
 					same = 1;

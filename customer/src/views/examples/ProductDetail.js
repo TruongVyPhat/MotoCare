@@ -15,27 +15,16 @@ import IndexNavbar from "components/Navbars/IndexNavbar";
 import Footer from "components/Footer/Footer.js";
 
 const carouselItems = [
-  //   {
-  //     src: require("assets/img/denys.jpg"),
-  //     altText: "Slide 1",
-  //     caption: "Big City Life, United States"
-  //   },
   {
     src: require("assets/img/motul.jpg"),
     altText: "Slide 1",
     caption: ""
   }
-  //   {
-  //     src: require("assets/img/mark-finn.jpg"),
-  //     altText: "Slide 2",
-  //     caption: ""
-  //   }
 ];
 
 
 const Product = ({ match }) => {
   let id = parseInt(match.params.id);
-  console.log(id)
   const [Product, setProduct] = useState({});
   useEffect(() => {
     axios.get(`http://localhost:9000/api/products/${id}`)
@@ -45,7 +34,7 @@ const Product = ({ match }) => {
       }).catch(error => {
         console.log(error);
       });
-  }, [id,isChanged]);
+  }, [id, isChanged]);
 
   const [isChanged, setIsChanged] = useState(false)
 

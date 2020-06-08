@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import classnames from 'classnames';
 import GridViewProduct from './GridViewProducts';
 import { Pagination } from 'semantic-ui-react';
@@ -18,21 +18,20 @@ import {
 } from 'reactstrap';
 import GridViewService from './GridViewService';
 
-class Tabs extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			iconTabs: 1,
-			textTabs: 4
-		};
+const Tabs = () => {
+	const [search, setSearch] = useState(null);
+	const updateSearch = (keyword) => {
+		setSearch(keyword);
 	}
-	toggleTabs = (e, stateName, index) => {
+	const [iconTabs, seticonTabs] = useState(1);
+	const [textTabs, settextTabs] = useState(4);
+	const toggleTabs = (e, stateName, index) => {
 		e.preventDefault();
-		this.setState({
-			[stateName]: index
-		});
+		if (stateName === 'iconTabs')
+			seticonTabs(index);
+		else settextTabs(index);
 	};
-	render() {
+
 		return (
 			<div className="section section-tabs" style={{ margin: '9%'}}>
 				<Card>
@@ -41,9 +40,9 @@ class Tabs extends React.Component {
 							<NavItem>
 								<NavLink
 									className={classnames({
-										active: this.state.iconTabs === 1
+										active: iconTabs === 1
 									})}
-									onClick={(e) => this.toggleTabs(e, 'iconTabs', 1)}
+									onClick={(e) => toggleTabs(e, "iconTabs", 1)}
 									href="#pablo"
 								>
 									<i className="tim-icons icon-spaceship" />
@@ -53,9 +52,9 @@ class Tabs extends React.Component {
 							<NavItem>
 								<NavLink
 									className={classnames({
-										active: this.state.iconTabs === 2
+										active: iconTabs === 2
 									})}
-									onClick={(e) => this.toggleTabs(e, 'iconTabs', 2)}
+									onClick={(e) => toggleTabs(e, "iconTabs", 2)}
 									href="#pablo"
 								>
 									<i className="tim-icons icon-settings-gear-63" />
@@ -65,22 +64,22 @@ class Tabs extends React.Component {
 							<NavItem>
 								<NavLink
 									className={classnames({
-										active: this.state.iconTabs === 3
+										active: iconTabs === 3
 									})}
-									onClick={(e) => this.toggleTabs(e, 'iconTabs', 3)}
+									onClick={(e) => toggleTabs(e, "iconTabs", 3)}
 									href="#pablo"
 								>
 									<i className="tim-icons icon-bag-16" />
 									Options
 								</NavLink>
 							</NavItem>
-                            <Search/>
+                            <Search updateSearch={updateSearch}/>
 						</Nav>  
 					</CardHeader>
 					<CardBody>
-						<TabContent className="tab-space" activeTab={'link' + this.state.iconTabs}>
+						<TabContent className="tab-space" activeTab={"link" + iconTabs}>
 							<TabPane tabId="link1">
-								<GridViewProduct />
+								<GridViewProduct search={search}/>
 							</TabPane>
 							<TabPane tabId="link2">
 								<GridViewService />
@@ -110,7 +109,7 @@ class Tabs extends React.Component {
 				</Card>
 			</div>
 		);
-	}
+
 }
 
 export default Tabs;
