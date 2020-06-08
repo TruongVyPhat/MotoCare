@@ -33,6 +33,7 @@ import Footer from "components/Footer/Footer.js";
 const User = () => {
 const [User, setUser] = useState({});
 const [isreadOnly, setreadOnly] = useState(true);
+const [isSubmit, setisSubmit] = useState(false);
 let RoleName = null;
   
   useEffect(() => {
@@ -43,7 +44,7 @@ let RoleName = null;
     }).catch(error => {
         console.log(error);
     });
-  },[localStorage.getItem('access_token')]);
+  },[localStorage.getItem('access_token'), isSubmit]);
 
   const changeNameUserRole = () => 
   {
@@ -67,6 +68,17 @@ let RoleName = null;
     User[e.target.name] = e.target.value;
   }
 
+  const handleSubmit = () => {
+    const data = User;
+    axios.put(`http://localhost:9000/api/users/update/${User.id}`, {data}, { headers: { authorization: localStorage.getItem('access_token') } })
+    .then(res => {
+      console.log(res.data.data)
+      setisSubmit(!isSubmit);
+    }).catch(error => {
+        console.log(error);
+    });
+  }
+
     return (
       <>
         <Navbar />
@@ -85,19 +97,20 @@ let RoleName = null;
                       />
                     </CardHeader>
                     <CardBody>
-                      <Form>
+                      <Form onSubmit={e=>{e.preventDefault();
+                        handleSubmit()}}>
                         <Row>
                           <Col md="6">
                             <FormGroup>
                               <label>User Name</label>
-                              <Input readOnly={isreadOnly} value={User.name} type="text" />
+                              <Input readOnly={isreadOnly} defaultValue={User.name} type="text" onChange={(e)=>handleOnChange(e)} />
                             </FormGroup>
                           </Col>
                           <Col md="6">
                             <FormGroup>
                               <label>Email address</label>
                               <Input 
-                                readOnly={isreadOnly}
+                                readOnly
                                 value={User.email}
                                 type="email"
                               />
@@ -108,13 +121,13 @@ let RoleName = null;
                           <Col md="6">
                             <FormGroup>
                             <label for="exampleInputPassword1">Password</label>
-                              <Input readOnly={isreadOnly} value={User.password} type="password" />
+                              <Input readOnly name="password" defaultValue={User.password} type="password" onChange={(e)=>handleOnChange(e)}/>
                             </FormGroup>
                           </Col>
                           <Col md="6">
                             <FormGroup>
                               <label>Phone Number</label>
-                              <Input readOnly={isreadOnly} value={User.phone} type="text" />
+                              <Input readOnly={isreadOnly} name="phone" defaultValue={User.phone} type="phone" onChange={(e)=>handleOnChange(e)}/>
                             </FormGroup>
                           </Col>
                         </Row>
@@ -122,7 +135,7 @@ let RoleName = null;
                           <Col md="6">
                             <FormGroup>
                               <label>Date of Birth</label>
-                              <Input readOnly={isreadOnly} value={User.date_of_birth} type="text" />
+                              <Input readOnly={isreadOnly} name="date_of_birth" defaultValue={User.date_of_birth} type="date" onChange={(e)=>handleOnChange(e)}/>
                             </FormGroup>
                           </Col>
                           <Col md="6">
@@ -136,7 +149,7 @@ let RoleName = null;
                           <Col md="12">
                             <FormGroup>
                               <label>Address</label>
-                              <Input readOnly={isreadOnly} defaultValue={User.address} onChange={e => handleOnChange(e)} type="text" />
+                              <Input readOnly={isreadOnly} name="address" defaultValue={User.address} onChange={e => handleOnChange(e)} type="text" />
                             </FormGroup>
                           </Col>
                         </Row>
@@ -147,8 +160,7 @@ let RoleName = null;
                               color="primary"
                               data-placement="right"
                               id="tooltip341148792"
-                              type="button"
-                              onClick={handleSubmit}
+                              type="submit"
                             >
                               Save
                             </Button>}
