@@ -60,9 +60,12 @@ let RoleName = null;
   }
 
   const handleClick = () => {
-      setreadOnly(!isreadOnly)
+    setreadOnly(!isreadOnly)
   }
 
+  const handleOnChange = (e) => {
+    User[e.target.name] = e.target.value;
+  }
 
     return (
       <>
@@ -133,7 +136,7 @@ let RoleName = null;
                           <Col md="12">
                             <FormGroup>
                               <label>Address</label>
-                              <Input readOnly={isreadOnly} defaultValue={User.address} type="text" />
+                              <Input readOnly={isreadOnly} defaultValue={User.address} onChange={e => handleOnChange(e)} type="text" />
                             </FormGroup>
                           </Col>
                         </Row>
@@ -145,6 +148,7 @@ let RoleName = null;
                               data-placement="right"
                               id="tooltip341148792"
                               type="button"
+                              onClick={handleSubmit}
                             >
                               Save
                             </Button>}
