@@ -22,7 +22,7 @@ exports.create_orders = (orders, bill_id) => {
     for(let i = 0; i < orders.length; i++){
         const product_id = orders[i].id;
         const amount = orders[i].quantity;
-        sql = sql + `INSERT INTO public.product_order(bill_id, product_id, amount) VALUES (${bill_id}, ${product_id}, ${amount})`;
+        sql = sql + `INSERT INTO public.product_order(bill_id, product_id, amount) VALUES (${bill_id}, ${product_id}, ${amount});`;
     }
     return sequelize.query(sql);
 }
