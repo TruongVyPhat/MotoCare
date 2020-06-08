@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import anime3 from 'assets/img/anime3.png';
+import defaultavatar from 'assets/img/defaultavatar.png';
 
 // reactstrap components
 import {
@@ -131,22 +132,35 @@ class ComponentsNavbar extends React.Component {
 									onClick={(e) => e.preventDefault()}
 								>
 									<i className="fa fa-cogs d-lg-none d-xl-none" />
+									{this.state.isLogin?
 									<div className="photo">
 										<img src={anime3} alt="anime3" />
-									</div>
+									</div> 
+									:<div className="photo">
+										<img src={defaultavatar} alt="defaultavatar" />
+									</div> }
+									
 								</DropdownToggle>
 								<DropdownMenu className="dropdown-with-icons">
+									{this.state.isLogin? "": 
 									<DropdownItem tag={Link} to="/register-page">
 										<i className="tim-icons icon-bullet-list-67" />
 										Register
-									</DropdownItem>
+									</DropdownItem>}
+									
 									
 									{this.state.isLogin? "": 
 									<DropdownItem tag={Link} to="/signin">
-										<i className="tim-icons icon-bullet-list-67" />
+										<i className="tim-icons icon-single-02" />
 										Sign in
 									</DropdownItem>}
 									
+									{this.state.isLogin? 
+									<DropdownItem tag={Link} to="/profile-page">
+										<i className="tim-icons icon-badge" />
+										Profile Page
+									</DropdownItem> : ""}
+
 									{this.state.isLogin? 
 									<DropdownItem onClick = {this.handleClick} tag={Link} to="/">
 										<i className="tim-icons icon-button-power" />

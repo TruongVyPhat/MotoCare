@@ -8,6 +8,7 @@ import "assets/scss/blk-design-system-react.scss?v=1.1.0";
 import "assets/demo/demo.css";
 
 import Index from "views/Index.js";
+import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import ProductDetail from "views/examples/ProductDetail";
 import SuccessPayment from "views/IndexSections/SuccessPayment"
@@ -20,11 +21,16 @@ ReactDOM.render(
     <Switch>
       <Route path="/product" render={props => <Index {...props} data={'MyTab'}/>} />
       <Route
+        path="/profile-page"
+        render={props => <ProfilePage {...props} />}
+      />
+      <Route
         path="/register-page"> <RegisterPage/> </Route>
       />
       <Route
         path="/signin"
-        render={props => <Signin {...props} />} />
+        render={props => <Signin {...props} />} 
+      />
       <Route
         path="/my-cart"
         render={props => <MyCart {...props} />}
