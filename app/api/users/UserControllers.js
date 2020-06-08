@@ -114,11 +114,10 @@ exports.update_user_info = (req, res) => {
     const user_role = req.user.role_id;
     const id = req.params.id;
     const name = req.body.data.name.trim();
-    const email = req.body.data.email.trim();
     const address = req.body.data.address.trim();
     const role_id = req.body.data.role_id;
     const date_of_birth = req.body.data.date_of_birth.trim();
-    //const password = bcrypt.hashSync(req.body.data.password.trim(), 10);
+    const password = bcrypt.hashSync(req.body.data.password.trim(), 10);
     const phone = req.body.data.phone.trim();
     
     if (user_id !== id || user_role !== ROLE.ADMIN){
