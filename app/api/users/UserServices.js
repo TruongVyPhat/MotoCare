@@ -72,7 +72,7 @@ exports.update_user_info = (name, role_id, phone, address, date_of_birth, id, us
     if (user_id === id){
         sql = 'UPDATE public.User SET name=?, phone=?, address=?, date_of_birth=? '
             + ' WHERE id = ?::integer';
-        replacements = [name, phone, address, date_of_birth, password, id];
+        replacements = [name, phone, address, date_of_birth, id];
     }
     return sequelize.query(sql, {
         replacements: replacements,
