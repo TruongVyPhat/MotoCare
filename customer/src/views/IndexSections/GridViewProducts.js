@@ -7,9 +7,11 @@ const GridViewProducts = ({search, category}) => {
     
     const [listProduct, setListProduct] = useState([]);
     useEffect(() => {
+        console.log(search);
+        console.log(category)
         if (!search){
             if(category){
-                axios.get(`http://localhost:9000/api/products?category=${category}&page=1`)
+                axios.get(`http://localhost:9000/api/products/filter?category=${category}&page=1`)
                 .then(res => {
                     setListProduct(res.data.data);
                 }).catch(error => {

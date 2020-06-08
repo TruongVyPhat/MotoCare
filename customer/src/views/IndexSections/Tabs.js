@@ -43,8 +43,7 @@ const Tabs = () => {
 
 	const handleFilter = (e, key) => {
 		e.preventDefault();
-		setSearch(null);
-		setSearch(key);
+		updateCategory(key);
 	}
 
 	return (
