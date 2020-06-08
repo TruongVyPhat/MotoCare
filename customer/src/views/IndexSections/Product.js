@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Icon, Image, Popup } from 'semantic-ui-react';
 import { Row, Col } from 'reactstrap';
+import { useToasts } from 'react-toast-notifications'
 
 const Product = ({ product }) => {
 	const [ onSale_price, setonSale_price ] = useState(undefined);
@@ -9,6 +10,7 @@ const Product = ({ product }) => {
 	const start_date = new Date(product.start_date).getTime();
 	const end_date = new Date(product.end_date).getTime();
 	const [isChanged, setIsChanged] = useState(false)
+	const { addToast } = useToasts()
 	
 	useEffect(() => {
 		if (current_date > start_date && current_date < end_date) {
@@ -16,7 +18,7 @@ const Product = ({ product }) => {
 			setonSale_price(price);
 			setonSale(true);
 		}
-	}, [isChanged]);
+	}, [isChanged, current_date, start_date, end_date, product.discount_percent, product.sell_price]);
 
 	const handleAddtoCart = () => {
 		if(window.localStorage.getItem('myCart') !== null){
@@ -58,6 +60,7 @@ const Product = ({ product }) => {
 				}
 			}))
 		}
+		addToast('Add success 1 product to your cart', { appearance: 'success' })
 		setIsChanged(!isChanged)
 	}
 	

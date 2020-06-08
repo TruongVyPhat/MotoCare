@@ -10,6 +10,7 @@ function MyCart() {
     const [listItem, setListItem] = useState([])
     const [isEmpty, setIsEmpty] = useState(true)
     const [isChangeArray, setIsChangeArray] = useState(false) 
+    const [isCheckOut, setIsCheckOut] = useState(false)
     let totalPrice = 0;
 
     const handleBack = () => {
@@ -25,13 +26,14 @@ function MyCart() {
     }, [isChangeArray])
 
     const handleCheckOut = () => {
+        setIsCheckOut(true)
         let url = 'http://localhost:9000/api/bill/payment'
         let data = JSON.parse(window.localStorage.getItem("myCart"))
         console.log(data)
         axios.post(url, data, { headers: { authorization: localStorage.getItem('access_token') } })
         .then(res => {
-            console.log(res.data.data)
-            window.location.href(res.data.data)
+            console.log(res.data)
+            console.log('a: ' ,res.data.data)
         }).catch(error => {
             console.log(error);
         });
@@ -140,15 +142,26 @@ function MyCart() {
                                     {List}
                                 </tbody>
                             </Table><div style={{textAlign:'right', marginBottom: '100px' }}>
-                    <Button onClick={handleCheckOut} as='div' labelPosition='right'>
-                        <Button color='teal'>
-                            <Icon name='cart' />
-                            Check out
-                        </Button>
-                        <Label as='a' basic color='teal' pointing='left'>
-                            {totalPrice} $
-                        </Label>
-                    </Button>
+                                {isCheckOut ? 
+                                    <Button  as='div' labelPosition='right'>
+                                    <Button loading color='teal'>
+                                        <Icon name='cart' />
+                                        Check out
+                                    </Button>
+                                    <Label as='a' basic color='teal' pointing='left'>
+                                        {totalPrice} $
+                                    </Label>
+                                </Button>
+                                : <Button onClick={handleCheckOut} as='div' labelPosition='right'>
+                                <Button color='teal'>
+                                    <Icon name='cart' />
+                                    Check out
+                                </Button>
+                                <Label as='a' basic color='teal' pointing='left'>
+                                    {totalPrice} $
+                                </Label>
+                            </Button>}
+                    
                 </div>
                         </>}
                 </div>

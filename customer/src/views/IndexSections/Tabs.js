@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 import GridViewProduct from './GridViewProducts';
 import { Pagination } from 'semantic-ui-react';
-import { Dropdown, Menu } from 'semantic-ui-react'
 import Search from './Search';
 
 // reactstrap components
@@ -34,11 +33,9 @@ const Tabs = () => {
 		setCategory(keyword);
 	};
 	const [ iconTabs, seticonTabs ] = useState(1);
-	const [ textTabs, settextTabs ] = useState(4);
 	const toggleTabs = (e, stateName, index) => {
 		e.preventDefault();
 		if (stateName === 'iconTabs') seticonTabs(index);
-		else settextTabs(index);
 	};
 
 	const handleFilter = (e, key) => {

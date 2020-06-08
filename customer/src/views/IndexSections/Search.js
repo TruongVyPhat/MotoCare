@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, {useEffect, useState} from 'react';
-import { Search, Grid, Form } from 'semantic-ui-react';
+import { Search, Grid } from 'semantic-ui-react';
 import axios from 'axios';
 
 const SearchExampleStandard = ({updateSearch}) => {
@@ -21,10 +21,6 @@ const SearchExampleStandard = ({updateSearch}) => {
     setCurState({ isLoading: false, results: [], value: result.title });
     window.location.href = `http://localhost:3000/product-detail/${result.id}`;
   }
-  const handleFormSubmit = (e, value) => {
-    console.log(e.key)
-    updateSearch(value);
-  } 
 
 	const handleSearchChange = (e, { value }) => {
     

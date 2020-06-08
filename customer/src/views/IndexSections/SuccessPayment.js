@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios'
+import React, { useEffect } from 'react';
 
 const SuccessPayment = () => {
 
     useEffect(() => {
-        window.localStorage.removeItem("MyCart")
-        window.location.href('/')
+        window.localStorage.removeItem("myCart")
+        window.location.href = '/'
     })
 
     return(

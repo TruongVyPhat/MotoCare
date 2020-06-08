@@ -13,6 +13,7 @@ import { Rating } from 'semantic-ui-react'
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar";
 import Footer from "components/Footer/Footer.js";
+import { useToasts } from 'react-toast-notifications'
 
 const carouselItems = [
   {
@@ -26,6 +27,8 @@ const carouselItems = [
 const Product = ({ match }) => {
   let id = parseInt(match.params.id);
   const [Product, setProduct] = useState({});
+  const [isChanged, setIsChanged] = useState(false)
+  const { addToast } = useToasts()
   useEffect(() => {
     axios.get(`http://localhost:9000/api/products/${id}`)
       .then(res => {
@@ -36,7 +39,6 @@ const Product = ({ match }) => {
       });
   }, [id, isChanged]);
 
-  const [isChanged, setIsChanged] = useState(false)
 
   const handleAddtoCart = () => {
 		if(window.localStorage.getItem('myCart') !== null){
@@ -78,6 +80,7 @@ const Product = ({ match }) => {
 				}
 			}))
     }
+    addToast('Add success 1 product to your cart', { appearance: 'success' })
     setIsChanged(!isChanged)
 	}
 

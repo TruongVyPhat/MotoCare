@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import anime3 from 'assets/img/anime3.png';
 
@@ -16,8 +16,7 @@ import {
 	Nav,
 	Container,
 	Row,
-	Col,
-	UncontrolledTooltip
+	Col
 } from 'reactstrap';
 import Badge from '@material-ui/core/Badge';
 
