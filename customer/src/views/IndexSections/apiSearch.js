@@ -41,32 +41,25 @@ const SearchExampleStandard = () => {
     const initialState = { isLoading: false, results: [], value: '' };
     const [curState, setCurState] = useState(initialState);
     const [source, setSource] = useState([]);
-	// useEffect(() => {
-    //     axios.get(`http://localhost:9000/api/products?page=1`)
-    //     .then(res => {
-    //         setSource(res.data.data);
-            
-    //     }).catch((error) => {
-    //         console.log(error);
-    //     });
-	// }, []);
+    
 
-	const handleResultSelect = (e, { result }) => setCurState({ isLoading: false, results: [], value: result.name });
+	const handleResultSelect = (e, { result }) => setCurState({ isLoading: false, results: [], value: result.title });
 
 	const handleSearchChange = (e, { value }) => {
-        useEffect(() => {
+        setSource([]);
+        setCurState({ isLoading: true, value: value, results: source});
+        setTimeout(() => {
             axios.get(`http://localhost:9000/api/products/search?keyword=${value}`)
             .then(res => {
-                
                 setSource(res.data.data);
-                
+                console.log(res.data.data);
             }).catch((error) => {
                 console.log(error);
             });
-        }, []);
-
-		setCurState({ isLoading: true, value: value, results: []});
-
+            setCurState({ isLoading: false, value: value, results: source});
+        }, 300);       
+		
+		console.log(curState)
 		// setTimeout(() => {
 		// 	if (curState.value.length < 1) return setCurState(initialState);
 
