@@ -44,7 +44,7 @@ let RoleName = null;
     }).catch(error => {
         console.log(error);
     });
-  },[localStorage.getItem('access_token'), isSubmit]);
+  },[isSubmit]);
 
   const changeNameUserRole = () => 
   {
@@ -72,8 +72,8 @@ let RoleName = null;
     const data = User;
     axios.put(`http://localhost:9000/api/users/update/${User.id}`, {data}, { headers: { authorization: localStorage.getItem('access_token') } })
     .then(res => {
-      console.log(res.data.data)
       setisSubmit(!isSubmit);
+      setreadOnly(true);
     }).catch(error => {
         console.log(error);
     });
