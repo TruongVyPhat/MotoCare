@@ -127,7 +127,6 @@ exports.create_bill = (req, res) => {
                                         if (payment.links[i].rel === 'approval_url') {
                                             status = httpStatus.OK;
                                             res.status(status).json(responseJS.Json(status, payment.links[i].href))
-                                            //res.redirect(payment.links[i].href);
                                         }
                                     }
                                 }
@@ -161,7 +160,7 @@ exports.payment = (req, res) => {
 		transactions: [
 			{
 				amount: {
-					currency: 'VND',
+					currency: 'USD',
 					total: total.toString()
 				}
 			}
@@ -170,12 +169,10 @@ exports.payment = (req, res) => {
 
 	paypal.payment.execute(paymentId, execute_payment_json, function(error, payment) {
 		if (error) {
-			console.log(error);
 			status = httpStatus.METHOD_FAILURE;
 			res.status(status).json(responseJS.mess_Json(status));
 		} else {
-			console.log(JSON.stringify(payment));
-			res.redirect('http://locahost:300/success', httpStatus.OK);
+			res.redirect('http://localhost:3000/success', httpStatus.OK);
 		}
 	});
 };
