@@ -123,12 +123,14 @@ exports.create_bill = (req, res) => {
                                 if (error) {
                                     res.status(status).json(error);
                                 } else {
+									let links = [];
                                     for (let i = 0; i < payment.links.length; i++) {
                                         if (payment.links[i].rel === 'approval_url') {
-                                            status = httpStatus.OK;
-                                            res.status(status).json(responseJS.Json(status, payment.links[i].href))
+                                            links.push(payment.links[i].href);
                                         }
-                                    }
+									}
+									status = httpStatus.OK;
+                                    res.status(status).json(responseJS.Json(status, payment.links[i].href))
                                 }
                             });
                         })

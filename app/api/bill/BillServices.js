@@ -52,7 +52,7 @@ exports.create_bill = (user_id, created_at, discount) => {
 }
 
 exports.check_update_bill = (bill_id) => {
-    const sql = "select pro.product_id, pr.name, pro.amount as quantity, (select 'USD') as currency, "
+    const sql = "select pr.name, pro.amount as quantity, (select 'USD') as currency, "
             + " (SELECT COALESCE((select (p.sell_price *(100- s.discount_percent))/100 * pro.amount), p.sell_price)) as price "
             + " from public.product_order pro JOIN public.product pr on pr.id = pro.product_id "
             + " JOIN public.price p on p.product_id = pro.product_id "
