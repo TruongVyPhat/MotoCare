@@ -1,6 +1,7 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import {Image} from 'semantic-ui-react';
 
 // reactstrap components
 import {
@@ -32,31 +33,41 @@ import Footer from "components/Footer/Footer.js";
 
 let ps = null;
 
-class ProfilePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tabs: 1,
-      profile: null
-    };
-  }
-  componentDidMount() {
-    axios.get(`http://localhost:9000/api/users/me`)
+const User = () => {
+const [User, setUser] = useState({});
+const [readOnly, setreadOnly] = useState(true);
+let RoleName = null;
+  
+  useEffect(() => {
+    axios.get(`http://localhost:9000/api/users/me`, { headers: { authorization: localStorage.getItem('access_token') } })
     .then(res => {
         console.log(res.data.data)
-        this.setState({
-          profile: res.data.data
-        });
+        setUser(res.data.data)
     }).catch(error => {
         console.log(error);
     });
+  },[localStorage.getItem('access_token')]);
+
+  const changeNameUserRole = () => 
+  {
+    if (User.role_id === 1){
+      RoleName = "Admin"         
+    }
+    else if (User.role_id === 2){
+      RoleName = "Staff"         
+    }
+    else if (User.role_id === 2){
+      RoleName = "Customer"         
+    }
+    return(RoleName);
   }
 
-  handleCheckOut = () => {
-    console.log('clicked')
-}
-  
-  render() {
+  const handleClick = () => {
+    // <Input readOnly={false} placeholder={User.name} type="text" />
+    // <Input readOnl placeholder={User.email} type="email"/>
+  }
+
+
     return (
       <>
         <ExamplesNavbar />
@@ -67,8 +78,12 @@ class ProfilePage extends React.Component {
                 <Col md="6">
                   <Card className="card-plain">
                     <CardHeader>
-                      {/* <h1 className="profile-title text-left">Contact</h1> */}
-                      <h1 className="text-on-back">Profile</h1>
+                      {/* <h1 className="User-title text-left">Contact</h1> */}
+                      <Image height = "200" width = "200" 
+                        src={User.image ? User.image : 'https://react.semantic-ui.com/images/avatar/large/matthew.png'}
+                        wrapped
+                        ui={true}
+                      />
                     </CardHeader>
                     <CardBody>
                       <Form>
@@ -76,14 +91,15 @@ class ProfilePage extends React.Component {
                           <Col md="6">
                             <FormGroup>
                               <label>User Name</label>
-                              <Input placeholder={this.state.profile.name} type="text" />
+                              <Input readOnly placeholder={User.name} type="text" />
                             </FormGroup>
                           </Col>
                           <Col md="6">
                             <FormGroup>
                               <label>Email address</label>
-                              <Input
-                                placeholder={this.state.profile.email}
+                              <Input 
+                                readOnly
+                                placeholder={User.email}
                                 type="email"
                               />
                             </FormGroup>
@@ -93,22 +109,74 @@ class ProfilePage extends React.Component {
                           <Col md="6">
                             <FormGroup>
                             <label for="exampleInputPassword1">Password</label>
-                              <Input  defaultValue={this.state.profile.password} type="password" />
+                              <Input readOnly defaultValue={User.password} type="password" />
                             </FormGroup>
                           </Col>
                           <Col md="6">
                             <FormGroup>
-                              <label>Company</label>
-                              <Input placeholder="HCMUS" type="text" />
+                              <label>Phone Number</label>
+                              <Input readOnly placeholder={User.phone} type="text" />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col md="6">
+                            <FormGroup>
+                              <label>Date of Birth</label>
+                              <Input readOnly placeholder={User.date_of_birth} type="text" />
+                            </FormGroup>
+                          </Col>
+                          <Col md="6">
+                            <FormGroup>
+                              <label>Role</label>
+                              <Input readOnly placeholder={changeNameUserRole(RoleName)} type="text" />
                             </FormGroup>
                           </Col>
                         </Row>
                         <Row>
                           <Col md="12">
                             <FormGroup>
-                              <label>Message</label>
-                              <Input placeholder="Account created successfully!" type="text" />
+                              <label>Address</label>
+                              <Input readOnly defaultValue={User.address} type="text" />
                             </FormGroup>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col md = "6">
+                            <Button
+                              className="btn-round float-right"
+                              color="primary"
+                              data-placement="right"
+                              id="tooltip877922017"
+                              type="button"
+                              onClick={handleClick()}
+                            >
+                              Edit Profile
+                            </Button>
+                            <UncontrolledTooltip 
+                              delay={0} 
+                              placement="right"
+                              target="tooltip877922017">
+                              Edit Your Profile Here!
+                            </UncontrolledTooltip>
+                          </Col>
+                          <Col md = "6">
+                            <Button
+                              className="btn-round float-right"
+                              color="primary"
+                              data-placement="right"
+                              id="tooltip341148792"
+                              type="button"
+                            >
+                              Send For Us
+                            </Button>
+                            <UncontrolledTooltip
+                              delay={0}
+                              placement="right"
+                              target="tooltip341148792"
+                            >
+                              Send for us when you edited your information!
+                            </UncontrolledTooltip>
                           </Col>
                         </Row>
                       </Form>
@@ -136,8 +204,8 @@ class ProfilePage extends React.Component {
                     <div className="description">
                       <h4 className="info-title">Give us a ring</h4>
                       <p>
-                        Michael Jordan <br />
-                        +40 762 321 762 <br />
+                        Dang Duc Tai <br />
+                        +84 762 321 762 <br />
                         Mon - Fri, 8:00-22:00
                       </p>
                     </div>
@@ -150,7 +218,5 @@ class ProfilePage extends React.Component {
         </div>
       </>
     );
-  }
 }
-
-export default ProfilePage;
+export default User;
