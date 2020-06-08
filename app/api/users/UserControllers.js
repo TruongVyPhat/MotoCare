@@ -125,7 +125,7 @@ exports.update_user_info = (req, res) => {
         res.status(status).json(responseJS.mess_Json(status));
         return;
     }
-    service.update_user_info(name, role_id, phone, address, date_of_birth, id, user_id, password)
+    service.update_user_info(name, role_id, phone, address, date_of_birth, id, user_id)
     .then(updating => {
         status = httpStatus.OK;
         res.status(status).json(responseJS.mess_Json(status));
