@@ -21,7 +21,7 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link to="/" color="inherit">
-                Moto Care
+                Motor Care
         </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -167,12 +167,12 @@ function Signin() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link to="/signup" variant="body2">
+                                <Link to="/register-page" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link to="/signup" variant="body2">
+                                <Link to="/register-page" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
