@@ -69,7 +69,7 @@ const ProductDetail = ({ match }) => {
                 <p className="profile-description text-left">
                   {ProductDetail.description}
                 </p>
-                <div>Số lượng tồn: </div> <p>{ProductDetail.amount} bình</p>
+                <div>Số lượng tồn: </div> <p>{ProductDetail.amount}</p>
                 <div className="btn-wrapper pt-3">
                   <Button
                     className="btn-simple"

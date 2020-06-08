@@ -8,7 +8,7 @@ import "assets/scss/blk-design-system-react.scss?v=1.1.0";
 import "assets/demo/demo.css";
 
 import Index from "views/Index.js";
-import LandingPage from "views/examples/LandingPage.js";
+import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import ProductDetail from "views/examples/ProductDetail";
 import MyCart from "views/IndexSections/MyCart"
@@ -19,15 +19,16 @@ ReactDOM.render(
     <Switch>
       <Route path="/components" render={props => <Index {...props} />} />
       <Route
-        path="/landing-page"
-        render={props => <LandingPage {...props} />}
+        path="/profile-page"
+        render={props => <ProfilePage {...props} />}
       />
       <Route
         path="/register-page"> <RegisterPage/> </Route>
       />
       <Route
         path="/signin"
-        render={props => <Signin {...props} />} />
+        render={props => <Signin {...props} />} 
+      />
       <Route
         path="/my-cart"
         render={props => <MyCart {...props} />}
