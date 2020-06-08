@@ -102,7 +102,7 @@ exports.create_bill = (req, res) => {
                                     payment_method: 'paypal'
                                 },
                                 redirect_urls: {
-                                    return_url: `http://localhost:9000/success?${total}`,
+                                    return_url: `http://localhost:9000/success?total=${total}`,
                                     cancel_url: 'http://localhost:3000/cancel'
                                 },
                                 transactions: [
