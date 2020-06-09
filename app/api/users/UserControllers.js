@@ -138,12 +138,23 @@ exports.update_user_info = (req, res) => {
 // change password
 exports.update_password = (req, res) => {
     const new_password = req.body.data.new_password;
+    const old_password = req.body.data.old_password;
     const user_id = req.user.id;
 
-    service.change_password(new_password, user_id)
-    .then(updated => {
-        status = httpStatus.OK;
-        res.status(status).json(responseJS.mess_Json(status));
+    service.get_me(user_id)
+    .then(users => {
+        if (users[0] && service.compare_password(old_password, users[0].password)){
+            service.change_password(new_password, user_id)
+            .then(updated => {
+                status = httpStatus.OK;
+                res.status(status).json(responseJS.mess_Json(status));
+            }).catch(function(error) {
+                res.status(status).json(error);
+            });
+        } else {
+            status = httpStatus.UNAUTHORIZED;
+            res.status(status).json(responseJS.mess_Json(status));
+        }
     }).catch(function(error) {
         res.status(status).json(error);
     });
