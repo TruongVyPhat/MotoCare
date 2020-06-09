@@ -137,7 +137,7 @@ exports.update_user_info = (req, res) => {
 
 // change password
 exports.update_password = (req, res) => {
-    const new_password = req.body.data.new_password;
+    const new_password = service.hash_password(req.body.data.new_password);
     const old_password = req.body.data.old_password;
     const user_id = req.user.id;
 
