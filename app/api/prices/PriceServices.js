@@ -61,3 +61,11 @@ exports.delete_price_by_productId = (id) => {
         type: QueryTypes.DELETE
     });
 }
+
+exports.delete_sale_by_productId = (id) => {
+    const sql = 'DELETE FROM public."onSale" WHERE product_id=?';
+    return sequelize.query(sql, {
+        replacements: [id],
+        type: QueryTypes.DELETE
+    });
+}

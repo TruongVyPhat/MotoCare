@@ -1,4 +1,5 @@
 const service = require('./CategoryServices');
+const product_service = require('../products/ProductServices');
 const httpStatus = require('http-status-codes');
 const responseJS = require('../helpers/json-generator');
 let status = httpStatus.INTERNAL_SERVER_ERROR;
@@ -64,10 +65,20 @@ exports.update_category = (req, res) => {
 exports.delete_category = (req, res) => {
     const id = req.params.id;
 
-    service.delete_category(id)
-    .then(deleted => {
-        status = httpStatus.OK;
-        res.status(status).json(responseJS.mess_Json(status));
+    product_service.count_product_by_cate_or_brand(id, null)
+    .then(products => {
+        if (products.length > 0){
+            status = httpStatus.CONFLICT;
+            res.status(status).json(responseJS.mess_Json(status));
+        } else {
+            service.delete_category(id)
+            .then(deleted => {
+                status = httpStatus.OK;
+                res.status(status).json(responseJS.mess_Json(status));
+            }).catch(function(error) {
+                res.status(status).json(error);
+            });
+        }
     }).catch(function(error) {
         res.status(status).json(error);
     });
