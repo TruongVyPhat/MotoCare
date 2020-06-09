@@ -1,5 +1,5 @@
 module.exports = {
-    PAGE_SIZE: 20,
+    PAGE_SIZE: 5,
     ACCESS_TIMEOUT: 2 * 60 * 60,
     ROLE: {
         ADMIN: 1,

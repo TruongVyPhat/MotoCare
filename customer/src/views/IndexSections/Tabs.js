@@ -22,7 +22,9 @@ import {
 } from 'reactstrap';
 
 const Tabs = () => {
-	const [ search, setSearch ] = useState(null);
+	const [search, setSearch] = useState(null);
+	const [page, setPage] = useState(1);
+
 	const updateSearch = (keyword) => {
 		setSearch(keyword);
 	};
@@ -31,7 +33,7 @@ const Tabs = () => {
 		setCategory(null);
 		setCategory(keyword);
 	};
-	const [ iconTabs, seticonTabs ] = useState(1);
+	const [iconTabs, seticonTabs] = useState(1);
 	const toggleTabs = (e, stateName, index) => {
 		e.preventDefault();
 		if (stateName === 'iconTabs') seticonTabs(index);
@@ -40,6 +42,10 @@ const Tabs = () => {
 	const handleFilter = (e, key) => {
 		e.preventDefault();
 		updateCategory(key);
+	}
+
+	const handlePaginationChange = (e, { activePage }) => {
+		setPage(activePage)
 	}
 
 	return (
@@ -72,7 +78,7 @@ const Tabs = () => {
 							</NavLink>
 						</NavItem>
 						{iconTabs === 1 && <NavItem>
-							<UncontrolledDropdown style={{paddingRight:"10px"}}>
+							<UncontrolledDropdown style={{ paddingRight: "10px" }}>
 								<DropdownToggle
 									caret
 									color="info"
@@ -105,7 +111,7 @@ const Tabs = () => {
 				<CardBody>
 					<TabContent className="tab-space" activeTab={'link' + iconTabs}>
 						<TabPane tabId="link1">
-							<GridViewProduct search={search} category={category}/>
+							<GridViewProduct search={search} page={page} category={category} />
 						</TabPane>
 						<TabPane tabId="link2">
 							<GridViewService />
@@ -113,14 +119,15 @@ const Tabs = () => {
 					</TabContent>
 					<Row>
 						<Pagination
+							activePage={page}
 							style={{ margin: 'auto' }}
 							boundaryRange={0}
-							defaultActivePage={1}
 							ellipsisItem={null}
 							firstItem={null}
 							lastItem={null}
 							siblingRange={1}
 							totalPages={10}
+							onPageChange={handlePaginationChange}
 						/>
 					</Row>
 				</CardBody>

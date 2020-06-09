@@ -3,7 +3,7 @@ import { Card } from 'semantic-ui-react';
 import Product from './Product';
 import axios from 'axios';
 
-const GridViewProducts = ({search, category}) => {
+const GridViewProducts = ({search, category, page}) => {
     
     const [listProduct, setListProduct] = useState([]);
     useEffect(() => {
@@ -16,7 +16,7 @@ const GridViewProducts = ({search, category}) => {
                     console.log(error);
                 });
             }else {
-                axios.get(`http://localhost:9000/api/products?page=1`)
+                axios.get(`http://localhost:9000/api/products?page=${page}`)
                 .then(res => {
                     setListProduct(res.data.data);
                 }).catch(error => {
@@ -32,7 +32,7 @@ const GridViewProducts = ({search, category}) => {
                 console.log(error);
             });
         }
-    }, [search, category]);
+    }, [search, category, page]);
     
 
     return(
