@@ -120,7 +120,7 @@ exports.update_user_info = (req, res) => {
     const date_of_birth = req.body.data.date_of_birth.trim();
     const phone = req.body.data.phone.trim();
     
-    if (user_id !== id || user_role !== ROLE.ADMIN){
+    if (user_id !== id && user_role !== ROLE.ADMIN){
         status = httpStatus.FORBIDDEN;
         res.status(status).json(responseJS.mess_Json(status));
         return;

@@ -121,9 +121,9 @@ exports.update_amount = (amount, updated_by, updated_at, id) => {
     });
 }
 
-exports.update_amount_of_products = (oders) => {
+exports.update_amount_of_products = (orders) => {
     let sql = '';
-    for(let i=0; i < oders.length; i++){
+    for(let i=0; i < orders.length; i++){
         const product_id = orders[i].id;
         const amount = orders[i].quantity;
         sql = sql + `UPDATE public.product SET amount=((SELECT amount from public.product where id=${product_id}) - ${amount}::integer) where id=${product_id}; `
