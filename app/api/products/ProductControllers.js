@@ -105,7 +105,7 @@ exports.create_product = (req, res) => {
     const amount = req.body.data.amount;
     const image = req.body.data.image ? req.body.data.image.trim() : null;
     const sell_price = req.body.data.sell_price ? req.body.data.sell_price.trim() : '';
-    const input_price = req.body.data.input_price ? req.body.data.input_price.trim() : '';
+    const input_price = req.body.data.input_price ? req.body.data.input_price.trim() : 0;
     
     service.create_product(category_id, created_by, created_at, brand_id, amount, image, name)
     .then(created => {
