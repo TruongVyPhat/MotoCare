@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import {Form,Image,Modal} from 'semantic-ui-react';
+import {Image,Modal} from 'semantic-ui-react';
 import TextField from '@material-ui/core/TextField';
 import * as Yup from 'yup'
 import { string as yupstring, object as yupobject } from "yup";
@@ -15,7 +15,7 @@ import {
   CardBody,
   Label,
   FormGroup,
-  // Form,
+  Form,
   Input,
   FormText,
   NavItem,
@@ -41,7 +41,7 @@ const [isSubmit, setisSubmit] = useState(false);
 const [open, setOpen] = useState(false),
     closeModal = () => setOpen(false),
     openModal = () => setOpen(true);
-
+const [text, setText] = useState({});
   const { register, errors} = useForm({
     validationSchema: LoginSchema
   });
@@ -78,6 +78,9 @@ let RoleName = null;
   const handleOnChange = (e) => {
     User[e.target.name] = e.target.value;
   }
+  const handleChangePassword = (e) => {
+    text[e.target.name] = e.target.value;
+  }
 
   const handleSubmit = () => {
     const data = User;
@@ -90,12 +93,11 @@ let RoleName = null;
     });
   }
 
-  const handleSave = () => {
-    const data = User;
-    axios.put(`http://localhost:9000/api/users/change-password/${User.id}`, {data}, { headers: { authorization: localStorage.getItem('access_token') } })
+  const handleSave = (data) => {
+    console.log(data)
+    axios.put(`http://localhost:9000/api/users/change-password`, {data}, { headers: { authorization: localStorage.getItem('access_token') } })
     .then(res => {
       setisSubmit(!isSubmit);
-      setreadOnly(true);
     }).catch(error => {
         console.log(error);
     });
@@ -159,7 +161,7 @@ let RoleName = null;
                         <Row>
                           <Col md="6">
                             <FormGroup>
-                            <label for="exampleInputPassword1">Password</label>
+                            <label>Password</label>
                               <Input readOnly name="password" defaultValue={User.password} type="password" onChange={(e)=>handleOnChange(e)}/>
                             </FormGroup>
                           </Col>
@@ -206,47 +208,25 @@ let RoleName = null;
                              >
                               <Modal.Header>Change Password</Modal.Header>
                                 <Modal.Content>
-                                  <Form onSubmit={e=>{e.preventDefault(); handleSave()}}>
-                                    <Form.Field error={!!errors.password}>
-                                      <label>Old Password</label>
-                                      <TextField
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        type="password"
-                                        id="password"
-                                        autoComplete="current-password"
-                                        inputRef={register}
-                                        error={errors.password ? true : false}
-                                        helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
-                                      />
-                                    </Form.Field>
-                                    <Form.Field>
+                                  <Form onSubmit={e=>{ handleSave(text)}}>
+                                    <FormGroup error={!!errors.password}>
+                                    <label>Old Password</label>
+                                      <Input style={{color:'black'}} name="old_password" placeholder="" type="password" onChange={(e)=>handleChangePassword(e)}/>
+                                    </FormGroup>
+                                    <FormGroup>
                                       <label>New Password</label>
-                                      <TextField
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        type="password"
-                                        id="password"
-                                        autoComplete="current-password"
-                                        inputRef={register}
-                                        error={errors.password ? true : false}
-                                        helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
-                                      />
-                                    </Form.Field>
+                                      <Input name="new_password" placeholder="" type="password" onChange={(e)=>handleChangePassword(e)}/>
+                                    </FormGroup>
+                                      <Modal.Actions>
+                                        <Button type={"submit"} color={"blue"}>
+                                          Save
+                                        </Button>
+                                        <Button type={"button"} color={"red"}>
+                                          Cancel
+                                        </Button>
+                                      </Modal.Actions>
                                   </Form>
                                 </Modal.Content>
-                                <Modal.Actions>
-                                  <Button type={"submit"} color={"blue"}>
-                                    Save
-                                  </Button>
-                                  <Button type={"button"} color={"red"}>
-                                    Cancel
-                                  </Button>
-                                </Modal.Actions>
                               </Modal>
                           </Col>
                           <Col md = "4">
