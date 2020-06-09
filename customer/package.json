@@ -50,6 +50,7 @@
         "react-datetime": "2.16.3",
         "react-dom": "16.13.1",
         "react-hook-form": "^5.7.2",
+        "react-hook-form-input": "^1.1.10",
         "react-router-dom": "5.1.2",
         "react-scripts": "3.4.1",
         "react-toast-notifications": "^2.4.0",

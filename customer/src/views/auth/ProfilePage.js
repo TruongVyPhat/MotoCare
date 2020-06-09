@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import {Image} from 'semantic-ui-react';
+import {Image,Modal} from 'semantic-ui-react';
 
 // reactstrap components
 import {
@@ -34,6 +34,10 @@ const User = () => {
 const [User, setUser] = useState({});
 const [isreadOnly, setreadOnly] = useState(true);
 const [isSubmit, setisSubmit] = useState(false);
+const [open, setOpen] = useState(false),
+    closeModal = () => setOpen(false),
+    openModal = () => setOpen(true);
+const [text, setText] = useState({});
 let RoleName = null;
   
   useEffect(() => {
@@ -54,7 +58,7 @@ let RoleName = null;
     else if (User.role_id === 2){
       RoleName = "Staff"         
     }
-    else if (User.role_id === 2){
+    else if (User.role_id === 3){
       RoleName = "Customer"         
     }
     return(RoleName);
@@ -66,6 +70,9 @@ let RoleName = null;
 
   const handleOnChange = (e) => {
     User[e.target.name] = e.target.value;
+  }
+  const handleChangePassword = (e) => {
+    text[e.target.name] = e.target.value;
   }
 
   const handleSubmit = () => {
@@ -79,6 +86,17 @@ let RoleName = null;
     });
   }
 
+  const handleSave = (data) => {
+    console.log(data)
+    axios.put(`http://localhost:9000/api/users/change-password`, {data}, { headers: { authorization: localStorage.getItem('access_token') } })
+    .then(res => {
+      setisSubmit(!isSubmit);
+    }).catch(error => {
+        console.log(error);
+    });
+  }
+
+ 
     return (
       <>
         <Navbar />
@@ -89,7 +107,6 @@ let RoleName = null;
                 <Col md="6">
                   <Card className="card-plain">
                     <CardHeader>
-                      {/* <h1 className="User-title text-left">Contact</h1> */}
                       <Image height = "200" width = "200" 
                         src={User.image ? User.image : 'https://react.semantic-ui.com/images/avatar/large/matthew.png'}
                         wrapped
@@ -120,7 +137,7 @@ let RoleName = null;
                         <Row>
                           <Col md="6">
                             <FormGroup>
-                            <label for="exampleInputPassword1">Password</label>
+                            <label>Password</label>
                               <Input readOnly name="password" defaultValue={User.password} type="password" onChange={(e)=>handleOnChange(e)}/>
                             </FormGroup>
                           </Col>
@@ -154,7 +171,41 @@ let RoleName = null;
                           </Col>
                         </Row>
                         <Row>
-                          <Col md = "6">
+                        <Col md = "4">
+                            <Modal   
+                              trigger={<Button
+                                className="btn-round float-right"
+                                color="primary"
+                                data-placement="right"
+                                type="button"
+                                onClick={openModal}
+                              > Change Password
+                              </Button>} open={open} onClose={closeModal}
+                             >
+                              <Modal.Header>Change Password</Modal.Header>
+                                <Modal.Content>
+                                  <Form onSubmit={e=>{ handleSave(text)}}>
+                                    <FormGroup>
+                                    <label>Old Password</label>
+                                      <Input style={{color:'black'}} name="old_password" placeholder="" type="password" onChange={(e)=>handleChangePassword(e)}/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                      <label>New Password</label>
+                                      <Input style={{color:'black'}} name="new_password" placeholder="" type="password" onChange={(e)=>handleChangePassword(e)}/>
+                                    </FormGroup>
+                                      <Modal.Actions>
+                                        <Button type={"submit"} color={"blue"}>
+                                          Save
+                                        </Button>
+                                        <Button type={"button"} color={"red"}>
+                                          Cancel
+                                        </Button>
+                                      </Modal.Actions>
+                                  </Form>
+                                </Modal.Content>
+                              </Modal>
+                          </Col>
+                          <Col md = "4">
                             {!isreadOnly && <Button
                               className="btn-round float-right"
                               color="primary"
@@ -165,7 +216,7 @@ let RoleName = null;
                               Save
                             </Button>}
                           </Col>
-                          <Col md = "6">
+                          <Col md = "4">
                             <Button
                               className="btn-round float-right"
                               color="primary"
