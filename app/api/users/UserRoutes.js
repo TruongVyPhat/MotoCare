@@ -38,8 +38,11 @@ router.put('/update/:id', auth_Controller.isAuthenticated, users_Controller.upda
 // DELETE user
 router.delete('/delete/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.delete_user);
 
+router.post('/register', users_Controller.create_user);
 // CREATE user
 router.post('/create', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), users_Controller.create_user);
+
+
 
 module.exports = router;
 

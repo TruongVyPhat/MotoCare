@@ -4,6 +4,7 @@ const httpStatus = require('http-status-codes');
 const CONSTANTS = require('../helpers/constants');
 const ROLE = CONSTANTS.ROLE;
 const formatter_time = require('../functions/format_time');
+const formatter = require('../functions/format_vi_str');
 const responseJS = require('../helpers/json-generator');
 let status = httpStatus.INTERNAL_SERVER_ERROR;
 
@@ -11,7 +12,23 @@ exports.get_all_products = (req, res) => {
     const page = req.query.page;
     service.get_all_products(page)
     .then(products => {
-        if (products){
+        if (products.length > 0){
+            status = httpStatus.OK; 
+            res.status(status).json(responseJS.Json(status, products));
+        } else {
+            status = httpStatus.NOT_FOUND;
+            res.status(status).json(responseJS.mess_Json(status));
+        }
+    })
+    .catch(function(error) {
+        res.status(status).json(error);
+    });
+}
+
+exports.get_data_for_search = (req, res) => {
+    service.data_search()
+    .then(products => {
+        if (products.length > 0){
             status = httpStatus.OK; 
             res.status(status).json(responseJS.Json(status, products));
         } else {
@@ -28,7 +45,7 @@ exports.get_product = (req, res) => {
     const product_id = req.params.id;
     service.get_product(product_id)
     .then(products => {
-        if (products){
+        if (products.length > 0){
             status = httpStatus.OK;
             res.status(status).json(responseJS.Json(status, products[0]));
         } else {
@@ -58,13 +75,13 @@ exports.search_products = (req, res) => {
 };
 
 exports.filter_products = (req, res) => {
-    const category_id = req.query.category_id;
-    const brand_id = req.query.brand_id;
+    const category_id = req.query.category ? parseInt(req.query.category) : null;
+    const brand_id = req.query.brand ? parseInt(req.query.brand) : null;
     const page = req.query.page;
     
-    service.filter_products = (category_id, brand_id, page)
+    service.filter_products(category_id, brand_id, page)
     .then(products => {
-        if (products){
+        if (products.length > 0){
             status = httpStatus.OK; 
             res.status(status).json(responseJS.Json(status, products));
         } else {

@@ -11,6 +11,8 @@ const permission = require('../middlewares/permission');
  */
 router.get('/', product_Controller.get_all_products);
 
+router.get('/data-search', product_Controller.get_data_for_search);
+
 // FIND products
 router.get('/search', product_Controller.search_products);
 

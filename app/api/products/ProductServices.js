@@ -6,7 +6,7 @@ const { QueryTypes } = require('sequelize');
 
 exports.get_all_products = (page) => {
     const offset = (page - 1) * CONSTANTS.PAGE_SIZE;
-    const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent, c.title FROM public.product p ' 
+    const sql = 'SELECT p.id, p.name, p.image, p.amount, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent, c.title FROM public.product p ' 
             + ' JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
             + ' JOIN public.categories c on c.id = p.category_id '
             + ' LEFT JOIN public."onSale" s on p.id = s.product_id and s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id)'
@@ -17,11 +17,21 @@ exports.get_all_products = (page) => {
     });
 }
 
+exports.data_search = () => {
+    const sql = "SELECT p.id, p.name as title, (select COALESCE(p.image, 'https://react.semantic-ui.com/images/avatar/large/matthew.png')) as image, "
+            + " (select CONCAT('$',pr.sell_price::text)) as price from public.product p "
+            + " join public.price pr on pr.product_id = p.id";
+    return sequelize.query(sql, {
+        replacements: [],
+        type: QueryTypes.SELECT
+    });
+}
+
 exports.get_product = (id) => {
     const sql = 'SELECT p.*, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent, c.title FROM public.product p ' 
             + ' JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
-            + ' JOIN public.categories c on c.id = p.category_id '
-            + ' LEFT JOIN public."onSale" s on p.id = s.product_id where p.id = ? and s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id)';
+            + ' JOIN public.categories c on c.id = p.category_id LEFT JOIN public."onSale" s on p.id = s.product_id '
+            + ' where p.id = ? and (s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id) or s.end_date is null)';
     return sequelize.query(sql, {
         replacements: [id],
         type: QueryTypes.SELECT
@@ -29,8 +39,8 @@ exports.get_product = (id) => {
 }
 
 exports.get_user_by_keyword = (keyword) => {
-    const sql = "SELECT id, name from public.Product where id::text = ?"
-            + " or LOWER(replace((select convertTVkdau(name)),' ','')) like ?";
+    const sql = "SELECT p.id, p.name as title, p.image, pr.sell_price as price from public.product p join public.price pr on pr.product_id = p.id "
+            + " where p.id::text = ? or LOWER(replace((select convertTVkdau(p.name)),' ','')) like ?";
     return sequelize.query(sql, {
         replacements: [keyword, keyword],
         type: QueryTypes.SELECT
@@ -40,7 +50,10 @@ exports.get_user_by_keyword = (keyword) => {
 exports.filter_products = (category_id, brand_id, page) => {
     const offset = (page - 1) * CONSTANTS.PAGE_SIZE;
     let replacements = [];
-    let sql = 'SELECT * FROM public.product ';
+    let sql = ' SELECT p.id, p.name, p.image, p.amount, b.name as brand_name, pr.sell_price, s.start_date, s.end_date, s.discount_percent, c.title FROM public.product p ' 
+            + ' JOIN public.brand b on p.brand_id = b.id JOIN public.price pr on p.id = pr.product_id '
+            + ' JOIN public.categories c on c.id = p.category_id '
+            + ' LEFT JOIN public."onSale" s on p.id = s.product_id and s.end_date = (select MAX(end_date) from public."onSale" where product_id = p.id) ';
     if (category_id){
         sql = sql + ' where category_id=? ';
         replacements.push(category_id);
