@@ -34,20 +34,22 @@ exports.get_all_bills = (req, res) => {
 					orders: [],
 				}
 				for (let i = 0; i < bills.length; i++){
+					
 					if (!curBill_json.id || curBill_json.id !== bills[i].id){
+						results.push(curBill_json);
 						curBill_json.id = bills[i].id;
 						curBill_json.created_at = bills[i].created_at;
 						curBill_json.total_price = bills[i].total_price;
-					}
+						curBill_json.orders = [];
+					} 
 					const order = {
 						name: bills[i].name,
 						amount: bills[i].amount
 					}
 					curBill_json.orders.push(order);
 				}
-
 				status = httpStatus.OK;
-				res.status(status).json(responseJS.Json(status, bills));
+				res.status(status).json(responseJS.Json(status, results));
 			} else {
 				status = httpStatus.NOT_FOUND;
 				res.status(status).json(responseJS.mess_Json(status));
