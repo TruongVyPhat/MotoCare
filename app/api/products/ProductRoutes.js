@@ -26,7 +26,7 @@ router.get('/:id', product_Controller.get_product);
 router.post('/create', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.create_product);
 
 // UPDATE products
-router.put('/update', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product);
+router.put('/update', /*auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]),*/ product_Controller.update_product);
 
 // UPDATE product amount
 router.put('/update-amount', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), product_Controller.update_product_amount);
