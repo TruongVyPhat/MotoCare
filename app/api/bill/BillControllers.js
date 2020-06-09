@@ -1,5 +1,6 @@
 const service = require('./BillServices');
 const pOrder_service = require('../product_order/ProductOrderServices');
+const product_service = require('../products/ProductServices');
 const httpStatus = require('http-status-codes');
 const CONSTANTS = require('../helpers/constants');
 const path = require('path');
@@ -15,16 +16,38 @@ paypal.configure({
 });
 
 exports.get_all_bills = (req, res) => {
-	const page = req.query.page;
 	const user_id = req.user.id;
 	const role_id = req.user.role_id;
 
 	if (role_id === ROLE.ADMIN && role_id === ROLE.STAFF) user_id = null;
 
 	service
-		.get_all_bills(page, user_id)
+		.get_all_bills(user_id)
 		.then((bills) => {
 			if (bills) {
+				// let results = [];
+				// let curBill_json = {
+				// 	id: null,
+				// 	created_at: null,
+				// 	discount: 0,
+				// 	total_price: 0,
+				// 	orders: [],
+				// }
+				// for (let i = 0; i < bills.length; i++){
+					
+				// 	if (!curBill_json.id || curBill_json.id !== bills[i].id){
+				// 		results.push(curBill_json);
+				// 		curBill_json.id = bills[i].id;
+				// 		curBill_json.created_at = bills[i].created_at;
+				// 		curBill_json.total_price = bills[i].total_price;
+				// 		curBill_json.orders = [];
+				// 	} 
+				// 	const order = {
+				// 		name: bills[i].name,
+				// 		amount: bills[i].amount
+				// 	}
+				// 	curBill_json.orders.push(order);
+				// }
 				status = httpStatus.OK;
 				res.status(status).json(responseJS.Json(status, bills));
 			} else {
@@ -96,42 +119,47 @@ exports.create_bill = (req, res) => {
                         }
                         service.trigger_update_price(total, bill_id)
                         .then((updated) => {
-                            const create_payment_json = {
-                                intent: 'sale',
-                                payer: {
-                                    payment_method: 'paypal'
-                                },
-                                redirect_urls: {
-                                    return_url: `http://localhost:9000/success?total=${total}`,
-                                    cancel_url: 'http://localhost:3000/cancel'
-                                },
-                                transactions: [
-                                    {
-                                        item_list: {
-                                            items: items
-                                        },
-                                        amount: {
-                                            currency: 'USD',
-                                            total: total.toString()
-                                        },
-                                        description: 'Hat for the best team ever'
-                                    }
-                                ]
-                            };
+							product_service.update_amount_of_products(orders)
+							.then(amount_updated => {
+								const create_payment_json = {
+									intent: 'sale',
+									payer: {
+										payment_method: 'paypal'
+									},
+									redirect_urls: {
+										return_url: `http://localhost:9000/success?total=${total}`,
+										cancel_url: 'http://localhost:3000/cancel'
+									},
+									transactions: [
+										{
+											item_list: {
+												items: items
+											},
+											amount: {
+												currency: 'USD',
+												total: total.toString()
+											},
+											description: 'Hat for the best team ever'
+										}
+									]
+								};
 
-                            paypal.payment.create(create_payment_json, function(error, payment) {
-                                if (error) {
-                                    res.status(status).json(error);
-                                } else {
-                                    for (let i = 0; i < payment.links.length; i++) {
-                                        if (payment.links[i].rel === 'approval_url') {
-                                            status = httpStatus.OK;
-                                    		res.status(status).json(responseJS.Json(status, payment.links[i].href));
-                                        }
+								paypal.payment.create(create_payment_json, function(error, payment) {
+									if (error) {
+										res.status(status).json(error);
+									} else {
+										for (let i = 0; i < payment.links.length; i++) {
+											if (payment.links[i].rel === 'approval_url') {
+												status = httpStatus.OK;
+												res.status(status).json(responseJS.Json(status, payment.links[i].href));
+											}
+										}
+										
 									}
-									
-                                }
-                            });
+								});
+							}).catch((error) => {
+								res.status(status).json(error);
+							});
                         })
                         .catch((error) => {
                             res.status(status).json(error);

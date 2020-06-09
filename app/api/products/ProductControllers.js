@@ -1,5 +1,6 @@
 const service = require('./ProductServices');
 const price_service = require('../prices/PriceServices');
+const order_service = require('../product_order/ProductOrderServices');
 const httpStatus = require('http-status-codes');
 const CONSTANTS = require('../helpers/constants');
 const ROLE = CONSTANTS.ROLE;
@@ -104,7 +105,7 @@ exports.create_product = (req, res) => {
     const amount = req.body.data.amount;
     const image = req.body.data.image ? req.body.data.image.trim() : null;
     const sell_price = req.body.data.sell_price ? req.body.data.sell_price.trim() : '';
-    const input_price = req.body.data.input_price ? req.body.data.input_price.trim() : '';
+    const input_price = req.body.data.input_price ? req.body.data.input_price.trim() : 0;
     
     service.create_product(category_id, created_by, created_at, brand_id, amount, image, name)
     .then(created => {
@@ -130,14 +131,14 @@ exports.update_product = (req, res) => {
     const id = req.query.id
     const name = req.body.data.name.trim();
     const category_id = req.body.data.category_id;
-    const updated_by = req.user.id;
+    const updated_by = 1//req.user.id;
     const current_time = new Date().getTime();
     const updated_at = formatter_time.gettime_to_format(current_time);
     const brand_id = req.body.data.brand_id;
     const amount = req.body.data.amount;
     const image = req.body.data.image ? req.body.data.image.trim() : null;
-    const sell_price = req.body.data.sell_price ? req.body.data.sell_price.trim() : '';
-    const input_price = req.body.data.input_price ? req.body.data.input_price.trim() : '';
+    const sell_price = req.body.data.sell_price ? req.body.data.sell_price : '';
+    const input_price = req.body.data.input_price ? req.body.data.input_price : 0;
     
     service.update_product(category_id, updated_by, updated_at, brand_id, amount, image, name, id)
     .then(updating => {
@@ -175,19 +176,35 @@ exports.update_product_amount = (req, res) => {
 exports.delete_product = (req, res) => {
     const id = req.params.id;
     
-    price_service.delete_price_by_productId(id)
-    .then(deleted => {
-        
-        service.delete_product(id)
-        .then(deleted => {
-            status = httpStatus.OK;
+    order_service.get_orders_by_productId(id)
+    .then(orders => {
+        if (orders.length > 0){
+            status = httpStatus.CONFLICT;
             res.status(status).json(responseJS.mess_Json(status));
-        }).catch(function(error) {
-            res.status(status).json(error);
-        });
-        
+        } else {
+            price_service.delete_sale_by_productId(id)
+            .then(deleted => {
+                price_service.delete_price_by_productId(id)
+                .then(deleted => {
+                    
+                    service.delete_product(id)
+                    .then(deleted => {
+                        status = httpStatus.OK;
+                        res.status(status).json(responseJS.mess_Json(status));
+                    }).catch(function(error) {
+                        res.status(status).json(error);
+                    });
+                    
+                }).catch(function(error) {
+                    res.status(status).json(error);
+                });
+                
+            }).catch(function(error) {
+                res.status(status).json(error);
+            });
+        }
     }).catch(function(error) {
         res.status(status).json(error);
     });
-    
+
 }

@@ -4,17 +4,16 @@ const CONSTANTS = require('../helpers/constants');
 const sequelize = db.sequelize;
 const { QueryTypes } = require('sequelize');
 
-exports.get_all_bills = (page, user_id) => {
-    const offset = (page - 1) * CONSTANTS.PAGE_SIZE;
-    let sql = 'SELECT * from public.bill where ';
+exports.get_all_bills = (user_id) => {
+    let sql = 'SELECT b.id, b.created_at, b.discount, b.total_price, p.name, po.amount from public.bill b '
+            + ' left join public.product_order po on po.bill_id = b.id '
+            + ' join public.product p on p.id = po.product_id join public.price pr on pr.product_id = p.id ';
     let replacements = [];
     if (user_id) {
-        sql = sql + ' user_id=?';
+        sql = sql + ' where user_id=? and b.total_price > 0';
         replacements.push(user_id);
     }
-    sql = sql + ' ORDER BY id LIMIT ? OFFSET ?';
-    replacements.push(CONSTANTS.PAGE_SIZE);
-    replacements.push(offset);
+    sql = sql + ' order by b.id ';
     return sequelize.query(sql, {
         replacements: replacements,
         type: QueryTypes.SELECT

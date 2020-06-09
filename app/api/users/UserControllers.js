@@ -2,6 +2,7 @@ const service = require('./UserServices');
 const httpStatus = require('http-status-codes');
 const CONSTANTS = require('../helpers/constants');
 const ROLE = CONSTANTS.ROLE;
+const bill_service = require('../bill/BillServices');
 const responseJS = require('../helpers/json-generator');
 let status = httpStatus.INTERNAL_SERVER_ERROR;
 
@@ -181,10 +182,35 @@ exports.reset_password = (req, res) => {
 // delete user
 exports.delete_user = (req, res) => {
     const id = req.params.id;
-    service.delete_user(id)
-    .then(function(deleting){
-        status = httpStatus.OK;
-        res.status(status).json(responseJS.mess_Json(status));
+    
+    service.get_user(id)
+    .then(users => {
+        if (users.length > 0){
+            if (users[0].role_id === ROLE.ADMIN){
+                status = httpStatus.FORBIDDEN;
+                res.status(status).json(responseJS.mess_Json(status));
+            }
+            bill_service.get_all_bills(id)
+            .then(bills => {
+                if (bills.length > 0){
+                    status = httpStatus.CONFLICT;
+                    res.status(status).json(responseJS.mess_Json(status));
+                } else {
+                    service.delete_user(id)
+                    .then(function(deleting){
+                        status = httpStatus.OK;
+                        res.status(status).json(responseJS.mess_Json(status));
+                    }).catch(function(error) {
+                        res.status(status).json(error);
+                    });
+                }   
+            })
+            
+        } else {
+            status = httpStatus.NOT_FOUND;
+            res.status(status).json(responseJS.mess_Json(status));
+        }
+        
     }).catch(function(error) {
         res.status(status).json(error);
     });
