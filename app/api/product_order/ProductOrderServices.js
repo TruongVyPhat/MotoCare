@@ -17,6 +17,14 @@ exports.get_orders_by_bill = (bill_id, user_id) => {
     });
 }
 
+exports.get_orders_by_productId = (product_id) => {
+    const sql = 'SELECT * from public.product_order where product_id=?';
+    return sequelize.query(sql, {
+        replacements: [product_id],
+        type: QueryTypes.SELECT
+    });
+}
+
 exports.create_orders = (orders, bill_id) => { 
     let sql = '';
     for(let i = 0; i < orders.length; i++){
