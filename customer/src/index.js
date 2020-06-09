@@ -14,26 +14,31 @@ import ProductDetail from "views/products/ProductDetail";
 import SuccessPayment from "views/payment/SuccessPayment"
 import Signin from "views/auth/Signin";
 import MyCart from "views/cart/Cart"
+import Orders from "views/payment/Orders"
 import { ToastProvider } from 'react-toast-notifications'
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/product" render={props => <Index {...props} data={'MyTab'}/>} />
+      <Route path="/product" render={props => <Index {...props} data={'MyTab'} />} />
       <Route
         path="/profile-page"
         render={props => <ProfilePage {...props} />}
       />
       <Route
-        path="/register-page"> <RegisterPage/> </Route>
+        path="/register-page"> <RegisterPage /> </Route>
       />
       <Route
         path="/signin"
-        render={props => <Signin {...props} />} 
+        render={props => <Signin {...props} />}
       />
       <Route
         path="/my-cart"
         render={props => <MyCart {...props} />}
+      />
+      <Route
+        path="/orders-page"
+        render={props => <Orders {...props} />}
       />
       <Route
         path="/product-detail/:id"
@@ -43,7 +48,7 @@ ReactDOM.render(
         path="/success"
         render={props => <SuccessPayment {...props} />}
       />
-      
+
       <Redirect from="/" to="/product" />
     </Switch>
   </BrowserRouter>,

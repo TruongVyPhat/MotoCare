@@ -20,7 +20,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link to="/"  color="inherit">
+            <Link to="/" color="inherit">
                 Motor Care
         </Link>{' '}
             {new Date().getFullYear()}
@@ -61,8 +61,8 @@ const LoginSchema = yupobject().shape({
         .min(8)
         .matches(/[a-zA-Z]/),
     passwordconfirm: yupstring()
-    .oneOf([Yup.ref('password'), null])
-    
+        .oneOf([Yup.ref('password'), null])
+
 });
 
 function RegisterPage() {
@@ -70,7 +70,7 @@ function RegisterPage() {
     const [show, setShow] = useState(false);
     const [showCreate, setShowCreate] = useState(false);
     const [isLoading, setIsloading] = useState(false);
-    const {register, handleSubmit, errors } = useForm({
+    const { register, handleSubmit, errors } = useForm({
         validationSchema: LoginSchema
     });
 
@@ -87,15 +87,15 @@ function RegisterPage() {
     const onSubmit = (data) => {
         delete data.passwordconfirm;
         setIsloading(true);
-        Axios.post('http://localhost:9000/api/users/register',{data})
-            .then (res => {
+        Axios.post('http://localhost:9000/api/users/register', { data })
+            .then(res => {
                 if (res.status === 201) {
                     console.log(res.data);
                     setShowCreate(true);
                     setIsloading(true);
                 }
             })
-            .catch (error => {
+            .catch(error => {
                 if (error.message === "Request failed with status code 406") {
                     setShow(true)
                 }
@@ -120,7 +120,7 @@ function RegisterPage() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <br/>
+                <br />
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -190,7 +190,7 @@ function RegisterPage() {
                         className={classes.submit}
                         disabled={isLoading}
                     >
-                        {isLoading? "Loading" : "Sign up"}
+                        {isLoading ? "Loading" : "Sign up"}
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>

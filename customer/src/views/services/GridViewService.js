@@ -9,7 +9,6 @@ const GridViewService = () => {
     useEffect(() => {
         axios.get(`http://localhost:9000/api/services?page=1`)
         .then(res => {
-            console.log(res.data.data)
             setListService(res.data.data);
         }).catch(error => {
             console.log(error);

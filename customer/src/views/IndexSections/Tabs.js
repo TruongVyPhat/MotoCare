@@ -110,14 +110,6 @@ const Tabs = () => {
 						<TabPane tabId="link2">
 							<GridViewService />
 						</TabPane>
-						<TabPane tabId="link3">
-							<p>
-								Efficiently unleash cross-media information without cross-media value. Quickly maximize
-								timely deliverables for real-time schemas. <br />
-								<br />
-								Dramatically maintain clicks-and-mortar solutions without functional solutions.
-							</p>
-						</TabPane>
 					</TabContent>
 					<Row>
 						<Pagination

@@ -9,21 +9,12 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Label,
   FormGroup,
   Form,
   Input,
-  FormText,
-  NavItem,
-  NavLink,
-  Nav,
-  Table,
-  TabContent,
-  TabPane,
   Container,
   Row,
-  Col,
-  UncontrolledTooltip
+  Col
 } from "reactstrap";
 
 // core components
@@ -43,7 +34,6 @@ let RoleName = null;
   useEffect(() => {
     axios.get(`http://localhost:9000/api/users/me`, { headers: { authorization: localStorage.getItem('access_token') } })
     .then(res => {
-        console.log(res.data.data)
         setUser(res.data.data)
     }).catch(error => {
         console.log(error);
@@ -77,6 +67,7 @@ let RoleName = null;
 
   const handleSubmit = () => {
     const data = User;
+    console.log('dây',data)
     axios.put(`http://localhost:9000/api/users/update/${User.id}`, {data}, { headers: { authorization: localStorage.getItem('access_token') } })
     .then(res => {
       setisSubmit(!isSubmit);
