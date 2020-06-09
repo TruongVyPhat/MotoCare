@@ -138,7 +138,7 @@ exports.update_product = (req, res) => {
     const amount = req.body.data.amount;
     const image = req.body.data.image ? req.body.data.image.trim() : null;
     const sell_price = req.body.data.sell_price ? req.body.data.sell_price.trim() : '';
-    const input_price = req.body.data.input_price ? req.body.data.input_price.trim() : '';
+    const input_price = req.body.data.input_price ? req.body.data.input_price.trim() : 0;
     
     service.update_product(category_id, updated_by, updated_at, brand_id, amount, image, name, id)
     .then(updating => {
