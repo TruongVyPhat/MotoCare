@@ -63,7 +63,7 @@ function Header() {
     if (localStorage.getItem('access_token') === null || localStorage.getItem('role_id') === null) {
       window.location.href = "/signin"
     } else {
-      let url = 'http://localhost:9000/api/users/me';
+      let url = 'https://motorcare-api.herokuapp.com//api/users/me';
       axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
         .then(res => {
         }).catch(error => {
@@ -97,7 +97,7 @@ function Header() {
       window.location.href = "/signin"
     }
     else {
-      const url = 'http://localhost:9000/api/auth/logout';
+      const url = 'https://motorcare-api.herokuapp.com/api/auth/logout';
       axios.delete(url, { headers: { authorization: localStorage.getItem('access_token') } })
         .then(res => {
           console.log("Delete accesstoken success")

@@ -19,7 +19,7 @@ const Profile = () => {
   const [User , setUser] = useState({})
   
   useEffect(() => {
-    let url = 'http://localhost:9000/api/users/me';
+    let url = 'https://motorcare-api.herokuapp.com/api/users/me';
     axios.get(url, { headers: { authorization: localStorage.getItem('access_token') }})
     .then(res => {
       setUser(res.data.data);

@@ -22,7 +22,7 @@ const AddProduct = props => {
         let didCancel = false;
 
         //Call Category and brand for form Edit
-        let urlCategories = 'http://localhost:9000/api/categories?page=1';
+        let urlCategories = 'https://motorcare-api.herokuapp.com/api/categories?page=1';
         axios.get(urlCategories, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 if (!didCancel) {
@@ -32,7 +32,7 @@ const AddProduct = props => {
             }).catch(error => {
                 console.log(error);
             });
-        let urlBrands = 'http://localhost:9000/api/brands?page=1';
+        let urlBrands = 'https://motorcare-api.herokuapp.com/api/brands?page=1';
         axios.get(urlBrands, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 if (!didCancel) {

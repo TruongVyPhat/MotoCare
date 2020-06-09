@@ -27,7 +27,7 @@ const ProductManager = () => {
     }
 
     const addProduct = data => {
-        axios.post('http://localhost:9000/api/products/create',{data},{headers: { authorization: localStorage.getItem('access_token') }})
+        axios.post('https://motorcare-api.herokuapp.com/api/products/create',{data},{headers: { authorization: localStorage.getItem('access_token') }})
             .then (res => {
                 console.log(res.status)
                 if (res.status === 200) {
@@ -48,7 +48,7 @@ const ProductManager = () => {
     }
 
     const deleteProduct = id => {
-        axios.delete(`http://localhost:9000/api/products/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
+        axios.delete(`https://motorcare-api.herokuapp.com/api/products/delete/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
@@ -71,7 +71,7 @@ const ProductManager = () => {
     }
 
     const updateProduct = (id, data) => {
-        axios.put(`http://localhost:9000/api/products/update?id=${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
+        axios.put(`https://motorcare-api.herokuapp.com/api/products/update?id=${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
@@ -92,7 +92,7 @@ const ProductManager = () => {
     }
 
     useEffect(() => {
-        let url = 'http://localhost:9000/api/products?page=1';
+        let url = 'https://motorcare-api.herokuapp.com/api/products?page=1';
         axios.get(url)
             .then(res => {
                 console.log(res.data.data)
