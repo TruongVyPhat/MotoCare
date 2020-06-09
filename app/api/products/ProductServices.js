@@ -126,7 +126,7 @@ exports.update_amount_of_products = (oders) => {
     for(let i=0; i < oders.length; i++){
         const product_id = orders[i].id;
         const amount = orders[i].quantity;
-        sql = sql + `UPDATE public.product SET amount=${amount}::integer where id=${product_id}; `
+        sql = sql + `UPDATE public.product SET amount=((SELECT amount from public.product where id=${product_id}) - ${amount}::integer) where id=${product_id}; `
     }
     return sequelize.query(sql);
 } 
