@@ -10,7 +10,7 @@ exports.get_all_bills = (user_id) => {
             + ' join public.product p on p.id = po.product_id join public.price pr on pr.product_id = p.id ';
     let replacements = [];
     if (user_id) {
-        sql = sql + ' where user_id=?';
+        sql = sql + ' where user_id=? and p.total_price > 0';
         replacements.push(user_id);
     }
     sql = sql + ' order by b.id ';
