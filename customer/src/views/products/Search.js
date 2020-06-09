@@ -18,7 +18,7 @@ const SearchExampleStandard = ({ updateSearch }) => {
 
     const handleResultSelect = (e, { result }) => {
         setCurState({ isLoading: false, results: [], value: result.title });
-        window.location.href = `https://motorcare-api.herokuapp.com/product-detail/${result.id}`;
+        window.location.href = `https://motocare-customer.web.app/product-detail/${result.id}`;
     }
 
     const handleSearchChange = (e, { value }) => {
