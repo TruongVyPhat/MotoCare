@@ -30,10 +30,6 @@ const EditBrand = props => {
                 props.closeModal(false)
             }}
         >
-            <Form.Group controlId="EditformGroupImage">
-                <Form.Label>Input Image</Form.Label>
-                <Form.File name="image"  onChange={handleInputChange} id="custom-file"  custom />
-            </Form.Group>
             <Form.Group controlId="EditformGroupName">
                 <Form.Label>Name</Form.Label>
                 <Form.Control required type="text" placeholder="Enter name" name="name" value={brand.name} onChange={handleInputChange} />

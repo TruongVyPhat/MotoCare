@@ -58,7 +58,7 @@ const ProductManager = () => {
         })
         .catch (error => {
             console.log(error)
-            toast.error("Can't delete Brand !! ", {
+            toast.error("Can't delete Product !! ", {
                 position: "bottom-right",
                 autoClose: 5000,
                 hideProgressBar: true,
