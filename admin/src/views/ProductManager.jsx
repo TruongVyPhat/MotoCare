@@ -4,6 +4,7 @@ import ProductTable from "components/ProductManager/ProductTable"
 import AddProduct from "components/ProductManager/AddProduct"
 import EditProduct from "components/ProductManager/EditProduct"
 import Modal from 'react-bootstrap/Modal'
+import { toast } from 'react-toastify';
 import {
     Button,
     Card,
@@ -57,6 +58,15 @@ const ProductManager = () => {
         })
         .catch (error => {
             console.log(error)
+            toast.error("Can't delete Brand !! ", {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         })
     }
 

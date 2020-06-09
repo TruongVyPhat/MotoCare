@@ -4,6 +4,7 @@ import UserTable from "components/UserManager/UserTable"
 import AddUser from "components/UserManager/AddUser"
 import EditUser from "components/UserManager/EditUser"
 import Modal from 'react-bootstrap/Modal'
+import { toast } from 'react-toastify';
 import * as Constant from '../helpers/constants'
 import {
     Button,
@@ -61,6 +62,15 @@ function UserManager() {
             })
             .catch(error => {
                 console.log(error)
+                toast.error("Can't delete Brand !! ", {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
     }
 

@@ -4,6 +4,8 @@ import BrandTable from "components/BrandManager/BrandTable"
 import AddBrand from "components/BrandManager/AddBrand"
 import EditBrand from "components/BrandManager/EditBrand"
 import Modal from 'react-bootstrap/Modal'
+import { toast } from 'react-toastify';
+
 import {
     Button,
     Card,
@@ -72,6 +74,15 @@ const BrandManager = () => {
         })
         .catch (error => {
             console.log(error)
+            toast.error("Can't delete Brand !! ", {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         })
     }
 
