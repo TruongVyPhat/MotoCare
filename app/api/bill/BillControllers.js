@@ -16,16 +16,36 @@ paypal.configure({
 });
 
 exports.get_all_bills = (req, res) => {
-	const page = req.query.page;
 	const user_id = req.user.id;
 	const role_id = req.user.role_id;
 
 	if (role_id === ROLE.ADMIN && role_id === ROLE.STAFF) user_id = null;
 
 	service
-		.get_all_bills(page, user_id)
+		.get_all_bills(user_id)
 		.then((bills) => {
 			if (bills) {
+				let results = [];
+				let curBill_json = {
+					id: null,
+					created_at: null,
+					discount: 0,
+					total_price: 0,
+					orders: [],
+				}
+				for (let i = 0; i < bills.length; i++){
+					if (!curBill_json.id || curBill_json.id !== bills[i].id){
+						curBill_json.id = bills[i].id;
+						curBill_json.created_at = bills[i].created_at;
+						curBill_json.total_price = bills[i].total_price;
+					}
+					const order = {
+						name: bills[i].name,
+						amount: bills[i].amount
+					}
+					curBill_json.orders.push(order);
+				}
+
 				status = httpStatus.OK;
 				res.status(status).json(responseJS.Json(status, bills));
 			} else {
