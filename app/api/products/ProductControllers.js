@@ -1,5 +1,6 @@
 const service = require('./ProductServices');
 const price_service = require('../prices/PriceServices');
+const order_service = require('../product_order/ProductOrderServices');
 const httpStatus = require('http-status-codes');
 const CONSTANTS = require('../helpers/constants');
 const ROLE = CONSTANTS.ROLE;
@@ -176,19 +177,35 @@ exports.update_product_amount = (req, res) => {
 exports.delete_product = (req, res) => {
     const id = req.params.id;
     
-    price_service.delete_price_by_productId(id)
-    .then(deleted => {
-        
-        service.delete_product(id)
-        .then(deleted => {
-            status = httpStatus.OK;
+    order_service.get_orders_by_productId(id)
+    .then(orders => {
+        if (orders.length > 0){
+            status = httpStatus.CONFLICT;
             res.status(status).json(responseJS.mess_Json(status));
-        }).catch(function(error) {
-            res.status(status).json(error);
-        });
-        
+        } else {
+            price_service.delete_sale_by_productId(id)
+            .then(deleted => {
+                price_service.delete_price_by_productId(id)
+                .then(deleted => {
+                    
+                    service.delete_product(id)
+                    .then(deleted => {
+                        status = httpStatus.OK;
+                        res.status(status).json(responseJS.mess_Json(status));
+                    }).catch(function(error) {
+                        res.status(status).json(error);
+                    });
+                    
+                }).catch(function(error) {
+                    res.status(status).json(error);
+                });
+                
+            }).catch(function(error) {
+                res.status(status).json(error);
+            });
+        }
     }).catch(function(error) {
         res.status(status).json(error);
     });
-    
+
 }
