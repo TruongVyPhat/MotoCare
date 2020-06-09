@@ -79,12 +79,15 @@ exports.filter_products = (category_id, brand_id, page) => {
 
 exports.count_product_by_cate_or_brand = (category_id, brand_id) =>{
     let sql = 'SELECT * from public.product where ';
+    let replacements = [];
     if (category_id){
         sql = sql + ' category_id=? ';
+        replacements.push(category_id);
     }
     if (brand_id){
         if (category_id) sql = sql + 'and';
         sql = sql + ' brand_id=? '
+        replacements.push(brand_id);
     }
     return sequelize.query(sql, {
         replacements: replacements,

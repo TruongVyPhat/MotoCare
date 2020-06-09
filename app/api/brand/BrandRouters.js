@@ -21,6 +21,6 @@ router.post('/', auth_Controller.isAuthenticated, permission.user_permission([RO
 router.put('/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN, ROLE.STAFF]), brand_Controller.update_brand);
 
 // DELETE brand
-router.delete('/:id', auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]), brand_Controller.delete_brand);
+router.delete('/:id', /*auth_Controller.isAuthenticated, permission.user_permission([ROLE.ADMIN]),*/ brand_Controller.delete_brand);
 
 module.exports = router;

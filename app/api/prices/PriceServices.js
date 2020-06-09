@@ -39,7 +39,7 @@ exports.update_price = (sell_price, input_price, product_id, id) => {
 }
 
 exports.create_price = (product_id, input_price, sell_price) => {
-    const sql = 'INSERT INTO public.price(product_id, input_price, sell_price) VALUES (?, ?, ?)';
+    const sql = 'INSERT INTO public.price(product_id, input_price, sell_price) VALUES (?, ?, ?::integer)';
     return sequelize.query(sql, {
         replacements: [product_id, input_price, sell_price],
         type: QueryTypes.INSERT
