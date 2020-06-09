@@ -7,7 +7,7 @@ const GridViewService = () => {
     
     const [listService, setListService] = useState([]);
     useEffect(() => {
-        axios.get(`http://localhost:9000/api/services?page=1`)
+        axios.get(`https://motorcare-api.herokuapp.com/api/services?page=1`)
         .then(res => {
             setListService(res.data.data);
         }).catch(error => {

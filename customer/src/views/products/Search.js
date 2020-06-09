@@ -8,7 +8,7 @@ const SearchExampleStandard = ({ updateSearch }) => {
     const [curState, setCurState] = useState(initialState);
     const [source, setSource] = useState([]);
     useEffect(() => {
-        axios.get(`http://localhost:9000/api/products/data-search`)
+        axios.get(`https://motorcare-api.herokuapp.com/api/products/data-search`)
             .then(res => {
                 setSource(res.data.data);
             }).catch((error) => {
@@ -18,7 +18,7 @@ const SearchExampleStandard = ({ updateSearch }) => {
 
     const handleResultSelect = (e, { result }) => {
         setCurState({ isLoading: false, results: [], value: result.title });
-        window.location.href = `http://localhost:3000/product-detail/${result.id}`;
+        window.location.href = `https://motorcare-api.herokuapp.com/product-detail/${result.id}`;
     }
 
     const handleSearchChange = (e, { value }) => {

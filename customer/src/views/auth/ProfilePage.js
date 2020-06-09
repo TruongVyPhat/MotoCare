@@ -32,7 +32,7 @@ const User = () => {
   let RoleName = null;
 
   useEffect(() => {
-    axios.get(`http://localhost:9000/api/users/me`, { headers: { authorization: localStorage.getItem('access_token') } })
+    axios.get(`https://motorcare-api.herokuapp.com/api/users/me`, { headers: { authorization: localStorage.getItem('access_token') } })
       .then(res => {
         setUser(res.data.data)
       }).catch(error => {
@@ -66,8 +66,7 @@ const User = () => {
 
   const handleSubmit = () => {
     const data = User;
-    console.log('dây', data)
-    axios.put(`http://localhost:9000/api/users/update/${User.id}`, { data }, { headers: { authorization: localStorage.getItem('access_token') } })
+    axios.put(`https://motorcare-api.herokuapp.com/api/users/update/${User.id}`, { data }, { headers: { authorization: localStorage.getItem('access_token') } })
       .then(res => {
         setisSubmit(!isSubmit);
         setreadOnly(true);
@@ -78,7 +77,7 @@ const User = () => {
 
   const handleSave = (data) => {
     console.log(data)
-    axios.put(`http://localhost:9000/api/users/change-password`, { data }, { headers: { authorization: localStorage.getItem('access_token') } })
+    axios.put(`https://motorcare-api.herokuapp.com/api/users/change-password`, { data }, { headers: { authorization: localStorage.getItem('access_token') } })
       .then(res => {
         closeModal()
         setisSubmit(!isSubmit);

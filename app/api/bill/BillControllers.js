@@ -201,7 +201,7 @@ exports.payment = (req, res) => {
 			status = httpStatus.METHOD_FAILURE;
 			res.status(status).json(responseJS.mess_Json(status));
 		} else {
-			res.redirect('http://localhost:3000/success', httpStatus.OK);
+			res.redirect('https://motocare-customer.web.app/success', httpStatus.OK);
 		}
 	});
 };

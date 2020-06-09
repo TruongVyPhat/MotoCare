@@ -9,14 +9,14 @@ const GridViewProducts = ({search, category, page}) => {
     useEffect(() => {
         if (!search){
             if(category){
-                axios.get(`http://localhost:9000/api/products/filter?category=${category}&page=1`)
+                axios.get(`https://motorcare-api.herokuapp.com/api/products/filter?category=${category}&page=1`)
                 .then(res => {
                     setListProduct(res.data.data);
                 }).catch(error => {
                     console.log(error);
                 });
             }else {
-                axios.get(`http://localhost:9000/api/products?page=${page}`)
+                axios.get(`https://motorcare-api.herokuapp.com/api/products?page=${page}`)
                 .then(res => {
                     setListProduct(res.data.data);
                 }).catch(error => {
@@ -25,7 +25,7 @@ const GridViewProducts = ({search, category, page}) => {
             }
         } 
         else {
-            axios.get(`http://localhost:9000/api/products/search?keyword=${search}`)
+            axios.get(`https://motorcare-api.herokuapp.com/api/products/search?keyword=${search}`)
             .then(res => {
                 setListProduct(res.data.data);
             }).catch(error => {

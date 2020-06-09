@@ -30,7 +30,7 @@ const Product = ({ match }) => {
   const [isChanged, setIsChanged] = useState(false)
   const { addToast } = useToasts()
   useEffect(() => {
-    axios.get(`http://localhost:9000/api/products/${id}`)
+    axios.get(`https://motorcare-api.herokuapp.com/api/products/${id}`)
       .then(res => {
         setProduct(res.data.data);
       }).catch(error => {

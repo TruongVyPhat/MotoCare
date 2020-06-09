@@ -87,7 +87,7 @@ function RegisterPage() {
     const onSubmit = (data) => {
         delete data.passwordconfirm;
         setIsloading(true);
-        Axios.post('http://localhost:9000/api/users/register', { data })
+        Axios.post('https://motorcare-api.herokuapp.com/api/users/register', { data })
             .then(res => {
                 if (res.status === 201) {
                     console.log(res.data);

@@ -1,4 +1,3 @@
-const Product = require('./product');
 const db = require('../../models/index');
 const CONSTANTS = require('../helpers/constants');
 const sequelize = db.sequelize;

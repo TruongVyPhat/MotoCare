@@ -26,7 +26,7 @@ function MyCart() {
 
     const handleCheckOut = () => {
         setIsCheckOut(true)
-        let url = 'http://localhost:9000/api/bill/payment'
+        let url = 'https://motorcare-api.herokuapp.com/api/bill/payment'
         let data = JSON.parse(window.localStorage.getItem("myCart"))
         axios.post(url, data, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {

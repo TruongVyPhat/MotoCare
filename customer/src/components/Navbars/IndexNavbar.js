@@ -32,7 +32,7 @@ class ComponentsNavbar extends React.Component {
 		};
 	}
 	componentDidMount() {
-		Axios.get(`http://localhost:9000/api/users/me`, { headers: { authorization: localStorage.getItem('access_token') } })
+		Axios.get(`https://motorcare-api.herokuapp.com/api/users/me`, { headers: { authorization: localStorage.getItem('access_token') } })
 			.then(res => {
 			}).catch(error => {
 				console.log(error);

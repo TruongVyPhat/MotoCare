@@ -16,7 +16,7 @@ const Orders = () => {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:9000/api/bill/`, { headers: { authorization: localStorage.getItem('access_token') } })
+        axios.get(`https://motorcare-api.herokuapp.com/api/bill/`, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 if (res.data.data.length === 0) setIsEmpty(true)
                 setBills(res.data.data)
