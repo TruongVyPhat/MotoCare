@@ -27,7 +27,7 @@ const BrandManager = () => {
     }
 
     const addCategory = data => {
-        axios.post('http://localhost:9000/api/categories/',{data},{headers: { authorization: localStorage.getItem('access_token') }})
+        axios.post('https://motorcare-api.herokuapp.com/api/categories/',{data},{headers: { authorization: localStorage.getItem('access_token') }})
             .then (res => {
                 console.log(res.status)
                 if (res.status === 200) {
@@ -48,7 +48,7 @@ const BrandManager = () => {
     }
 
     const deleteCategory = id => {
-        axios.delete(`http://localhost:9000/api/categories/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
+        axios.delete(`https://motorcare-api.herokuapp.com/api/categories/${id}`,{headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
@@ -71,7 +71,7 @@ const BrandManager = () => {
     }
 
     const updateCategory = (id, data) => {
-        axios.put(`http://localhost:9000/api/categories/${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
+        axios.put(`https://motorcare-api.herokuapp.com/api/categories/${id}`, {data}, {headers: { authorization: localStorage.getItem('access_token') }})
         .then (res => {
             console.log(res.status)
             if (res.status === 200) {
@@ -92,7 +92,7 @@ const BrandManager = () => {
     }
 
     useEffect(() => {
-        let url = 'http://localhost:9000/api/categories?page=1';
+        let url = 'https://motorcare-api.herokuapp.com/api/categories?page=1';
         axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 console.log(res.data.data)

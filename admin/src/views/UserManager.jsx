@@ -31,7 +31,7 @@ function UserManager() {
         if (data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
         else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id = Constant.ROLE.STAFF;
         else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id = Constant.ROLE.CUSTOMER;
-        axios.post('http://localhost:9000/api/users/create', { data }, { headers: { authorization: localStorage.getItem('access_token') } })
+        axios.post('https://motorcare-api.herokuapp.com/api/users/create', { data }, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 if (res.status === 201) {
                     data.id = idMax + 1
@@ -53,7 +53,7 @@ function UserManager() {
     }
 
     const deleteUser = id => {
-        axios.delete(`http://localhost:9000/api/users/delete/${id}`, { headers: { authorization: localStorage.getItem('access_token') } })
+        axios.delete(`https://motorcare-api.herokuapp.com/api/users/delete/${id}`, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 if (res.status === 200) {
                     setEditing(false)
@@ -78,7 +78,7 @@ function UserManager() {
         if (data.role_id === Constant.ROLENAME.ADMIN) data.role_id = Constant.ROLE.ADMIN;
         else if (data.role_id === Constant.ROLENAME.STAFF) data.role_id = Constant.ROLE.STAFF;
         else if (data.role_id === Constant.ROLENAME.CUSTOMER) data.role_id = Constant.ROLE.CUSTOMER;
-        axios.put(`http://localhost:9000/api/users/update-role/${id}`, { data }, { headers: { authorization: localStorage.getItem('access_token') } })
+        axios.put(`https://motorcare-api.herokuapp.com/api/users/update-role/${id}`, { data }, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 if (res.status === 200) {
                     setEditing(false)
@@ -99,7 +99,7 @@ function UserManager() {
     }
 
     useEffect(() => {
-        let url = 'http://localhost:9000/api/users?page=1';
+        let url = 'https://motorcare-api.herokuapp.com/api/users?page=1';
         axios.get(url, { headers: { authorization: localStorage.getItem('access_token') } })
             .then(res => {
                 const result = res.data.data;
