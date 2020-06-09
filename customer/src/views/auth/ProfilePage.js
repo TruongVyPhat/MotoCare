@@ -2,10 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import {Image,Modal} from 'semantic-ui-react';
-import TextField from '@material-ui/core/TextField';
-import * as Yup from 'yup'
-import { string as yupstring, object as yupobject } from "yup";
-import { useForm } from "react-hook-form";
+
 
 // reactstrap components
 import {
@@ -42,9 +39,6 @@ const [open, setOpen] = useState(false),
     closeModal = () => setOpen(false),
     openModal = () => setOpen(true);
 const [text, setText] = useState({});
-  const { register, errors} = useForm({
-    validationSchema: LoginSchema
-  });
 let RoleName = null;
   
   useEffect(() => {
@@ -102,23 +96,6 @@ let RoleName = null;
         console.log(error);
     });
   }
-
-
-  const LoginSchema = yupobject().shape({
-    name: yupstring()
-        .required()
-        .matches(/[a-zA-Z]/),
-    email: yupstring()
-        .required()
-        .email(),
-    password: yupstring()
-        .required()
-        .min(8)
-        .matches(/[a-zA-Z]/),
-    passwordconfirm: yupstring()
-    .oneOf([Yup.ref('password'), null])
-    
-});
 
  
     return (
@@ -209,13 +186,13 @@ let RoleName = null;
                               <Modal.Header>Change Password</Modal.Header>
                                 <Modal.Content>
                                   <Form onSubmit={e=>{ handleSave(text)}}>
-                                    <FormGroup error={!!errors.password}>
+                                    <FormGroup>
                                     <label>Old Password</label>
                                       <Input style={{color:'black'}} name="old_password" placeholder="" type="password" onChange={(e)=>handleChangePassword(e)}/>
                                     </FormGroup>
                                     <FormGroup>
                                       <label>New Password</label>
-                                      <Input name="new_password" placeholder="" type="password" onChange={(e)=>handleChangePassword(e)}/>
+                                      <Input style={{color:'black'}} name="new_password" placeholder="" type="password" onChange={(e)=>handleChangePassword(e)}/>
                                     </FormGroup>
                                       <Modal.Actions>
                                         <Button type={"submit"} color={"blue"}>
