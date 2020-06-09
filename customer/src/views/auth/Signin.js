@@ -92,11 +92,11 @@ function Signin() {
                 if (res.status === 200) {
                     const jwtToken = res.data.data.access_token;
                     const role_id = res.data.data.role_id
-                        localStorage.setItem('access_token', jwtToken);
-                        localStorage.setItem('role_id', role_id);
-                        window.location.href = '/';
-                    
-                } 
+                    localStorage.setItem('access_token', jwtToken);
+                    localStorage.setItem('role_id', role_id);
+                    window.location.href = '/';
+
+                }
             })
             .catch(error => {
                 if (error.message === "Request failed with status code 404") {
@@ -151,10 +151,8 @@ function Signin() {
                             id="password"
                             autoComplete="current-password"
                             inputRef={register}
-                        //error={errors.password ? true : false}
-                        //helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
                         />
-                        
+
                         <Button
                             type="submit"
                             fullWidth
@@ -163,7 +161,7 @@ function Signin() {
                             className={classes.submit}
                             disabled={isLoading}
                         >
-                            {isLoading? "Loading" : "Sign in"}
+                            {isLoading ? "Loading" : "Sign in"}
                         </Button>
                         <Grid container>
                             <Grid item xs>

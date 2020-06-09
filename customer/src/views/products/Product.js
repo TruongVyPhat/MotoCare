@@ -24,7 +24,6 @@ const Product = ({ product }) => {
 		if(window.localStorage.getItem('myCart') !== null){
 			let same = 0;
 			var oldCart = JSON.parse(window.localStorage.getItem('myCart')) || [];
-			console.log(oldCart.data.orders)
 			for(let i=0; i< oldCart.data.orders.length;i++)
 			{
 				if(product.id === oldCart.data.orders[i].id){

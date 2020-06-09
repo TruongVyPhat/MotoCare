@@ -11,7 +11,6 @@ const SearchExampleStandard = ({ updateSearch }) => {
         axios.get(`http://localhost:9000/api/products/data-search`)
             .then(res => {
                 setSource(res.data.data);
-
             }).catch((error) => {
                 console.log(error);
             });
@@ -23,16 +22,11 @@ const SearchExampleStandard = ({ updateSearch }) => {
     }
 
     const handleSearchChange = (e, { value }) => {
-
         setCurState({ isLoading: true, value: value, results: [] });
-
         setTimeout(() => {
-
             if (value.length < 1) return setCurState(initialState);
-
             const re = new RegExp(_.escapeRegExp(value), 'i');
             const isMatch = (result) => re.test(result.title);
-
             setCurState({
                 isLoading: false,
                 results: _.filter(source, isMatch),

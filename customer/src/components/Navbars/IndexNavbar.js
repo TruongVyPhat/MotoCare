@@ -33,19 +33,17 @@ class ComponentsNavbar extends React.Component {
 	}
 	componentDidMount() {
 		Axios.get(`http://localhost:9000/api/users/me`, { headers: { authorization: localStorage.getItem('access_token') } })
-		.then(res => {
-			
-		}).catch(error => {
-			console.log(error);
-			window.localStorage.clear();
-		});
+			.then(res => {
+			}).catch(error => {
+				console.log(error);
+				window.localStorage.clear();
+			});
 		window.addEventListener('scroll', this.changeColor);
 		if (localStorage.getItem('access_token') !== null && localStorage.getItem('role_id') !== null) {
-            // window.location.href = "/"
-            this.setState({
+			this.setState({
 				isLogin: true
 			});
-        }
+		}
 	}
 	componentWillUnmount() {
 		window.removeEventListener('scroll', this.changeColor);
@@ -124,7 +122,7 @@ class ComponentsNavbar extends React.Component {
 									href="/my-cart"
 									rel="noopener noreferrer"
 								>
-									<Badge badgeContent={window.localStorage.getItem('myCart')? JSON.parse(window.localStorage.getItem('myCart')).data.orders.length : 0} color="secondary">
+									<Badge badgeContent={window.localStorage.getItem('myCart') ? JSON.parse(window.localStorage.getItem('myCart')).data.orders.length : 0} color="secondary">
 										<i className="fas fa-cart-plus" />
 									</Badge>
 									<p className="d-lg-none d-xl-none">Twitter</p>
@@ -140,41 +138,47 @@ class ComponentsNavbar extends React.Component {
 									onClick={(e) => e.preventDefault()}
 								>
 									<i className="fa fa-cogs d-lg-none d-xl-none" />
-									{this.state.isLogin?
-									<div className="photo">
-										<img src={anime3} alt="anime3" />
-									</div> 
-									:<div className="photo">
-										<img src={defaultavatar} alt="defaultavatar" />
-									</div> }
-									
+									{this.state.isLogin ?
+										<div className="photo">
+											<img src={anime3} alt="anime3" />
+										</div>
+										: <div className="photo">
+											<img src={defaultavatar} alt="defaultavatar" />
+										</div>}
+
 								</DropdownToggle>
 								<DropdownMenu className="dropdown-with-icons">
-									{this.state.isLogin? "": 
-									<DropdownItem tag={Link} to="/register-page">
-										<i className="tim-icons icon-bullet-list-67" />
+									{this.state.isLogin ? "" :
+										<DropdownItem tag={Link} to="/register-page">
+											<i className="tim-icons icon-bullet-list-67" />
 										Register
 									</DropdownItem>}
-									
-									
-									{this.state.isLogin? "": 
-									<DropdownItem tag={Link} to="/signin">
-										<i className="tim-icons icon-single-02" />
+
+
+									{this.state.isLogin ? "" :
+										<DropdownItem tag={Link} to="/signin">
+											<i className="tim-icons icon-single-02" />
 										Sign in
 									</DropdownItem>}
-									
-									{this.state.isLogin? 
-									<DropdownItem tag={Link} to="/profile-page">
-										<i className="tim-icons icon-badge" />
+
+									{this.state.isLogin ?
+										<DropdownItem tag={Link} to="/profile-page">
+											<i className="tim-icons icon-badge" />
 										Profile Page
 									</DropdownItem> : ""}
 
-									{this.state.isLogin? 
-									<DropdownItem onClick = {this.handleClick} tag={Link} to="/">
-										<i className="tim-icons icon-button-power" />
+									{this.state.isLogin ?
+										<DropdownItem tag={Link} to="/orders-page">
+											<i className="tim-icons icon-badge" />
+										Orders
+									</DropdownItem> : ""}
+
+									{this.state.isLogin ?
+										<DropdownItem onClick={this.handleClick} tag={Link} to="/">
+											<i className="tim-icons icon-button-power" />
 										Log out
 									</DropdownItem> : ""}
-									
+
 								</DropdownMenu>
 							</UncontrolledDropdown>
 						</Nav>

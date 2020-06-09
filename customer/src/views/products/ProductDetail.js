@@ -32,7 +32,6 @@ const Product = ({ match }) => {
   useEffect(() => {
     axios.get(`http://localhost:9000/api/products/${id}`)
       .then(res => {
-        console.log(res.data.data)
         setProduct(res.data.data);
       }).catch(error => {
         console.log(error);
@@ -44,7 +43,6 @@ const Product = ({ match }) => {
 		if(window.localStorage.getItem('myCart') !== null){
 			let same = 0;
 			var oldCart = JSON.parse(window.localStorage.getItem('myCart')) || [];
-			console.log(oldCart.data.orders)
 			for(let i=0; i< oldCart.data.orders.length;i++)
 			{
 				if(Product.id === oldCart.data.orders[i].id){
