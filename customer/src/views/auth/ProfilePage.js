@@ -174,7 +174,7 @@ let RoleName = null;
                               type="button"
                               onClick= {handleClick}
                             >
-                              {isreadOnly? "Edit Profile" : "Cancle"}
+                              {isreadOnly? "Edit Profile" : "Cancel"}
                             </Button>
                           </Col>
                         </Row>

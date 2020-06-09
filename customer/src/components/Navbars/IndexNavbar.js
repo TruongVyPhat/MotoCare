@@ -20,6 +20,7 @@ import {
 	Col
 } from 'reactstrap';
 import Badge from '@material-ui/core/Badge';
+import Axios from 'axios';
 
 class ComponentsNavbar extends React.Component {
 	constructor(props) {
@@ -31,6 +32,13 @@ class ComponentsNavbar extends React.Component {
 		};
 	}
 	componentDidMount() {
+		Axios.get(`http://localhost:9000/api/users/me`, { headers: { authorization: localStorage.getItem('access_token') } })
+		.then(res => {
+			
+		}).catch(error => {
+			console.log(error);
+			window.localStorage.clear();
+		});
 		window.addEventListener('scroll', this.changeColor);
 		if (localStorage.getItem('access_token') !== null && localStorage.getItem('role_id') !== null) {
             // window.location.href = "/"

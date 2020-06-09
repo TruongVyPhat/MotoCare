@@ -8,7 +8,7 @@ import "assets/scss/blk-design-system-react.scss?v=1.1.0";
 import "assets/demo/demo.css";
 
 import Index from "views/Index.js";
-import ProfilePage from "views/examples/ProfilePage.js";
+import ProfilePage from "views/auth/ProfilePage.js";
 import RegisterPage from "views/auth/RegisterPage";
 import ProductDetail from "views/products/ProductDetail";
 import SuccessPayment from "views/payment/SuccessPayment"
