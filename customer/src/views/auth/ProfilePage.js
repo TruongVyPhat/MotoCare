@@ -1,7 +1,11 @@
 
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import {Image} from 'semantic-ui-react';
+import {Form,Image,Modal} from 'semantic-ui-react';
+import TextField from '@material-ui/core/TextField';
+import * as Yup from 'yup'
+import { string as yupstring, object as yupobject } from "yup";
+import { useForm } from "react-hook-form";
 
 // reactstrap components
 import {
@@ -11,7 +15,7 @@ import {
   CardBody,
   Label,
   FormGroup,
-  Form,
+  // Form,
   Input,
   FormText,
   NavItem,
@@ -34,6 +38,13 @@ const User = () => {
 const [User, setUser] = useState({});
 const [isreadOnly, setreadOnly] = useState(true);
 const [isSubmit, setisSubmit] = useState(false);
+const [open, setOpen] = useState(false),
+    closeModal = () => setOpen(false),
+    openModal = () => setOpen(true);
+
+  const { register, errors} = useForm({
+    validationSchema: LoginSchema
+  });
 let RoleName = null;
   
   useEffect(() => {
@@ -54,7 +65,7 @@ let RoleName = null;
     else if (User.role_id === 2){
       RoleName = "Staff"         
     }
-    else if (User.role_id === 2){
+    else if (User.role_id === 3){
       RoleName = "Customer"         
     }
     return(RoleName);
@@ -79,6 +90,35 @@ let RoleName = null;
     });
   }
 
+  const handleSave = () => {
+    const data = User;
+    axios.put(`http://localhost:9000/api/users/change-password/${User.id}`, {data}, { headers: { authorization: localStorage.getItem('access_token') } })
+    .then(res => {
+      setisSubmit(!isSubmit);
+      setreadOnly(true);
+    }).catch(error => {
+        console.log(error);
+    });
+  }
+
+
+  const LoginSchema = yupobject().shape({
+    name: yupstring()
+        .required()
+        .matches(/[a-zA-Z]/),
+    email: yupstring()
+        .required()
+        .email(),
+    password: yupstring()
+        .required()
+        .min(8)
+        .matches(/[a-zA-Z]/),
+    passwordconfirm: yupstring()
+    .oneOf([Yup.ref('password'), null])
+    
+});
+
+ 
     return (
       <>
         <Navbar />
@@ -89,7 +129,6 @@ let RoleName = null;
                 <Col md="6">
                   <Card className="card-plain">
                     <CardHeader>
-                      {/* <h1 className="User-title text-left">Contact</h1> */}
                       <Image height = "200" width = "200" 
                         src={User.image ? User.image : 'https://react.semantic-ui.com/images/avatar/large/matthew.png'}
                         wrapped
@@ -154,7 +193,63 @@ let RoleName = null;
                           </Col>
                         </Row>
                         <Row>
-                          <Col md = "6">
+                        <Col md = "4">
+                            <Modal   
+                              trigger={<Button
+                                className="btn-round float-right"
+                                color="primary"
+                                data-placement="right"
+                                type="button"
+                                onClick={openModal}
+                              > Change Password
+                              </Button>} open={open} onClose={closeModal}
+                             >
+                              <Modal.Header>Change Password</Modal.Header>
+                                <Modal.Content>
+                                  <Form onSubmit={e=>{e.preventDefault(); handleSave()}}>
+                                    <Form.Field error={!!errors.password}>
+                                      <label>Old Password</label>
+                                      <TextField
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        type="password"
+                                        id="password"
+                                        autoComplete="current-password"
+                                        inputRef={register}
+                                        error={errors.password ? true : false}
+                                        helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
+                                      />
+                                    </Form.Field>
+                                    <Form.Field>
+                                      <label>New Password</label>
+                                      <TextField
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        type="password"
+                                        id="password"
+                                        autoComplete="current-password"
+                                        inputRef={register}
+                                        error={errors.password ? true : false}
+                                        helperText={errors.password ? "Password is at least 8 characters and there are no special characters" : ""}
+                                      />
+                                    </Form.Field>
+                                  </Form>
+                                </Modal.Content>
+                                <Modal.Actions>
+                                  <Button type={"submit"} color={"blue"}>
+                                    Save
+                                  </Button>
+                                  <Button type={"button"} color={"red"}>
+                                    Cancel
+                                  </Button>
+                                </Modal.Actions>
+                              </Modal>
+                          </Col>
+                          <Col md = "4">
                             {!isreadOnly && <Button
                               className="btn-round float-right"
                               color="primary"
@@ -165,7 +260,7 @@ let RoleName = null;
                               Save
                             </Button>}
                           </Col>
-                          <Col md = "6">
+                          <Col md = "4">
                             <Button
                               className="btn-round float-right"
                               color="primary"
